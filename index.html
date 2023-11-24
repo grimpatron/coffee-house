@@ -8,34 +8,105 @@
 </head>
 <body>
   <div class="container">
-    <div class="header">
+    <header class="header">
       <div class="logo">
         <img class="logo-img" src="img/logo.svg" alt="logo">
       </div>
       <nav class="nav">
         <ul class="nav-list">
           <li class="nav-list__item">
-            <a href="" class="nav-list__link">Favorite coffee</a>
+            <a href="#favorite" class="nav-list__link">Favorite coffee</a>
           </li>
           <li class="nav-list__item">
-            <a href="" class="nav-list__link">About</a>
+            <a href="#about" class="nav-list__link">About</a>
           </li>
           <li class="nav-list__item">
-            <a href="" class="nav-list__link">Mobile app</a>
+            <a href="#applications" class="nav-list__link">Mobile app</a>
           </li>
           <li class="nav-list__item">
-            <a href="" class="nav-list__link">Contact us</a>
+            <a href="#contacts" class="nav-list__link">Contact us</a>
           </li>
         </ul>
       </nav>
       <div class="menu">
-        <a href="" class="menu__button"></a>
+        <a href="" class="menu__button">Menu</a>
       </div>
-    </div>
+    </header>
 
-    <div class="body"></div>
+    <body class="body">
+      <section class="primary">
+        <h1 class="page-title"><span class="title--special">Enjoy</span> premium coffee at our charming cafe</h1>
+        <p class="section__subtitle">With its inviting atmosphere and delicious coffee options, the Coffee House Resource is a popular destination for coffee lovers and those seeking a warm and inviting space to enjoy their favorite beverage.</p>
+        <button class="button">Menu</button>
+      </section>
 
-    <div class="footer"></div>
+      <section class="favorite" id="favorite">
+        <h2 class="section-title">Choose your <span class="title--special">favorite</span> coffee</h2>
+        <div class="slider">
+          <button class="slider__arrow--prev"></button>
+          <img src="img/slider/slide-1.png" alt="coffee image">
+          <img class="hidden" src="img/slider/slide-2.png" alt="coffee image">
+          <img class="hidden" src="img/slider/slide-3.png" alt="coffee image">
+          <button class="slider__arrow--next"></button>
+          <p>S'mores Frappuccino</p>
+          <p>This new drink takes an espresso and mixes it with brown sugar and cinnamon before being topped with oat milk.</p>
+          <p>$5.50</p>
+          <div class="slider-pagination">
+            <div class="slider-pagination__item"></div>
+            <div class="slider-pagination__item"></div>
+            <div class="slider-pagination__item"></div>
+          </div>
+        </div>
+      </section>
+
+      <section class="about" id="about">
+        <h2 class="section-title">Resource is <span class="title--special">the perfect and cozy place</span> where you can enjoy a variety of hot beverages, relax, catch up with friends, or get some work done.</h2>
+
+        <div class="gallery__container">
+          <img class="gallery__photo" src="img/caffee-gallery/photo-1.jpg" alt="gallery">
+          <img class="gallery__photo" src="img/caffee-gallery/photo-2.jpg" alt="gallery">
+          <img class="gallery__photo" src="img/caffee-gallery/photo-3.jpg" alt="gallery">
+          <img class="gallery__photo" src="img/caffee-gallery/photo-4.jpg" alt="gallery">
+        </div>
+      </section>
+
+      <section class="applications" id="applications">
+        <h2 class="section-title"><span class="title--special">Download</span> our apps to start ordering</h2>
+        <p class="section__subtitle">Download the Resource app today and experience the comfort of ordering your favorite coffee from wherever you are</p>
+
+        <div class="buttons__container">
+          <a class="button--transparent" href="">
+            <p class="button__title">Available on the</p>
+            <p class="button__subtitle">App Store</p>
+          </a>
+          <a class="button--transparent" href="">
+            <p class="button__title">Available on</p>
+            <p class="button__subtitle">Google Play</p>
+          </a>
+        </div>
+
+        <img src="" alt="">
+      </section>
+    </body>
+
+    <footer class="footer" id="contacts">
+      <h2 class="section-title">Sip, Savor, Smile. <span class="title--special">It's coffee time!</span></h2>
+      <a href=""></a>
+      <a href=""></a>
+      <a href=""></a>
+      <p>Contact us</p>
+      <ul>
+        <li>
+          <a href="">8558 Green Rd.,  LA</a>
+        </li>
+        <li>
+          <a href="">+1 (603) 555-0123</a>
+        </li>
+        <li>
+          <a href="">Mon-Sat: 9:00 AM – 23:00 PM</a>
+        </li>
+      </ul>
+    </footer>
   </div>
   <script src="js/main.js"></script>
 </body>

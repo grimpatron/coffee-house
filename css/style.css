@@ -35,6 +35,7 @@
 
 :root{
   --background-body: #E1D4C9;
+  --background-footer: #665F55;
 }
 * {
   margin: 0;
@@ -59,8 +60,36 @@ body {
   text-rendering: optimizeSpeed;
 }
 
+.hidden {
+  display: none;
+}
+
+.button {
+  width: 200px;
+  padding: 20px;
+}
+
+
+
+
+
 .container {
   width: 1440px;
+  padding: 0 40px;
   margin: 0 auto;
   background: var(--background-body);
+}
+
+.header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+}
+.nav-list {
+  display: flex;
+  gap: 40px;
+}
+
+.footer {
+  background: var(--background-footer);
 }
