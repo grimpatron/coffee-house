@@ -58,10 +58,11 @@ a {
 button {
   border: 0;
 }
-
+html {
+  scroll-behavior: smooth;
+}
 body {
   min-height: 100vh;
-  scroll-behavior: smooth;
   font-family: 'Inter';
   text-rendering: optimizeSpeed;
   color: var(--text-dark);
@@ -86,7 +87,8 @@ body {
 }
 .button:hover {
   transition: all .3s;
-  background: #bba795;
+  color: var(--text-light);
+  background: var(--border-dark);
 }
 .button--transparent {
   position: relative;
@@ -157,10 +159,12 @@ width: 36px;
   display: flex;
   gap: 40px;
 }
-.nav__item{}
+.nav__link {
+  border-bottom: 2px solid transparent;
+}
 .nav__link:hover {
   transition: all .3s;
-  color: var(--text-hover);
+  border-bottom: 2px solid var(--text-dark);
 }
 
 
@@ -189,6 +193,12 @@ width: 36px;
 .section {
   
 }
+.primary-title {
+  color: var(--text-light);
+  font-size: 72px;
+  font-weight: 600;
+  margin-bottom: 40px;
+}
 .section__title {
   margin-bottom: 40px;
   font-size: 60px;
@@ -205,7 +215,9 @@ width: 36px;
   color: #B0907A;
   font-style: italic;
 }
-
+.title--dark {
+  color: var(--text-dark);
+}
 .section__text {
   color: var(--text-light);
   margin-bottom: 40px;
@@ -226,12 +238,7 @@ width: 36px;
 .primary-container {
   width: 530px;
 }
-.primary-title {
-  color: var(--text-light);
-  font-size: 72px;
-  font-weight: 600;
-  margin-bottom: 40px;
-}
+
 
 
 
@@ -290,13 +297,19 @@ width: 36px;
   border: 1px solid var(--border-dark);
   background: transparent;
 }
-.slider__arrow--prev::after {
+.slider__arrow:hover {
+  transition: all .3s;
+  background: var(--border-dark);
+}
+.slider__arrow:hover svg{
+  transition: all .3s;
+  stroke: var(--background-body);
+}
+/* .slider__arrow--prev::after {
   position: absolute;
   content: '';
   width: 24px;
   height: 24px;
-  /* top: 50%; */
-  /* left: 50%; */
   transform: translate(-50%, -50%);
   background: url(../img/icons/arrow-left.svg) no-repeat center;
 }
@@ -305,11 +318,9 @@ width: 36px;
   content: '';
   width: 24px;
   height: 24px;
-  /* top: 50%; */
-  /* left: 50%; */
   transform: translate(-50%, -50%);
   background: url(../img/icons/arrow-right.svg) no-repeat center;
-}
+} */
 
 .pagination__block {
   display: flex;
@@ -317,9 +328,14 @@ width: 36px;
   gap: 12px;
 }
 .pagination__item {
+  cursor: pointer;
   width: 40px;
   height: 4px;
   background-color: var(--border-light);
+}
+.pagination__item:hover {
+  transition: all .2s;
+  background-color: var(--border-dark);
 }
 .pagination__item--current {
   background-color: var(--border-dark);
@@ -344,6 +360,30 @@ width: 36px;
 }
 .gallery__photo {
   border-radius: 20px;
+}
+.gallery__photo:hover {
+  transition: .5s all ease-in-out;
+  background-size: 100%;
+}
+.gallery__photo--1 {
+  height: 590px;
+  background: url(../img/caffee-gallery/photo-1.jpg) center;
+  background-size: 110%;
+}
+.gallery__photo--2 {
+  height: 430px;
+  background: url(../img/caffee-gallery/photo-2.jpg) center;
+  background-size: 110%;
+}
+.gallery__photo--3 {
+  height: 430px;
+  background: url(../img/caffee-gallery/photo-3.jpg) center;
+  background-size: 110%;
+}
+.gallery__photo--4 {
+  height: 590px;
+  background: url(../img/caffee-gallery/photo-4.jpg) center;
+  background-size: 110%;
 }
 
 
@@ -424,14 +464,30 @@ width: 36px;
   flex-direction: column;
   gap: 16px;
 }
-.contacts__item {}
+.contacts__item {
+}
 .contacts__link {
   position: relative;
   padding-left: 28px;
+  padding-bottom: 4px;
   font-size: 16px;
   font-weight: 600;
   line-height: 150%;
+  border-bottom: 2px solid transparent;
 }
+.contacts__link:hover {
+  transition: all .2s;
+  border-bottom: 2px solid var(--text-light);
+}
+.social__link:hover {
+  transition: all .3s;
+  background: var(--background-body);
+}
+.social__link:hover svg{
+  transition: all .3s;
+  stroke: var(--text-dark);
+}
+
 .contacts__link--location::before {
   position: absolute;
   content: '';
@@ -455,4 +511,140 @@ width: 36px;
   width: 20px;
   height: 20px;
   background: url(../img/contacts/clock.svg);
+}
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+/* MENU */
+.menu__tabs {
+  display: flex;
+  justify-content: center;
+}
+.menu__tab {
+  display: flex;
+}
+.menu-title {
+  width: 800px;
+  margin: 0 auto;
+  text-align: center;
+}
+.on-offer--coffee-block {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 40px;
+  flex: 0 1 25%;
+  margin-bottom: 100px;
+}
+
+.on-offer__card {
+  width: 310px;
+  min-height: 506px;
+  border-radius: 40px;
+  border: 1px solid var(--border-light);  
+}
+.on-offer__image {
+  width: 100%;
+  height: 310px;
+  border-radius: 40px;
+}
+.on-offer__info {
+  padding: 20px;
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
+}
+.on-offer__name,
+.on-offer__price {
+  margin-bottom: 12px;
+  font-size: 24px;
+  font-weight: 600;
+  line-height: 125%;
+}
+.on-offer__description {
+  margin-bottom: 12px;
+  font-size: 16px;
+  font-weight: 400;
+  line-height: 150%;
+}
+.on-offer__image--coffee-1 {
+  background: url(../img/menu/coffee-1.png);
+}
+.on-offer__image--coffee-2 {
+  background: url(../img/menu/coffee-2.png);
+}
+.on-offer__image--coffee-3 {
+  background: url(../img/menu/coffee-3.png);
+}
+.on-offer__image--coffee-4 {
+  background: url(../img/menu/coffee-4.png);
+}
+.on-offer__image--coffee-5 {
+  background: url(../img/menu/coffee-5.png);
+}
+.on-offer__image--coffee-6 {
+  background: url(../img/menu/coffee-6.png);
+}
+.on-offer__image--coffee-7 {
+  background: url(../img/menu/coffee-7.png);
+}
+.on-offer__image--coffee-8 {
+  background: url(../img/menu/coffee-8.png);
+}
+.on-offer__image--tea-1 {
+  background: url(../img/menu/tea-1.png);
+}
+.on-offer__image--tea-2 {
+  background: url(../img/menu/tea-2.png);
+}
+.on-offer__image--tea-3 {
+  background: url(../img/menu/tea-3.png);
+}
+.on-offer__image--tea-4 {
+  background: url(../img/menu/tea-4.png);
+}
+.on-offer__image--dessert-1 {
+  background: url(../img/menu/dessert-1.png);
+}
+.on-offer__image--dessert-2 {
+  background: url(../img/menu/dessert-2.png);
+}
+.on-offer__image--dessert-3 {
+  background: url(../img/menu/dessert-3.png);
+}
+.on-offer__image--dessert-4 {
+  background: url(../img/menu/dessert-4.png);
+}
+.on-offer__image--dessert-5 {
+  background: url(../img/menu/dessert-5.png);
+}
+.on-offer__image--dessert-6 {
+  background: url(../img/menu/dessert-6.png);
+}
+.on-offer__image--dessert-7 {
+  background: url(../img/menu/dessert-7.png);
+}
+.on-offer__image--dessert-8 {
+  background: url(../img/menu/dessert-8.png);
 }
