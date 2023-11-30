@@ -59,6 +59,9 @@ a {
 }
 button {
   border: 0;
+  font-family: inherit;
+  font-size: inherit;
+  color: inherit;
 }
 html {
   scroll-behavior: smooth;
@@ -74,7 +77,24 @@ body {
 .hidden {
   display: none;
 }
+.visually-hidden {
+  position: absolute;
+  height: 1px;
+  width: 1px;
+  overflow: hidden;
+  clip: rect(0, 0, 0, 0)
+} /* doesn't harm SEO */
 
+
+.container {
+  max-width: 1440px;
+  padding: 0 40px 40px;
+  margin: 0 auto;
+  background: var(--background-body);
+}
+
+
+/*** BUTTONS ***/
 .buttons__container {
   display: flex;
   gap: 20px;
@@ -88,6 +108,7 @@ body {
   font-weight: 600;
   color: var(--text-dark);
   background: var(--background-body);
+  transition: all .3s;
 }
 .button--transparent {
   position: relative;
@@ -95,17 +116,15 @@ body {
   border: 1px solid var(--border-dark);
   display: flex;
   flex-direction: column;
+  transition: all .3s;
 }
 .button--transparent:hover {
-  transition: all .3s;
   color: var(--text-light);
   background-color: var(--button-hover);
 }
-.button--transparent:hover .button-icon{
-  transition: all .3s;
+.button--transparent:hover .button-icon {
   fill: var(--text-light);
 }
-
 .button__title {
   font-size: 10px;
   font-weight: 600;
@@ -120,12 +139,7 @@ body {
   position: absolute;
   left: 20px;
 }
-
-.button:hover {
-  transition: all .3s;
-  /* color: var(--text-light); */
-  /* background: var(--border-dark); */
-}
+/* .button:hover {} */
 .button--to-menu {
   display: block;
   text-align: center;
@@ -145,13 +159,6 @@ body {
 
 
 
-
-.container {
-  width: 1440px;
-  padding: 0 40px 40px;
-  margin: 0 auto;
-  background: var(--background-body);
-}
 
 
 
@@ -180,36 +187,39 @@ body {
   padding-bottom: 5px;
   border-bottom: 2px solid transparent;
 }
-.nav__link:hover {
+.nav__link {
   transition: all .3s;
+}
+
+.nav__link:hover {
   border-bottom: 2px solid var(--text-dark);
 }
 
 
-.topbar-button {
+.header__button {
   margin-top: -7px;
+  background: transparent;
 }
-.topbar-button__link {
+.header__link {
   padding-right: 28px;
   padding-bottom: 5px;
   position: relative;
   font-weight: 600;
   line-height: 150%;
   border-bottom: 2px solid transparent;
-}
-.topbar-button__link:not(.non-interactive):hover {
   transition: all .3s;
+}
+.header__link:not(.non-interactive):hover {
   border-bottom: 2px solid var(--text-dark);
   cursor: pointer;
 }
-.topbar-button__link::after {
+.header__link::after {
   position: absolute;
   content: "";
   width: 20px;
   height: 20px;
   right: 0px;
   top: -2px;
-  /* top: -4px; */
   background: url(../img/icons/coffee-cup.svg);
 }
 .non-interactive {
@@ -300,13 +310,12 @@ body {
   border: 1px solid var(--border-dark);
   background: transparent;
   cursor: pointer;
+  transition: all .3s;
 }
 .slider__arrow:hover {
-  transition: all .3s;
   background: var(--border-dark);
 }
 .slider__arrow:hover svg{
-  transition: all .3s;
   stroke: var(--background-body);
 }
 .slider__arrow--prev {
@@ -343,9 +352,9 @@ body {
   width: 40px;
   height: 4px;
   background-color: var(--border-light);
+  transition: all .2s;
 }
 .pagination__item:hover {
-  transition: all .2s;
   background-color: var(--border-dark);
 }
 .pagination__item--current {
@@ -373,9 +382,11 @@ body {
   border-radius: 20px;
   background-size: 110%;
   background-position: center;
+  background-repeat: no-repeat;
+  transition: .5s all ease-in-out;
+
 }
 .gallery__photo:hover {
-  transition: .5s all ease-in-out;
   background-size: 100%;
 }
 .gallery__photo--1 {
@@ -409,14 +420,15 @@ body {
   margin-bottom: 100px;
 }
 .applications__block {
-  flex: 0 1 50%;
   width: 100%;
+  flex: 0 1 50%;
   display: flex;
   flex-direction: column;
   justify-content: center;
 }
 .applications__img {
-  width: 630px;
+  max-width: 630px;
+  width: 100%;
 }
 
 
@@ -482,20 +494,23 @@ body {
   line-height: 150%;
   border-bottom: 2px solid transparent;
   cursor: default;
+  transition: all .3s;
 }
 /* .contacts__link:hover {} */
 .social__link:hover {
-  transition: all .3s;
   background: var(--background-body);
+  transition: all .3s;
 }
 .social__link:hover svg{
-  transition: all .3s;
   stroke: var(--text-dark);
+}
+.contacts--location, 
+.contacts--phone {
+  transition: all .3s;
 }
 .contacts--location:hover, 
 .contacts--phone:hover {
   cursor: pointer;
-  transition: all .3s;
   border-bottom: 2px solid var(--text-light);
 }
 
@@ -589,8 +604,10 @@ body {
 }
 
 /* hover */
-.menu__tab:hover {
+.menu__tab {
   transition: all .3s;
+}
+.menu__tab:hover {
   background: var(--background-container);
   border: 1px solid transparent;
 }
@@ -660,66 +677,26 @@ body {
   line-height: 150%;
 }
 
-.on-offer__image--coffee-1 {
-  background: url(../img/menu/coffee-1.png);
-}
-.on-offer__image--coffee-2 {
-  background: url(../img/menu/coffee-2.png);
-}
-.on-offer__image--coffee-3 {
-  background: url(../img/menu/coffee-3.png);
-}
-.on-offer__image--coffee-4 {
-  background: url(../img/menu/coffee-4.png);
-}
-.on-offer__image--coffee-5 {
-  background: url(../img/menu/coffee-5.png);
-}
-.on-offer__image--coffee-6 {
-  background: url(../img/menu/coffee-6.png);
-}
-.on-offer__image--coffee-7 {
-  background: url(../img/menu/coffee-7.png);
-}
-.on-offer__image--coffee-8 {
-  background: url(../img/menu/coffee-8.png);
-}
-.on-offer__image--tea-1 {
-  background: url(../img/menu/tea-1.png);
-}
-.on-offer__image--tea-2 {
-  background: url(../img/menu/tea-2.png);
-}
-.on-offer__image--tea-3 {
-  background: url(../img/menu/tea-3.png);
-}
-.on-offer__image--tea-4 {
-  background: url(../img/menu/tea-4.png);
-}
-.on-offer__image--dessert-1 {
-  background: url(../img/menu/dessert-1.png);
-}
-.on-offer__image--dessert-2 {
-  background: url(../img/menu/dessert-2.png);
-}
-.on-offer__image--dessert-3 {
-  background: url(../img/menu/dessert-3.png);
-}
-.on-offer__image--dessert-4 {
-  background: url(../img/menu/dessert-4.png);
-}
-.on-offer__image--dessert-5 {
-  background: url(../img/menu/dessert-5.png);
-}
-.on-offer__image--dessert-6 {
-  background: url(../img/menu/dessert-6.png);
-}
-.on-offer__image--dessert-7 {
-  background: url(../img/menu/dessert-7.png);
-}
-.on-offer__image--dessert-8 {
-  background: url(../img/menu/dessert-8.png);
-}
+.on-offer__image--coffee-1 {background: url(../img/menu/coffee-1.png);}
+.on-offer__image--coffee-2 {background: url(../img/menu/coffee-2.png);}
+.on-offer__image--coffee-3 {background: url(../img/menu/coffee-3.png);}
+.on-offer__image--coffee-4 {background: url(../img/menu/coffee-4.png);}
+.on-offer__image--coffee-5 {background: url(../img/menu/coffee-5.png);}
+.on-offer__image--coffee-6 {background: url(../img/menu/coffee-6.png);}
+.on-offer__image--coffee-7 {background: url(../img/menu/coffee-7.png);}
+.on-offer__image--coffee-8 {background: url(../img/menu/coffee-8.png);}
+.on-offer__image--tea-1 {background: url(../img/menu/tea-1.png);}
+.on-offer__image--tea-2 {background: url(../img/menu/tea-2.png);}
+.on-offer__image--tea-3 {background: url(../img/menu/tea-3.png);}
+.on-offer__image--tea-4 {background: url(../img/menu/tea-4.png);}
+.on-offer__image--dessert-1 {background: url(../img/menu/dessert-1.png);}
+.on-offer__image--dessert-2 {background: url(../img/menu/dessert-2.png);}
+.on-offer__image--dessert-3 {background: url(../img/menu/dessert-3.png);}
+.on-offer__image--dessert-4 {background: url(../img/menu/dessert-4.png);}
+.on-offer__image--dessert-5 {background: url(../img/menu/dessert-5.png);}
+.on-offer__image--dessert-6 {background: url(../img/menu/dessert-6.png);}
+.on-offer__image--dessert-7 {background: url(../img/menu/dessert-7.png);}
+.on-offer__image--dessert-8 {background: url(../img/menu/dessert-8.png);}
 
 .on-offer__image {
   width: 100%;
@@ -728,8 +705,16 @@ body {
   background-size: 110%;
   background-position: center;
 }
-.on-offer__card:hover .on-offer__image {
+.on-offer__card .on-offer__image {
   transition: .5s all ease-in-out;
+}
+.on-offer__card:hover .on-offer__image {
   background-size: 101%;
 }
  
+
+
+@media (max-width: 768px) {
+}
+@media (max-width: 380px) {
+}
