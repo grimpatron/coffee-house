@@ -106,9 +106,7 @@ body {
 ._bottom-hover-l::after {
   background-color: var(--text-light);
 }
-._bottom-hover:hover::after{
-  width: 100%;
-}
+
 
 
 /*** *** *** *** *** BUTTONS *** *** *** *** ***/
@@ -135,13 +133,7 @@ body {
   flex-direction: column;
   transition: all .3s;
 }
-.button--transparent:hover {
-  color: var(--text-light);
-  background-color: var(--button-hover);
-}
-.button--transparent:hover .button-icon {
-  fill: var(--text-light);
-}
+
 .button__title {
   font-size: 10px;
   font-weight: 600;
@@ -161,9 +153,6 @@ body {
   text-align: center;
   position: relative;
 }
-.button--to-menu:hover {
-  padding-right: 49px;
-}
 .button--to-menu span {
   content: url(../img/icons/coffee-cup.svg);
   position: absolute;
@@ -176,9 +165,7 @@ body {
   opacity: 0;
   transition: all .3s;
 }
-.button--to-menu:hover span {
-  opacity: 1;
-}
+
 
 
 
@@ -207,12 +194,12 @@ body {
 }
 
 .header__button {
-  margin-top: -7px;
+  margin-top: -4px;
   background: transparent;
 }
 .header__link {
   padding-right: 28px;
-  padding-bottom: 5px;
+  padding-bottom: 4px;
   position: relative;
   font-weight: 600;
   line-height: 150%;
@@ -224,7 +211,7 @@ body {
   content: "";
   width: 20px;
   height: 20px;
-  right: 0px;
+  right: -1px;
   top: -2px;
   background: url(../img/icons/coffee-cup.svg);
 }
@@ -255,6 +242,7 @@ body {
   border-radius: 50%;
   border: 1px solid var(--border-dark);
   background-color: transparent;
+  cursor: pointer;
 }
 
 
@@ -274,7 +262,7 @@ body {
   line-height: 125%;
 }
 .section__subtitle {
-  margin-top: -6px;
+  margin-top: -2px;
   margin-bottom: 40px;
   font-size: 24px;
   font-weight: 600;
@@ -287,7 +275,7 @@ body {
 }
 .section__text {
   color: var(--text-light);
-  margin-bottom: 40px;
+  margin-bottom: 41px;
   line-height: 150%;
 }
 .section__text--dark {
@@ -325,12 +313,12 @@ body {
   max-width: 480px;
   width: 100%;
   height: auto;
-  margin-bottom: 18px;
+  margin-bottom: 16px;
 }
 .slider__arrows-block {
   position: absolute;
   width: 100%;
-  top: 292px;
+  top: 42.5%;
   display: flex;
   justify-content: space-between;
 }
@@ -343,12 +331,6 @@ body {
   background: transparent;
   cursor: pointer;
   transition: all .3s;
-}
-.slider__arrow:hover {
-  background: var(--border-dark);
-}
-.slider__arrow:hover svg{
-  stroke: var(--background-body);
 }
 .slider__arrow--prev {
   left: 4px;
@@ -387,9 +369,6 @@ body {
   background-color: var(--border-light);
   transition: all .2s;
 }
-.pagination__item:hover {
-  background-color: var(--border-dark);
-}
 .pagination__item--current {
   background-color: var(--border-dark);
 }
@@ -418,9 +397,6 @@ body {
   background-repeat: no-repeat;
   transition: .5s all ease-in-out;
   /* background-size: cover; */
-}
-.gallery__photo:hover {
-  background-size: 100%;
 }
 .gallery__photo--1 {
   height: 590px;
@@ -500,11 +476,8 @@ body {
   align-items: center;
   border-radius: 50%;
   border: 1px solid var(--border-light);
+  transition: all .3s;
 }
-/* .social__link--twitter {} */
-/* .social__link--instagram {} */
-/* .social__link--facebook {} */
-
 
 .contacts {
   height: 100%;
@@ -529,23 +502,12 @@ body {
   cursor: default;
   transition: all .3s;
 }
-/* .contacts__link:hover {} */
-.social__link:hover {
-  background: var(--background-body);
-  transition: all .3s;
-}
-.social__link:hover svg{
-  stroke: var(--text-dark);
-}
 .contacts--location, 
 .contacts--phone {
   cursor: pointer;
   transition: all .3s;
 }
-/* .contacts--location:hover, 
-.contacts--phone:hover {
-  border-bottom: 2px solid var(--text-light);
-} */
+
 
 .contacts--location::before {
   position: absolute;
@@ -571,12 +533,6 @@ body {
   height: 20px;
   background: url(../img/contacts/clock.svg);
 }
-
-
-
-
-
-
 
 
 
@@ -636,19 +592,9 @@ body {
   color: var(--text-dark);
 }
 
-/* hover */
+
 .menu__tab {
   transition: all .3s;
-}
-.menu__tab:hover {
-  background: var(--background-container);
-  border: 1px solid transparent;
-}
-.menu__tab:hover .menu__category-name {
-  color: var(--text-light);
-}
-.menu__tab:hover .menu__category-wrap {
-  background: var(--background-body); 
 }
 
 /* active */
@@ -668,9 +614,9 @@ body {
 .coffee-on-offer {
   display: flex;
   flex-wrap: wrap;
-  gap: 37px 40px;
-  flex: 0 1 25%;
-  margin-bottom: 100px;
+  gap: 38px 40px;
+  /* flex: 0 1 25%; */
+  margin-bottom: 98px;
 }
 
 .on-offer__card {
@@ -741,9 +687,6 @@ body {
 .on-offer__card .on-offer__image {
   transition: .5s all ease-in-out;
 }
-.on-offer__card:hover .on-offer__image {
-  background-size: 101%;
-}
 .show-more__block {
   display: none;
   margin-bottom: 100px;
@@ -756,15 +699,90 @@ body {
   border-radius: 50%;
   border: 1px solid var(--border-dark); 
   background: url(../img/icons/refresh.svg) center no-repeat;
+  cursor: pointer;
 }
 
 .header__nav {
   width: 100%;
   display: flex;
+  margin-top: -4px;
 }
 .nav {
   margin: -3px auto 0;
 }
+
+@media (min-width: 769px) {
+  ._bottom-hover:hover::after{
+    width: 100%;
+  }
+  .button--transparent:hover {
+    color: var(--text-light);
+    background-color: var(--button-hover);
+  }
+  .button--transparent:hover .button-icon {
+    fill: var(--text-light);
+  }
+  .button--to-menu:hover {
+    padding-right: 49px;
+  }
+  .button--to-menu:hover span {
+    opacity: 1;
+  }
+  .slider__arrow:hover {
+    background: var(--border-dark);
+  }
+  .slider__arrow:hover svg{
+    stroke: var(--background-body);
+  }
+  .pagination__item:hover {
+    background-color: var(--border-dark);
+  }
+  .gallery__photo:hover {
+    background-size: 100%;
+  }
+  .menu__tab:hover {
+    background: var(--background-container);
+    border: 1px solid transparent;
+  }
+  .menu__tab:hover .menu__category-name {
+    color: var(--text-light);
+  }
+  .menu__tab:hover .menu__category-wrap {
+    background: var(--background-body); 
+  }
+  .on-offer__card:hover .on-offer__image {
+    background-size: 101%;
+  }
+  .social__link:hover {
+    background: var(--background-body);
+  }
+  .social__link:hover svg{
+    stroke: var(--text-dark);
+  }
+}
+
+
+@media (max-width: 1440px) {
+  .enjoy {
+    background-size: cover;
+    background-position: center;
+  }
+  .coffee-on-offer {
+    justify-content: space-around;
+  }
+  .on-offer__card {
+    flex: 1 1 auto;
+    max-width: 310px;
+    width: 100%;
+  }
+  .gallery__photo {
+    background-size: auto;
+  }
+  .gallery__photo:hover {
+    background-size: auto;
+  }
+}
+
 @media (max-width: 768px) {
   .header__burger-button {
     display: block;
@@ -813,8 +831,6 @@ body {
 
   .enjoy {
     padding: 100px 60px;
-    background-size: cover;
-    background-position: center;
   }
   .button--to-menu {
     padding-right: 49px;
@@ -822,6 +838,10 @@ body {
   .button--to-menu span {
     opacity: 1;
   }
+  .slider__arrows-block {
+    width: 101.1%;
+    margin-left: -4px;
+  } /* pixel perfect */
   .gallery__container {
     display: block;
   }
@@ -830,6 +850,10 @@ body {
     margin-bottom: 40px;
   }
   .gallery__photo {
+    height: 590px;
+    background-size: cover;
+  }
+  .gallery__photo:hover {
     height: 590px;
     background-size: cover;
   }
@@ -851,7 +875,7 @@ body {
     padding: 100px 60px 102px;
   }
   .social__list {
-    margin-bottom: 105px;
+    margin-bottom: 102px;
   }
   .show-more__block {
     display: block;
@@ -861,25 +885,18 @@ body {
     flex-wrap: wrap;
     gap: 38px 15px;
     /* flex: 0 1 50%; */
-    margin-bottom: 40px;
+    margin-bottom: 38px;
   }
   .on-offer__card {
     margin: 0 auto;
   }
+  .hidden--768 {
+    display: none;
+  }
 }
 
-@media (max-width: 380px) { 
-  .container {
-    max-width: 1440px;
-    padding: 20px 16px;
-    margin: 0 auto;
-    background: var(--background-body);
-  }
-  .enjoy {
-    padding: 60px 16px;
-    background-size: cover;
-    background-position: center;
-  }
+@media (max-width: 640px) {
+
   .main-title {
     font-size: 42px;
     line-height: 115%;
@@ -893,6 +910,23 @@ body {
   }
   .button--app-store {
     margin-bottom: 20px;
+  }
+}
+
+@media (max-width: 380px) { 
+  .section__text {
+    margin-bottom: 39px;
+  }
+  .container {
+    max-width: 1440px;
+    padding: 20px 16px;
+    margin: 0 auto;
+    background: var(--background-body);
+  }
+  .enjoy {
+    padding: 60px 16px;
+    background-size: cover;
+    background-position: center;
   }
   .slider__image {
     margin-bottom: 16px;
@@ -910,7 +944,7 @@ body {
     padding: 60px 16px 62px;
   }
   .social__list {
-    margin-bottom: 46px;
+    margin-bottom: 44px;
   }
 
   .menu__tabs {
@@ -919,7 +953,7 @@ body {
   .coffee-on-offer {
     flex-direction: column;
     flex-wrap: nowrap;
-    margin-bottom: 40px;
+    margin-bottom: 38px;
   }
   .on-offer__card {
     margin: 0 auto;
