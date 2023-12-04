@@ -162,14 +162,14 @@ body {
   position: relative;
 }
 .button--to-menu:hover {
-  padding-right: 36px;
+  padding-right: 49px;
 }
 .button--to-menu span {
   content: url(../img/icons/coffee-cup.svg);
   position: absolute;
   display: block;
   top: 50%;
-  left: 60%;
+  left: 58%;
   transform: translateY(-50%);
   width: 20px;
   height: 20px;
@@ -179,7 +179,6 @@ body {
 .button--to-menu:hover span {
   opacity: 1;
 }
-
 
 
 
@@ -203,13 +202,9 @@ body {
 }
 .nav__link {
   padding-bottom: 5px;
-  /* border-bottom: 2px solid transparent; */
   transition: all .3s;
   position: relative;
 }
-/* .nav__link:hover {
-  border-bottom: 2px solid var(--text-dark);
-} */
 
 .header__button {
   margin-top: -7px;
@@ -224,10 +219,6 @@ body {
   border-bottom: 2px solid transparent;
   transition: all .3s;
 }
-/* .header__link:not(.non-interactive):hover {
-  border-bottom: 2px solid var(--text-dark);
-  cursor: pointer;
-} */
 .header__link::before {
   position: absolute;
   content: "";
@@ -237,8 +228,18 @@ body {
   top: -2px;
   background: url(../img/icons/coffee-cup.svg);
 }
+.non-interactive::after {
+  position: absolute;
+  content: '';
+  display: block;
+  height: 2px;
+  width: 100%;
+  left: 50%;
+  bottom: -2px;
+  transform: translateX(-50%);
+  background-color: var(--text-dark);
 
-
+}
 
 
 
@@ -597,7 +598,7 @@ body {
 
 /* MENU */
 .section__title--menu-page {
-  width: 800px;
+  max-width: 800px;
   margin: 0 auto;
   text-align: center;
   margin-bottom: 40px;
@@ -743,21 +744,83 @@ body {
 .on-offer__card:hover .on-offer__image {
   background-size: 101%;
 }
- 
+.show-more__block {
+  display: none;
+  margin-bottom: 100px;
+}
+.show-more__btn {
+  display: block;
+  margin: 0 auto;
+  width: 60px;
+  height: 60px;
+  border-radius: 50%;
+  border: 1px solid var(--border-dark); 
+  background: url(../img/icons/refresh.svg) center no-repeat;
+}
 
-
+.header__nav {
+  width: 100%;
+  display: flex;
+}
+.nav {
+  margin: -3px auto 0;
+}
 @media (max-width: 768px) {
-  .nav,
-  .header__button {
-    display: none;
-  }
   .header__burger-button {
     display: block;
   }
+  .header__nav {
+    position: absolute;
+    top: 100px;
+    left: 0;
+    width: 100%;
+    height: 0px;
+    background-color: var(--background-body);
+    transition: all .5s;
+    opacity: 0;
+    user-select: none;
+    visibility: hidden;
+  }
+  .header__nav--active {
+    /* display: block; */
+    height: 800px;
+    opacity: 1;
+    visibility: visible;
+    z-index: 2;
+  }
+  .nav__list {
+    flex-direction: column;
+    text-align: center;
+    margin-top: 67px;
+    margin-bottom: 120px;
+    font-size: 32px;
+  }
+  .header__nav {
+    display: block;
+  }
+  .header__button {
+    display: flex;
+    justify-content: center;
+    transform: scale(2);
+  }
+  .nav__list {
+    gap: 61px;
+  }
+  .header__link::before {
+    top: 2px;
+  }
+  
+
   .enjoy {
     padding: 100px 60px;
     background-size: cover;
     background-position: center;
+  }
+  .button--to-menu {
+    padding-right: 49px;
+  }
+  .button--to-menu span {
+    opacity: 1;
   }
   .gallery__container {
     display: block;
@@ -790,6 +853,19 @@ body {
   .social__list {
     margin-bottom: 105px;
   }
+  .show-more__block {
+    display: block;
+  }
+  .coffee-on-offer {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 38px 15px;
+    /* flex: 0 1 50%; */
+    margin-bottom: 40px;
+  }
+  .on-offer__card {
+    margin: 0 auto;
+  }
 }
 
 @media (max-width: 380px) { 
@@ -818,11 +894,35 @@ body {
   .button--app-store {
     margin-bottom: 20px;
   }
+  .slider__image {
+    margin-bottom: 16px;
+  }
   .slider__arrows-block {
     display: none;
   }
+  .buttons__container {
+    margin-bottom: 40px;
+  }
+  .applications__img {
+    margin-left: 0;
+  }
   .footer {
-    padding: 60px 16px;
+    padding: 60px 16px 62px;
+  }
+  .social__list {
+    margin-bottom: 46px;
+  }
+
+  .menu__tabs {
+    gap: 9px;
+  }
+  .coffee-on-offer {
+    flex-direction: column;
+    flex-wrap: nowrap;
+    margin-bottom: 40px;
+  }
+  .on-offer__card {
+    margin: 0 auto;
   }
 }
 
