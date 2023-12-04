@@ -65,13 +65,13 @@ button {
 }
 html {
   scroll-behavior: smooth;
-  background-color: var(--background-body);
 }
 body {
   min-height: 100vh;
   font-family: 'Inter';
   text-rendering: optimizeSpeed;
   color: var(--text-dark);
+  background-color: var(--background-body);
 }
 
 
@@ -788,10 +788,11 @@ body {
     display: block;
   }
   .header__nav {
+    display: block;
     position: absolute;
     top: 100px;
     left: 0;
-    width: 100%;
+    width: 0%;  /*Было 100%*/
     height: 0px;
     background-color: var(--background-body);
     transition: all .5s;
@@ -812,9 +813,6 @@ body {
     margin-top: 67px;
     margin-bottom: 120px;
     font-size: 32px;
-  }
-  .header__nav {
-    display: block;
   }
   .header__button {
     display: flex;
@@ -918,10 +916,10 @@ body {
     margin-bottom: 39px;
   }
   .container {
-    max-width: 1440px;
+    /* max-width: 1440px; */
     padding: 20px 16px;
-    margin: 0 auto;
-    background: var(--background-body);
+    /* margin: 0 auto; */
+    /* background: var(--background-body); */
   }
   .enjoy {
     padding: 60px 16px;
