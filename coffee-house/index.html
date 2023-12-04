@@ -21,29 +21,37 @@
         <img class="logo-img" src="img/logo.svg" alt="logo">
       </a>
 
-      <nav class="nav">
-        <ul class="nav__list">
-          <li class="nav__item">
-            <a href="#favorite" class="nav__link">Favorite coffee</a>
-          </li>
-          <li class="nav__item">
-            <a href="#about" class="nav__link">About</a>
-          </li>
-          <li class="nav__item">
-            <a href="#applications" class="nav__link">Mobile app</a>
-          </li>
-          <li class="nav__item">
-            <a href="#contacts" class="nav__link">Contact us</a>
-          </li>
-        </ul>
-      </nav>
-
-      <div class="header__button">
-        <a class="header__link" href="menu.html">Menu</a>
+      <div class="header__nav">
+        <nav class="nav">
+          <ul class="nav__list">
+            <li class="nav__item">
+              <a class="nav__link _bottom-hover" href="#favorite">Favorite coffee</a>
+            </li>
+            <li class="nav__item">
+              <a class="nav__link _bottom-hover" href="#about">About</a>
+            </li>
+            <li class="nav__item">
+              <a class="nav__link _bottom-hover" href="#applications">Mobile app</a>
+            </li>
+            <li class="nav__item">
+              <a class="nav__link _bottom-hover" href="#contacts">Contact us</a>
+            </li>
+          </ul>
+        </nav>
+  
+        <div class="header__button">
+          <a class="header__link _bottom-hover" href="menu.html">Menu</a>
+        </div>
       </div>
 
-      <!-- <button class="header__burger-button"></button> -->
+      <button class="header__burger-button">
+        <span class="bar-top"></span>
+        <span class="bar-bot"></span>
+      </button>
+      
+      <!-- <div class="header__overlay"></div> -->
       <!-- <div class="header__burger-menu"></div> -->
+      <!-- https://codepen.io/Wyrlor/pen/RaLqbp -->
     </header>
 
     <main class="main">
@@ -51,7 +59,7 @@
         <div class="enjoy-container">
           <h1 class="main-title"><span class="title--special">Enjoy</span> premium coffee at our charming cafe</h1>
           <p class="section__text">With its inviting atmosphere and delicious coffee options, the Coffee House Resource is a popular destination for coffee lovers and those seeking a warm and inviting space to enjoy their favorite beverage.</p>
-          <a class="button button--to-menu" href="menu.html">Menu <span></span></a>
+          <a class="button button--to-menu" href="menu.html">Menu<span></span></a>
         </div>
       </section><!--enjoy-->
 
@@ -202,10 +210,10 @@
           <h3 class="section__subtitle">Contact us</h3>
           <ul class="contacts__list">
             <li class="contacts__item">
-              <a class="contacts__link contacts--location" href="https://www.google.com/maps/place/37.422,-122.084" target="_blank">8558 Green Rd.,&nbsp;&nbsp;LA</a>
+              <a class="contacts__link contacts--location _bottom-hover _bottom-hover-l" href="https://www.google.com/maps/place/37.422,-122.084" target="_blank">8558 Green Rd.,&nbsp;&nbsp;LA</a>
             </li>
             <li class="contacts__item">
-              <a class="contacts__link contacts--phone" href="tel:16035550123">+1 (603) 555-0123</a>
+              <a class="contacts__link contacts--phone _bottom-hover _bottom-hover-l" href="tel:16035550123">+1 (603) 555-0123</a>
             </li>
             <li class="contacts__item">
               <a class="contacts__link contacts--clock" href="#">Mon-Sat: 9:00 AM – 23:00 PM</a>
