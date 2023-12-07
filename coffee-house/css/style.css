@@ -711,7 +711,7 @@ body {
   margin: -3px auto 0;
 }
 
-@media (min-width: 769px) {
+@media (hover: hover) and (pointer: fine) {
   ._bottom-hover:hover::after{
     width: 100%;
   }
