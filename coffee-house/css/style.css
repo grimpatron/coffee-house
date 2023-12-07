@@ -573,6 +573,7 @@ body {
   border-radius: 100px;
   border: 1px solid var(--border-light);
   cursor: pointer;
+  user-select: none;
 }
 
 .menu__category-wrap {
@@ -711,7 +712,7 @@ body {
   margin: -3px auto 0;
 }
 
-@media (hover: hover) and (pointer: fine) {
+@media (min-width: 769px) {
   ._bottom-hover:hover::after{
     width: 100%;
   }
