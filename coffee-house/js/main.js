@@ -1,3 +1,26 @@
+// import database from "database.json";
+/* Бургер меню */
+const body = document.querySelector('body');
+const toggle = document.querySelector('.header__burger-button');
+const burgerOverlay = document.querySelector('.header__nav');
+const navLink = document.querySelectorAll('.nav__link');
+
+toggle.addEventListener('click', function(e) {
+  this.classList.toggle('opened');
+  body.classList.toggle('noscroll');
+  burgerOverlay.classList.toggle('header__nav--active');
+});
+
+navLink.forEach(element => {
+  element.addEventListener('click', function() {
+    toggle.classList.toggle('opened');
+    body.classList.remove('noscroll');
+    burgerOverlay.classList.remove('header__nav--active');
+  });
+});
+
+
+
 /* Переключение Табов */
 const menuTabs = document.querySelectorAll('.menu__tab');
 let currentMenuTab = 'coffee';
@@ -13,10 +36,10 @@ menuTabs.forEach((tabElement, index) => {
 })
 
 
-
 /* Получение данных */
 let database;
 function getGroceries(value) {
+  console.log(database);
   const arrayProducts = [];
   database.forEach((product) => {
     if (product.category === value) {
@@ -30,25 +53,31 @@ function getGroceries(value) {
 
 /* Отрисовка по умолчанию */
 let renderInterval;
-fetch('/coffee-house/js/database.json')
+// fetch('/coffee-house/js/database.json')
+fetch('js/database.json')
   .then(response => response.json())
   .then(data => database = data);
-
+console.log(database);
 renderInterval = setInterval(() => {
   if (database) createCard('coffee');
-}, 20);
+}, 50);
 
 
 
 /* Сгенерировать карточки товаров */
-function createCard(a) {
-  const onOffer = document.querySelector('.coffee-on-offer');
+function createCard(category) {
+  const onOffer = document.querySelector('.on-offer');
   onOffer.innerHTML = '';
-  const ArrProducts = getGroceries(a);
+  const ArrProducts = getGroceries(category);
   ArrProducts.forEach((el, index) => {
     const menuCard = document.createElement('div');
     menuCard.classList.add('on-offer__card');
-    if (index >= 4 ) menuCard.classList.add('hidden--768');
+    if (index >= 4 ) {
+      menuCard.classList.add('hidden--768');
+      showMoreBtn.classList.remove('visually-hidden');
+    } else {
+      showMoreBtn.classList.add('visually-hidden');
+    }
     menuCard.innerHTML = 
       `<div class="on-offer__image on-offer__image--${currentMenuTab}-${index + 1}"></div>
       <div class="on-offer__info">
@@ -62,11 +91,15 @@ function createCard(a) {
 }
 
 
-
-
-
-// console.log(database);
-// import products from "products.json";
+const showMoreBtn = document.querySelector('.show-more__btn');
+showMoreBtn.addEventListener('click', showMore)
+function showMore() {
+  const hiddenCards = document.querySelectorAll('.hidden--768');
+  hiddenCards.forEach(element => {
+    element.classList.remove('hidden--768');
+  });
+  showMoreBtn.classList.add('visually-hidden');
+}
 
 
 
@@ -94,60 +127,4 @@ function createCard(a) {
 //     console.log(dataVariable);
 // });
 // console.log(dataVariable.category);
-
-
-
-
-
-
-
-// import products from "./products.js";
-
-// const preloader = document.querySelector('.preloader');
-// const tabItems = document.querySelectorAll('.tab-item');
-// const CATEGORY = ['coffee', 'tea', 'dessert'];
-
-// tabItems.forEach((tabItem, index) => {
-//     tabItem.addEventListener('click', () => {
-//         tabItems.forEach((tabItem) => {
-//             tabItem.classList.remove('active');
-//         })
-//     tabItem.classList.add('active');
-//     createItems(CATEGORY[index]);
-//     })
-// })
-
-// function getCategory(value) {
-//     const arr = []
-//     products.forEach((product) => {
-//         if (product.category === value) {
-//             arr.push(product);
-//         }
-//     })
-//     return arr;
-// }
-
-// function createItems(a) {
-//     const menuGrid = document.querySelector('.menu-grid');
-//     menuGrid.innerHTML = '';
-//     const category = getCategory(a);
-
-//     category.forEach((el, index) => {
-//         const menuCard = document.createElement('div');
-//         menuCard.classList.add('menu-card');
-//         menuCard.innerHTML = `<div class="menu-card__img-container">
-//                                 <img src=${el.url} alt="coffee ${index}">
-//                                 </div>
-//                                 <div class="menu-card__info">
-//                                     <h3 class="h3">${el.name}</h3>
-//                                     <p class="text">
-//                                         ${el.description}
-//                                     </p>
-//                                     <p class="h3 product-price">$${el.price}</p>
-//                                  </div>`
-//         menuGrid.append(menuCard)
-//     })
-// }
-// createItems('coffee');
-
 
