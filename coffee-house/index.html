@@ -85,35 +85,49 @@
             </button>
           </div>
 
-          <div class="slider__slide">
-            <img class="slider__image" src="img/slider/slide-1.png" alt="coffee image">
+          <div class="slider__container">
+            <div class="slider__line">
+              <div class="slider__slide">
+                <img class="slider__image" src="img/slider/slide-1.png" alt="coffee image">
+                <div class="product__info">
+                  <p class="product__name">S'mores Frappuccino</p>
+                  <p class="product__description">This new drink takes an espresso and mixes it with brown sugar and cinnamon before being topped with oat milk.</p>
+                  <p class="product__price">$5.50</p>
+                </div>
+              </div>
 
-            <div class="product__info">
-              <p class="product__name">S'mores Frappuccino</p>
-              <p class="product__description">This new drink takes an espresso and mixes it with brown sugar and cinnamon before being topped with oat milk.</p>
-              <p class="product__price">$5.50</p>
+              <div class="slider__slide">
+                <img class="slider__image" src="img/slider/slide-2.png" alt="coffee image">
+                <div class="product__info">
+                  <p class="product__name">Caramel Macchiato</p>
+                  <p class="product__description">Fragrant and unique classic espresso with rich caramel-peanut syrup, with cream under whipped thick foam.</p>
+                  <p class="product__price">$5.00</p>
+                </div>
+              </div>
+
+              <div class="slider__slide">
+                <img class="slider__image" src="img/slider/slide-3.png" alt="coffee image">
+                <div class="product__info">
+                  <p class="product__name">Ice coffee</p>
+                  <p class="product__description">A popular summer drink that tones and invigorates. Prepared from coffee, milk and ice.</p>
+                  <p class="product__price">$4.50</p>
+                </div>
+              </div>
             </div>
           </div>
 
-          <div class="slider__slide hidden">
-            <img class="slider__image" src="img/slider/slide-2.png" alt="coffee image">
-            <p class="product__name">Caramel Macchiato</p>
-            <p class="product__description">Fragrant and unique classic espresso with rich caramel-peanut syrup, with cream under whipped thick foam.</p>
-            <p class="product__price">$5.00</p>
-          </div>
-
-          <div class="slider__slide hidden">
-            <img class="slider__image" src="img/slider/slide-3.png" alt="coffee image">
-            <p class="product__name">Ice coffee</p>
-            <p class="product__description">A popular summer drink that tones and invigorates. Prepared from coffee, milk and ice.</p>
-            <p class="product__price">$4.50</p>
-          </div>
-
           <div class="pagination__block">
-            <div class="pagination__item pagination__item--current"></div>
-            <div class="pagination__item"></div>
-            <div class="pagination__item"></div>
+            <div class="pagination__item" data-bar="0">
+              <div class="pagination__bar"></div>
+            </div>
+            <div class="pagination__item" data-bar="1">
+              <div class="pagination__bar"></div>
+            </div>
+            <div class="pagination__item" data-bar="2">
+              <div class="pagination__bar"></div>
+            </div>
           </div>
+
         </div>
       </section><!--favorite-->
 
@@ -224,25 +238,10 @@
       </div>
     </footer>
 
-    <div class="modal">
-      <div class="modal__img"></div>
-      <div class="modal__descriotion">
-        <div class="modal__title"></div>
-        <div class="modal__text"></div>
-        <div class="modal__subtitle">Size</div>
-        <div class="modal__radio"></div>
-        <div class="modal__subtitle">Additives</div>
-        <div class="modal__radio"></div>
-        <div class="modal__title">Total:</div>
-        <div class="modal__title"></div>
-        <div class="modal__info">The cost is not final. Download our mobile app to see the final price and place your order. Earn loyalty points and enjoy your favorite coffee with up to 20% discount.</div>
-        <div class="modal__btn"></div>
-      </div>
-    </div>
-
   </div>
   <!-- <script type="module" src="js/database.json"></script> -->
   <!-- <script src="js/database.json"></script> -->
+  <script src="js/slider.js"></script>
   <script src="js/main.js"></script>
 </body>
 </html>

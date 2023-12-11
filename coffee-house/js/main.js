@@ -55,6 +55,7 @@ function getGroceries(value) {
 let renderInterval;
 // fetch('/coffee-house/js/database.json')
 fetch('js/database.json')
+// fetch('http://127.0.0.1:5500/js/database.json')
   .then(response => response.json())
   .then(data => database = data);
 console.log(database);
@@ -78,6 +79,9 @@ function createCard(category) {
     } else {
       showMoreBtn.classList.add('visually-hidden');
     }
+    menuCard.addEventListener('click', QWER)
+    menuCard.dataset.name =`${el.name}`;
+    menuCard.dataset.image =`on-offer__image--${currentMenuTab}-${index + 1}`;
     menuCard.innerHTML = 
       `<div class="on-offer__image on-offer__image--${currentMenuTab}-${index + 1}"></div>
       <div class="on-offer__info">
@@ -91,6 +95,28 @@ function createCard(category) {
 }
 
 
+
+
+
+function QWER(e) {
+  let target = e.target.closest('.on-offer__card');
+  let item = database.find(city => city.name === target.dataset.name);
+  console.log(item, target.dataset.image);
+  document.querySelector('#product-img').className = "modal__img-wrapper";
+  document.querySelector('#product-img').classList.add(`${target.dataset.image}`);
+  document.querySelector('#product-name').innerHTML = `${item.name}`;
+  document.querySelector('#product-text').innerHTML = `${item.description}`;
+  document.querySelector('#product-additives-1').innerHTML = `${item.additives[0].name}`;
+  document.querySelector('#product-additives-2').innerHTML = `${item.additives[1].name}`;
+  document.querySelector('#product-additives-3').innerHTML = `${item.additives[2].name}`;
+  document.querySelector('#product-size-1').innerHTML = `${item.sizes.s.size}`;
+  document.querySelector('#product-size-2').innerHTML = `${item.sizes.m.size}`;
+  document.querySelector('#product-size-3').innerHTML = `${item.sizes.l.size}`;
+  document.querySelector('#product-price').innerHTML = `${item.price}`;
+  modal.style.display = "block";
+}
+
+
 const showMoreBtn = document.querySelector('.show-more__btn');
 showMoreBtn.addEventListener('click', showMore)
 function showMore() {
@@ -100,6 +126,10 @@ function showMore() {
   });
   showMoreBtn.classList.add('visually-hidden');
 }
+
+
+
+
 
 
 
