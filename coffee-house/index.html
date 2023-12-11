@@ -56,7 +56,8 @@
 
     <main class="main">
       <section class="enjoy">
-        <div class="enjoy-container">
+        <video class="enjoy__video" src="video/enjoy-video.mp4" type="video/mp4" autoplay muted loop></video>
+        <div class="enjoy__container">
           <h1 class="main-title"><span class="title--special">Enjoy</span> premium coffee at our charming cafe</h1>
           <p class="section__text">With its inviting atmosphere and delicious coffee options, the Coffee House Resource is a popular destination for coffee lovers and those seeking a warm and inviting space to enjoy their favorite beverage.</p>
           <a class="button button--to-menu" href="menu.html">Menu<span></span></a>
@@ -84,35 +85,49 @@
             </button>
           </div>
 
-          <div class="slider__slide">
-            <img class="slider__image" src="img/slider/slide-1.png" alt="coffee image">
+          <div class="slider__container">
+            <div class="slider__line">
+              <div class="slider__slide">
+                <img class="slider__image" src="img/slider/slide-1.png" alt="coffee image">
+                <div class="product__info">
+                  <p class="product__name">S'mores Frappuccino</p>
+                  <p class="product__description">This new drink takes an espresso and mixes it with brown sugar and cinnamon before being topped with oat milk.</p>
+                  <p class="product__price">$5.50</p>
+                </div>
+              </div>
 
-            <div class="product__info">
-              <p class="product__name">S'mores Frappuccino</p>
-              <p class="product__description">This new drink takes an espresso and mixes it with brown sugar and cinnamon before being topped with oat milk.</p>
-              <p class="product__price">$5.50</p>
+              <div class="slider__slide">
+                <img class="slider__image" src="img/slider/slide-2.png" alt="coffee image">
+                <div class="product__info">
+                  <p class="product__name">Caramel Macchiato</p>
+                  <p class="product__description">Fragrant and unique classic espresso with rich caramel-peanut syrup, with cream under whipped thick foam.</p>
+                  <p class="product__price">$5.00</p>
+                </div>
+              </div>
+
+              <div class="slider__slide">
+                <img class="slider__image" src="img/slider/slide-3.png" alt="coffee image">
+                <div class="product__info">
+                  <p class="product__name">Ice coffee</p>
+                  <p class="product__description">A popular summer drink that tones and invigorates. Prepared from coffee, milk and ice.</p>
+                  <p class="product__price">$4.50</p>
+                </div>
+              </div>
             </div>
           </div>
 
-          <div class="slider__slide hidden">
-            <img class="slider__image" src="img/slider/slide-2.png" alt="coffee image">
-            <p class="product__name">Caramel Macchiato</p>
-            <p class="product__description">Fragrant and unique classic espresso with rich caramel-peanut syrup, with cream under whipped thick foam.</p>
-            <p class="product__price">$5.00</p>
-          </div>
-
-          <div class="slider__slide hidden">
-            <img class="slider__image" src="img/slider/slide-3.png" alt="coffee image">
-            <p class="product__name">Ice coffee</p>
-            <p class="product__description">A popular summer drink that tones and invigorates. Prepared from coffee, milk and ice.</p>
-            <p class="product__price">$4.50</p>
-          </div>
-
           <div class="pagination__block">
-            <div class="pagination__item pagination__item--current"></div>
-            <div class="pagination__item"></div>
-            <div class="pagination__item"></div>
+            <div class="pagination__item" data-bar="0">
+              <div class="pagination__bar"></div>
+            </div>
+            <div class="pagination__item" data-bar="1">
+              <div class="pagination__bar"></div>
+            </div>
+            <div class="pagination__item" data-bar="2">
+              <div class="pagination__bar"></div>
+            </div>
           </div>
+
         </div>
       </section><!--favorite-->
 
@@ -224,7 +239,9 @@
     </footer>
 
   </div>
-  
+  <!-- <script type="module" src="js/database.json"></script> -->
+  <!-- <script src="js/database.json"></script> -->
+  <script src="js/slider.js"></script>
   <script src="js/main.js"></script>
 </body>
 </html>

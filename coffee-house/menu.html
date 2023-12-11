@@ -54,34 +54,34 @@
       <h1 class="hidden">Enjoy premium coffee at our charming cafe</h1>
       <h2 class="section__title section__title--menu-page">Behind each of our cups hides an <span class="title--special">amazing surprise</span></h2>
       <ul class="menu__tabs">
-        <li>
-          <div class="menu__tab menu__tab--active">
+        <li class="menu__tab category__tab menu__tab--active" data-category="coffee">
+          <!-- <div > -->
             <div class="menu__category-wrap">
               <img class="menu__category-img" src="img/icons/menu-coffee.svg" alt="Coffee">
             </div>
             <div class="menu__category-name">Coffee</div>
-          </div>
+          <!-- </div> -->
         </li>
-        <li>
-          <div class="menu__tab">
+        <li class="menu__tab category__tab" data-category="tea">
+          <!-- <div> -->
             <div class="menu__category-wrap">
               <img class="menu__category-img" src="img/icons/menu-tea.svg" alt="Tea">
             </div>
             <div class="menu__category-name">Tea</div>
-          </div>
+          <!-- </div> -->
         </li>
-        <li>
-          <div class="menu__tab">
+        <li class="menu__tab category__tab" data-category="dessert">
+          <!-- <div> -->
             <div class="menu__category-wrap">
               <img class="menu__category-img" src="img/icons/menu-dessert.svg" alt="Dessert">
             </div>
             <div class="menu__category-name">Dessert</div>
-          </div>
+          <!-- </div> -->
         </li>
-      </ul>
+      </ul><!--перенести class="menu__tab" в <li>-->
 
-      <div class="coffee-on-offer">
-        <div class="on-offer__card">
+      <div class="on-offer"><!--coffee-on-offer -->
+        <!-- <div class="on-offer__card">
           <div class="on-offer__image on-offer__image--coffee-1"></div>
           <div class="on-offer__info">
             <div class="on-offer__name">Irish coffee</div>
@@ -246,7 +246,7 @@
             <div class="on-offer__description">A combination of thin sponge cake with cherry jam and light chocolate mousse</div>
             <div class="on-offer__price">$6.50</div>
           </div>
-        </div>
+        </div> -->
       </div>
 
       <div class="show-more__block">
@@ -311,8 +311,73 @@
       </div>
     </footer>
 
+
+
+    <div class="modal__wrapper" id="modalWrapper">
+      <div class="modal">
+        <div class="modal__img-wrapper" id="product-img">
+          <!-- <img class="modal__img" src="img/menu/coffee-1.png" id="product-img"> -->
+        </div>
+        <div class="modal__descriotion">
+
+          <div class="modal__block">
+            <div class="modal__title" id="product-name"></div><!--Irish coffee-->
+            <div class="modal__text" id="product-text">Fragrant black coffee with Jameson Irish whiskey and whipped milk</div>
+          </div>
+
+          <div class="modal__block">
+            <div class="modal__subtitle">Size</div>
+            <div class="modal__radio">
+              <div class="menu__tab menu__tab--active modal__radio-size">
+                <div class="menu__category-wrap">S</div>
+                <div class="menu__category-name" id="product-size-1">200 ml</div>
+              </div>
+              <div class="menu__tab modal__radio-size">
+                <div class="menu__category-wrap">M</div>
+                <div class="menu__category-name" id="product-size-2">300 ml</div>
+              </div>
+              <div class="menu__tab modal__radio-size">
+                <div class="menu__category-wrap">L</div>
+                <div class="menu__category-name" id="product-size-3">400 ml</div>
+              </div>
+            </div>
+          </div>
+
+          <div class="modal__block">
+            <div class="modal__subtitle">Additives</div>
+            <div class="modal__radio">
+              <div class="menu__tab modal__radio-additives">
+                <div class="menu__category-wrap">1</div>
+                <div class="menu__category-name" id="product-additives-1"></div>
+              </div>
+              <div class="menu__tab modal__radio-additives">
+                <div class="menu__category-wrap">2</div>
+                <div class="menu__category-name" id="product-additives-2">Cinnamon</div>
+              </div>
+              <div class="menu__tab modal__radio-additives">
+                <div class="menu__category-wrap">3</div>
+                <div class="menu__category-name" id="product-additives-3">Syrup</div>
+              </div>
+            </div>
+          </div>
+
+          <div class="modal__price-line">
+            <div class="modal__price-title">Total:</div>
+            <div class="modal__price-title" id="product-price">$7.00</div>
+          </div>
+          <div class="modal__info">The cost is not final. Download our mobile app to see the final price and place your order. Earn loyalty points and enjoy your favorite coffee with up to 20% discount.</div>
+          <button class="button button--transparent modal-close">Close</button>
+        </div>
+      </div>
+    </div>
+
+
+
+
   </div>
   
+  <script src="js/menu.js"></script>
+  <script src="js/modal.js"></script>
   <script src="js/main.js"></script>
 </body>
 </html>
