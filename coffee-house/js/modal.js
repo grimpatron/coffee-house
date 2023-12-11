@@ -10,15 +10,32 @@ btn.onclick = function() {
 // When the user clicks on <span> (x), close the modal
 span.onclick = function() {
   modal.style.display = "none";
+  document.querySelector('body').classList.remove('noscroll');
+  resetOptions();
 }
 
 // When the user clicks anywhere outside of the modal, close it
 window.onclick = function(event) {
   if (event.target == modal) {
     modal.style.display = "none";
+    document.querySelector('body').classList.remove('noscroll');
+    resetOptions();
   }
 }
 
+
+/* Убираю все выбранные опции */
+function resetOptions() {
+  const sizeArr = document.querySelectorAll('.modal__radio-size');
+  const additivesArr = document.querySelectorAll('.modal__radio-additives');
+  sizeArr.forEach(element => {
+    element.classList.remove('menu__tab--active');
+  });
+  additivesArr.forEach(element => {
+    element.classList.remove('menu__tab--active');
+  });
+  sizeArr[0].classList.add('menu__tab--active');
+}
 
 
 

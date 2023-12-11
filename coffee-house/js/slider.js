@@ -68,70 +68,83 @@ let autoplayId;
 let pagBars = document.querySelectorAll(".pagination__bar");
 let curElem = pagBars[slideIndex];
 
+let widthBar = 0;
+let isFinish = 0;
 
 function move() {
   console.log(slideIndex);
-            // pagBars.forEach(item => {
-            //   item.classList.remove('pagination__item--active');
-            // });
-            // curElem.classList.add('pagination__item--active');
-  let widthBar = 0;
-  let isFinish = 0;
+  widthBar = 0;
+  isFinish = 0;
   curElem.style.width = 0 + "%";
   curElem = pagBars[slideIndex];
   clearInterval(autoplayId);
-  if (isFinish == 0) {
+  if (isFinish === 0 && isPause === false) {
     isFinish = 1;
-    // let id = setInterval(frame, 50);
     autoplayId = setInterval(frame, 50);
-    function frame() {
-      if (widthBar >= 100) {
-        isFinish = 0;
-        widthBar = 0;
-        // curElem.style.width = 0 + "%";
-        // clearInterval(id);
-        clearInterval(autoplayId);
-        nextSlide();
-      } else {
-        widthBar++;
-        curElem.style.width = widthBar + "%";
-      }
-    }
+  }
+}
+
+function frame() {
+  if (widthBar >= 100) {
+    isFinish = 0;
+    widthBar = 0;
+    // curElem.style.width = 0 + "%";
+    // clearInterval(id);
+    clearInterval(autoplayId);
+    nextSlide();
+  } else {
+    widthBar++;
+    curElem.style.width = widthBar + "%";
   }
 }
 
 
+const slider = document.querySelector('.slider');
+let isPause = false;
+slider.addEventListener('mouseenter', () => {
+  clearInterval(autoplayId);
+  isPause = true;
+})
+slider.addEventListener('mouseleave', () => {
+  autoplayId = setInterval(frame, 50);
+  isPause = false;
+})
+slider.addEventListener('touchstart', () => {
+  clearInterval(autoplayId);
+  isPause = true;
+})
+slider.addEventListener('touchend', () => {
+  autoplayId = setInterval(frame, 50);
+  isPause = false;
+})
+
 
 /* Свайп */
-sliderContainer.addEventListener('touchstart', handleTouchStart, false); // Вешаем на прикосновение функцию handleTouchStart
-sliderContainer.addEventListener('touchmove', handleTouchMove, false);   // А на движение пальцем по экрану - handleTouchMove
+sliderContainer.addEventListener('touchstart', startHandleTouch, false); // Прикосновение
+sliderContainer.addEventListener('touchmove', moveHandleTouch, false);   // Движение пальцем по экрану
+let axisX = null;
+let axisY = null;
 
-var xDown = null;
-var yDown = null;
-
-function handleTouchStart(evt) {                                         
-  xDown = evt.touches[0].clientX;                                      
-  yDown = evt.touches[0].clientY;                                      
+function startHandleTouch(handleEvent) {                                         
+  axisX = handleEvent.touches[0].clientX;                                      
+  axisY = handleEvent.touches[0].clientY;                                      
 };
 
-function handleTouchMove(evt) {
-    if ( ! xDown || ! yDown ) { return; }
+function moveHandleTouch(handleEvent) {
+    if ( ! axisX || ! axisY ) { return; }
 
-    var xUp = evt.touches[0].clientX;                                    
-    var yUp = evt.touches[0].clientY;
-    var xDiff = xDown - xUp;
-    var yDiff = yDown - yUp;
+    let xUp = handleEvent.touches[0].clientX;                                    
+    let yUp = handleEvent.touches[0].clientY;
+    let xDifference = axisX - xUp;
+    let yDifference = axisY - yUp;
 
-    if ( Math.abs( xDiff ) > Math.abs( yDiff ) ) {/*most significant*/
-        if ( xDiff > 0 ) {
-            nextSlide();  /* left swipe */
-        } else {
-            prevSlide()   /* right swipe */
-        }                       
+    if ( Math.abs( xDifference ) > Math.abs( yDifference ) ) {
+        if ( xDifference > 0 ) {  nextSlide();  /* swipe to left  */
+        } else                    prevSlide()   /* swipe to right  */
     }
-    /* reset values */
-    xDown = null;
-    yDown = null;                                             
+    
+    axisX = null;
+    axisY = null;                                             
 };
 
 

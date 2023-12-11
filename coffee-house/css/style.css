@@ -1013,18 +1013,21 @@ body {
 
 .modal__wrapper {
   display: none;
-  position: fixed; /* Оставаться на месте */
-  z-index: 1; /* Сидеть на вершине */
-  padding-top: 100px; /* Расположение коробки */
+  position: fixed;
+  z-index: 1;
   left: 0;
   top: 0;
-  width: 100%; /* Полная ширина */
-  height: 100%; /* Полная высота */
-  overflow: auto; /* Включите прокрутку, если это необходимо */
-  background-color: rgba(64, 63, 61, 0.80); /*Черный с непрозрачностью */
+  width: 100%;
+  height: 100%;
+  overflow: auto;
+  background-color: rgba(64, 63, 61, 0.80);
 }
 
 .modal {
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
   display: flex;
   gap: 20px;
   width: 800px;
