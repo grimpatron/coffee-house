@@ -767,6 +767,9 @@ body {
 }
 
 @media (max-width: 768px) {
+  .noscroll-tablet {
+    overflow: hidden;
+  }
   .header__burger-button {
     display: block;
   }
@@ -795,9 +798,11 @@ body {
   .nav__list {
     flex-direction: column;
     text-align: center;
-    margin-top: 67px;
+    margin-top: 62px;
     margin-bottom: 120px;
     font-size: 32px;
+    gap: 61px;
+    margin-bottom: 113px;
   }
   .header__button {
     display: flex;
@@ -805,10 +810,6 @@ body {
     transform: scale(2);
     width: 40%;
     margin: 0 auto;
-  }
-  .nav__list {
-    gap: 61px;
-    margin-bottom: 113px;
   }
   .header__link::before {
     top: 2px;
@@ -1105,7 +1106,7 @@ body {
   align-items: center;
 }
 
-@media (max-width: 768px) {
+@media (max-width: 820px) {
   .modal {
     width: 688px;
   }
@@ -1113,7 +1114,7 @@ body {
   }
 }
 
-@media (max-width: 380px) {
+@media (max-width: 710px) {
   .modal {
     width: 342px;
   }
