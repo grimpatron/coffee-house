@@ -9,7 +9,7 @@ const slidesWidth = Array.from(slidesCollection)[0].clientWidth;
 
 
 let slideSizeStep = sliderContainer.clientWidth;
-let curentPosition = 0;
+let currentPosition = 0;
 let slideIndex = 0;
 
 
@@ -27,8 +27,7 @@ function init() {
 
 
 
-console.log( slidesWidth, sliderContainer.clientWidth );
-// sliderContainer.style.width = sliderContainer.clientWidth * 3 + 'px';
+// console.log( slidesWidth, sliderContainer.clientWidth );
 
 
 prevBtn.addEventListener('click', prevSlide);
@@ -59,7 +58,6 @@ function moveSlide(target) {
 const barItems = document.querySelectorAll('.pagination__item');
 barItems.forEach(item => {
   item.addEventListener('click', function (e) {
-    // const target = e.target.dataset.bar;
     moveSlide(Number(e.target.dataset.bar));
   });
 });
@@ -72,7 +70,6 @@ let widthBar = 0;
 let isFinish = 0;
 
 function move() {
-  console.log(slideIndex);
   widthBar = 0;
   isFinish = 0;
   curElem.style.width = 0 + "%";
@@ -131,21 +128,21 @@ function startHandleTouch(handleEvent) {
 };
 
 function moveHandleTouch(handleEvent) {
-    if ( ! axisX || ! axisY ) { return; }
+  if ( ! axisX || ! axisY ) { return; }
 
-    let xUp = handleEvent.touches[0].clientX;                                    
-    let yUp = handleEvent.touches[0].clientY;
-    let xDifference = axisX - xUp;
-    let yDifference = axisY - yUp;
+  let xUp = handleEvent.touches[0].clientX;                                    
+  let yUp = handleEvent.touches[0].clientY;
+  let xDifference = axisX - xUp;
+  let yDifference = axisY - yUp;
 
-    if ( Math.abs( xDifference ) > Math.abs( yDifference ) ) {
-        if ( xDifference > 0 ) {  nextSlide();  /* swipe to left  */
-        } else                    prevSlide()   /* swipe to right  */
-    }
-    
-    axisX = null;
-    axisY = null;                                             
+  if ( Math.abs( xDifference ) > Math.abs( yDifference ) ) {
+    if ( xDifference > 0 ) {  nextSlide();  /* swipe to left  */
+    } else                    prevSlide()   /* swipe to right  */
+  }
+  
+  axisX = null;
+  axisY = null;                                             
 };
 
-
+window.addEventListener('resize', init);
 init();
