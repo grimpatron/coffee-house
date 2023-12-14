@@ -84,7 +84,7 @@ function setModalValue(e) {
   document.querySelector('#product-size-1').innerHTML = `${item.sizes.s.size}`;
   document.querySelector('#product-size-2').innerHTML = `${item.sizes.m.size}`;
   document.querySelector('#product-size-3').innerHTML = `${item.sizes.l.size}`;
-  document.querySelector('#product-price').innerHTML = `${item.price}`;
+  document.querySelector('#product-price').innerHTML = `$${item.price}`;
   modal.style.display = "block";
 
   document.querySelector('body').classList.add('noscroll');
@@ -160,5 +160,5 @@ function countPrice(productName) {
     if (additivesArr[index].classList.contains('menu__tab--active'))
       cPrice += Number(itemDB.additives[index]['add-price']);
   }
-  document.querySelector('#product-price').innerHTML = cPrice.toFixed(2);
+  document.querySelector('#product-price').innerHTML = `$${cPrice.toFixed(2)}`;
 }
