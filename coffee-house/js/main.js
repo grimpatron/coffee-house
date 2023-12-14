@@ -6,7 +6,7 @@ const navLink = document.querySelectorAll('.nav__link');
 const navLinkNonInt = document.querySelector('.header__link');
 
 navLinkNonInt.addEventListener('click', function(e) {
-  this.classList.remove('opened');
+  toggle.classList.remove('opened');
   body.classList.remove('noscroll-tablet');
   burgerOverlay.classList.remove('header__nav--active');
 });
