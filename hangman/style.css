@@ -98,12 +98,12 @@ input[type="text"] {
 	position: relative;
 	height: 260px;
 	width: 400px;
-	margin: 20px auto;
+	margin: 0 auto 20px;
 }
-.div {
+.hm {
 	position: absolute;
 }
-.div-2 {
+.hm-2 {
 	background-color: #000;
 	transform: rotate(45deg);
 	height: 45px;
@@ -111,28 +111,28 @@ input[type="text"] {
 	bottom: 164px;
 	left: 33.7%;
 }
-.div-3 {
+.hm-3 {
 	bottom: 164px;
 	height: 40px;
 	width: 4px;
 	left: 55%;
 	background-color: #000;
 }
-.div-4 {
+.hm-4 {
 	bottom: 200px;
 	height: 4px;
 	width: 25%;
 	left: 30%;
 	background-color: #000;
 }
-.div-5 {
+.hm-5 {
 	bottom: 0;
 	height: 200px;
 	width: 4px;
 	left: 30%;
 	background-color: #000;
 }
-.div-6 {
+.hm-6 {
 	bottom: 0;
 	width: 100%;
 	height: 4px;
@@ -156,7 +156,7 @@ input[type="text"] {
 	bottom: 37%;
 	display: none;
 }
-.man-arm-left {
+.man-arm-l {
 	background-color: #000;
 	transform: rotate(24deg);
 	height: 35px;
@@ -165,7 +165,7 @@ input[type="text"] {
 	bottom: 38%;
 	display: none;
 }
-.man-arm-right {
+.man-arm-r {
 	background-color: #000;
 	transform: rotate(-24deg);
 	height: 35px;
@@ -174,7 +174,7 @@ input[type="text"] {
 	bottom: 38%;
 	display: none;
 }
-.man-leg-left {
+.man-leg-l {
 	background-color: #000;
 	transform: rotate(-14deg);
 	height: 35px;
@@ -183,7 +183,7 @@ input[type="text"] {
 	bottom: 25%;
 	display: none;
 }
-.man-leg-right {
+.man-leg-r {
 	background-color: #000;
 	transform: rotate(14deg);
 	height: 35px;
@@ -207,7 +207,7 @@ input[type="text"] {
   display: none;
   position: fixed;
   z-index: 1;
-  padding-top: 100px;
+  padding-top: 30%;
   left: 0;
   top: 0;
   width: 100%;
@@ -217,12 +217,14 @@ input[type="text"] {
   background-color: rgba(0,0,0,0.4);
 }
 .modal-content {
-	width: 640px;
-	padding: 12px;
+	max-width: 640px;
+	width: 80%;
+	padding: 24px 12px;
 	margin: 0 auto;
 	background-color: #fff;
 	text-align: center;
 	border-radius: 10px;
+	user-select: none;
 }
 .modal-content div {
 	margin: 16px;
@@ -248,4 +250,40 @@ input[type="text"] {
   color: #000;
   text-decoration: none;
   cursor: pointer;
+}
+
+
+
+@media (max-width: 1200px) {
+
+}
+
+
+@media (max-width: 768px) {
+	.keyboard {
+		padding: 12px;
+		box-sizing: border-box;
+		max-width: 580px;
+		width: 100%;
+	}
+	.hangman {
+		scale: .7;
+		max-width: 400px;
+		width: 100%;
+		margin-top: -40px;
+		margin-bottom: 0;
+	}
+	.key {
+		width: 40px;
+		height: 40px;
+	}
+	.term__letter {
+		width: 2rem;
+		height: 3rem;
+	}
+}
+
+
+@media (max-width: 360px) {
+
 }
