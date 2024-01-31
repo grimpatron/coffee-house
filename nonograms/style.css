@@ -4,10 +4,11 @@
 }
 
 .container {
-  justify-content: center;
   display: grid;
+  justify-content: center;
   grid-template-columns: 150px 250px;
 }
+
 .row {
   display: flex;
   justify-content: center;
@@ -19,19 +20,21 @@
   border: 1px solid #666;
   transition: all .3s;
 }
+.cell--black {
+  background-color: #000;
+}
+
 .playground .cell:hover {
   background-color: lightblue;
   border-color: #333;
 }
-
-.cell--black {
-  background-color: #000;
-}
 .playground .cell--black:hover {
   background-color: rgb(45, 45, 60);
-  border-color: #333;
 }
-
+.miniature .cell {
+  height: 20px;
+  width: 20px;
+}
 .clue-col .cell,
 .clue-row .cell {
   display: flex;
@@ -42,9 +45,12 @@
   font-weight: bold;
 }
 
-
-.miniature {}
-.clue-col {}
-.clue-row {
+.miniature-wrap {
+  margin: auto;
 }
+.miniature .cell {
+  border-color: #ddd;
+}
+.clue-col {}
+.clue-row {}
 .playground {}

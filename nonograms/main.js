@@ -12,8 +12,35 @@ const smile = [
   ['1', '0', '0', '0', '1'], 
   ['0', '1', '1', '1', '0']
 ]
-
-
+const time = [
+  ['1', '1', '1', '1', '1'], 
+  ['0', '1', '1', '1', '0'], 
+  ['0', '0', '1', '0', '0'], 
+  ['0', '1', '0', '1', '0'], 
+  ['1', '1', '1', '1', '1']
+]
+const heart = [
+  ['0', '1', '0', '1', '0'], 
+  ['1', '0', '1', '0', '1'], 
+  ['1', '0', '0', '0', '1'], 
+  ['0', '1', '0', '1', '0'], 
+  ['0', '0', '1', '0', '0']
+]
+const zaiac = [
+  ['0', '1', '1', '0', '0'], 
+  ['0', '0', '0', '1', '1'], 
+  ['0', '1', '1', '1', '1'], 
+  ['1', '1', '1', '1', '0'], 
+  ['0', '1', '1', '1', '1']
+]
+const fontan = [
+  ['0', '1', '0', '1', '0'], 
+  ['1', '0', '1', '0', '1'], 
+  ['0', '0', '1', '0', '0'], 
+  ['1', '1', '1', '1', '1'], 
+  ['0', '1', '1', '1', '0']
+]
+let rndArt = zaiac;
 
 
 function countRowCells(matrixXXX) {
@@ -34,7 +61,7 @@ function countRowCells(matrixXXX) {
 
   return colCounts;
 }
-let resCol = countRowCells(smile);
+let resCol = countRowCells(rndArt);
 
 
 
@@ -56,7 +83,7 @@ function countColCells(matrixXXX) {
 
   return rowCounts;
 }
-let resRow = countColCells(smile);
+let resRow = countColCells(rndArt);
 
 
 
@@ -83,7 +110,15 @@ function rotateMatrix(matrix) {
   }
   return rotatedMatrix;
 }
+
+function reverseArr(matrix) {
+  for (let i = 0; i < matrix.length; i++) {
+    matrix[i] = matrix[i].reverse();
+  }
+}
+
 let rotatedMatrix = rotateMatrix(resCol);
+     reverseArr(rotatedMatrix);
 let flattenedMtrxCol = rotatedMatrix.flat();
 let flattenedMtrxRow = resRow.flat();
 
@@ -96,3 +131,45 @@ fillInClue(clueColMatrix, flattenedMtrxCol);
 function fillInClue(clueElArr, valueArr) {
   clueElArr.forEach((el, i) => el.innerHTML = valueArr[i]);
 }
+
+///////////////////////////////////////////////////////
+
+
+
+
+const container = document.querySelector('.container');
+function generateMarkup(blockClassName, rows, cols) {
+  let block = document.createElement('div');
+  block.className = blockClassName;
+
+  // Создаем rows строки
+  for (let i = 0; i < rows; i++) {
+    let row = document.createElement('div');
+    row.className = 'row';
+
+    // В каждой строке создаем cols ячеек
+    for (let j = 0; j < cols; j++) {
+      let cell = document.createElement('div');
+      cell.className = 'cell';
+      row.appendChild(cell);
+    }
+
+    block.appendChild(row);
+  }
+
+  // переписать чтобы сразусодзавались дивы а потом ячеййки
+  if (blockClassName == 'miniature') {
+    let wrap = document.createElement('div');
+    wrap.className = 'miniature-wrap';
+    wrap.appendChild(block);
+    container.appendChild(wrap);
+    return;
+  }
+  
+  container.appendChild(block);
+}
+
+generateMarkup('miniature', 5, 5);
+generateMarkup('clue-col', 3, 5);
+generateMarkup('clue-row', 5, 3);
+generateMarkup('playground', 5, 5);
