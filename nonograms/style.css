@@ -3,10 +3,14 @@
   font-family: sans-serif;
 }
 
-.container {
+body {
+  height: 100vh;
   display: grid;
+  align-items: center;
   justify-content: center;
-  grid-template-columns: 150px 250px;
+}
+
+.container {
 }
 
 .row {
@@ -18,7 +22,7 @@
   width: 50px;
   height: 50px;
   border: 1px solid #666;
-  transition: all .3s;
+  transition: all .25s ease-in-out;
 }
 .cell--black {
   background-color: #000;
@@ -40,17 +44,28 @@
   display: flex;
   justify-content: center;
   align-items: center;
-  background-color: rgb(180, 181, 220);
+  background-color: rgb(200, 200, 230);
   font-size: 20px;
   font-weight: bold;
+  user-select: none;
 }
 
 .miniature-wrap {
   margin: auto;
 }
 .miniature .cell {
-  border-color: #ddd;
+  border-color: #eee;
 }
 .clue-col {}
 .clue-row {}
 .playground {}
+
+
+.header {
+  width: 400px;
+}
+.main {
+  display: grid;
+  justify-content: center;
+  grid-template-columns: 150px 250px;
+}

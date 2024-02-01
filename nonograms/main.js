@@ -1,7 +1,24 @@
-const cells = document.querySelectorAll('.cell');
+const bodyNode = document.querySelector('body');
+bodyNode.innerHTML = 
+`<div class="container">
+  <header class='header'>Nonogram</header>
+  <main class='main'></main>
+</div>
+<script src="main.js"></script>`;
 
+const mainNode = document.querySelector('.main');
+function generateGame() {
+  generateMarkup('miniature', 5, 5);
+  generateMarkup('clue-col', 3, 5);
+  generateMarkup('clue-row', 5, 3);
+  generateMarkup('playground', 5, 5);
+}
+generateGame();
+
+const cells = document.querySelectorAll('.cell');
 cells.forEach(el => el.addEventListener('click', (e) => {
   e.target.classList.toggle('cell--black');
+  statusGame();
 }));
 
 
@@ -10,37 +27,33 @@ const smile = [
   ['1', '1', '0', '1', '1'], 
   ['0', '0', '0', '0', '0'], 
   ['1', '0', '0', '0', '1'], 
-  ['0', '1', '1', '1', '0']
-]
-const time = [
+  ['0', '1', '1', '1', '0']];
+const sandglass = [
   ['1', '1', '1', '1', '1'], 
   ['0', '1', '1', '1', '0'], 
   ['0', '0', '1', '0', '0'], 
   ['0', '1', '0', '1', '0'], 
-  ['1', '1', '1', '1', '1']
-]
+  ['1', '1', '1', '1', '1']];
 const heart = [
   ['0', '1', '0', '1', '0'], 
   ['1', '0', '1', '0', '1'], 
   ['1', '0', '0', '0', '1'], 
   ['0', '1', '0', '1', '0'], 
-  ['0', '0', '1', '0', '0']
-]
-const zaiac = [
+  ['0', '0', '1', '0', '0']];
+const hare = [
   ['0', '1', '1', '0', '0'], 
   ['0', '0', '0', '1', '1'], 
   ['0', '1', '1', '1', '1'], 
   ['1', '1', '1', '1', '0'], 
-  ['0', '1', '1', '1', '1']
-]
-const fontan = [
+  ['0', '1', '1', '1', '1']];
+const fountain = [
   ['0', '1', '0', '1', '0'], 
   ['1', '0', '1', '0', '1'], 
   ['0', '0', '1', '0', '0'], 
   ['1', '1', '1', '1', '1'], 
-  ['0', '1', '1', '1', '0']
-]
-let rndArt = zaiac;
+  ['0', '1', '1', '1', '0']];
+let patternIMG;
+startGame();  // ПОЕХАЛИ!!!!!!!!!!!
 
 
 function countRowCells(matrixXXX) {
@@ -61,7 +74,7 @@ function countRowCells(matrixXXX) {
 
   return colCounts;
 }
-let resCol = countRowCells(rndArt);
+let resCol = countRowCells(patternIMG);
 
 
 
@@ -83,7 +96,7 @@ function countColCells(matrixXXX) {
 
   return rowCounts;
 }
-let resRow = countColCells(rndArt);
+let resRow = countColCells(patternIMG);
 
 
 
@@ -118,7 +131,7 @@ function reverseArr(matrix) {
 }
 
 let rotatedMatrix = rotateMatrix(resCol);
-     reverseArr(rotatedMatrix);
+reverseArr(rotatedMatrix);
 let flattenedMtrxCol = rotatedMatrix.flat();
 let flattenedMtrxRow = resRow.flat();
 
@@ -137,7 +150,6 @@ function fillInClue(clueElArr, valueArr) {
 
 
 
-const container = document.querySelector('.container');
 function generateMarkup(blockClassName, rows, cols) {
   let block = document.createElement('div');
   block.className = blockClassName;
@@ -162,14 +174,61 @@ function generateMarkup(blockClassName, rows, cols) {
     let wrap = document.createElement('div');
     wrap.className = 'miniature-wrap';
     wrap.appendChild(block);
-    container.appendChild(wrap);
+    mainNode.appendChild(wrap);
     return;
   }
   
-  container.appendChild(block);
+  mainNode.appendChild(block);
 }
 
-generateMarkup('miniature', 5, 5);
-generateMarkup('clue-col', 3, 5);
-generateMarkup('clue-row', 5, 3);
-generateMarkup('playground', 5, 5);
+
+// Секундомер
+let sec = 0;
+let min = 0;
+let stopwatch;
+let timerID;
+const header = document.querySelector('.header');
+function startTimer() {
+  timerID = setInterval(function() {
+    sec++;
+    if (sec >= 60) {
+      sec = 0;
+      min++;
+    }
+    stopwatch = ((min < 10 ? "0" : "") + min + ":" + (sec < 10 ? "0" : "") + sec);
+    header.innerHTML = stopwatch;
+  }, 1000);
+}
+
+function stopTimer() {
+  clearInterval(timerID);
+}
+startTimer(); // Запуск таймера
+
+
+function statusGame() {
+  let cls = document.querySelectorAll('.playground .cell');
+  let canvasIMG = [];
+  for (let i = 0; i < cls.length; i++) {
+    if (cls[i].classList.contains('cell--black')) {
+      canvasIMG[i] = '1';
+    } else {
+      canvasIMG[i] = '0';
+    }
+  }
+  if (canvasIMG.toString() === patternIMG.flat().toString()) {
+    stopGame();
+  }
+}
+
+
+function startGame() {
+  // Должен запускать таймер.
+  // Должен рандомно выбирать картинку.
+  patternIMG = heart;
+}
+
+function stopGame() {
+  alert(`УРА!!! Вы справились за ${stopwatch}`);
+  stopTimer(); // Остановка таймера
+}
