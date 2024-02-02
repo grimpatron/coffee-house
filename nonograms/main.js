@@ -1,88 +1,93 @@
 const bodyNode = document.querySelector('body');
-bodyNode.innerHTML = 
-`<div class="container">
-  <header class='header'>Nonogram</header>
-  <main class='main'></main>
-</div>
-<script src="main.js"></script>`;
+const scriptNode = document.querySelector('script');
+let container = document.createElement('div');
+container.className = 'container';
+container.innerHTML = `
+<header class='header'>
+  <div class="timer">00:00</div>
+  <button class="btn menu">Menu</button>
+  <button class="btn restart">Reset game</button>
+  <button class="btn restart">Records</button>
+</header>
+<main class='main'></main>
+<audio class="js-win-sound" src="audio/sound-gong.ogg"></audio>
+<audio class="js-paint" src="audio/paint.mp3"></audio>
+<audio class="js-cross" src="audio/cross.mp3"></audio>
+<audio class="js-empty" src="audio/empty.mp3"></audio>`;
+bodyNode.insertBefore(container, scriptNode);
 
+const easyLevelParams = [5, 3, '10%'];      //  80% / 8 = 10%;
+const normalLevelParams = [10, 5, '5.33%']; //  80% / 15 = 5.33% или на 14?
+const hardLevelParams = [15, 5, '4%'];      //  80% / 20 = 4%
+let curLevelParams = easyLevelParams;
 const mainNode = document.querySelector('.main');
 function generateGame() {
-  generateMarkup('miniature', 5, 5);
-  generateMarkup('clue-col', 3, 5);
-  generateMarkup('clue-row', 5, 3);
-  generateMarkup('playground', 5, 5);
+  generateMarkup('miniature', curLevelParams[0], curLevelParams[0]);
+  generateMarkup('clue-col', curLevelParams[1], curLevelParams[0]);
+  generateMarkup('clue-row', curLevelParams[0], curLevelParams[1]);
+  generateMarkup('playground', curLevelParams[0], curLevelParams[0]);
 }
 generateGame();
 
-const cells = document.querySelectorAll('.cell');
+const cells = document.querySelectorAll('.playground .cell');
 cells.forEach(el => el.addEventListener('click', (e) => {
+  e.target.classList.remove('cell--cross');
   e.target.classList.toggle('cell--black');
   statusGame();
+  playEffect(e.target);
+}));
+cells.forEach(el => el.addEventListener('contextmenu', (e) => {
+  e.preventDefault(); // Убрал контекстное меню
+  e.target.classList.remove('cell--black');
+  e.target.classList.toggle('cell--cross');
+  playEffect(e.target);
 }));
 
 
+
 const smile = [
-  ['1', '1', '0', '1', '1'], 
-  ['1', '1', '0', '1', '1'], 
-  ['0', '0', '0', '0', '0'], 
-  ['1', '0', '0', '0', '1'], 
-  ['0', '1', '1', '1', '0']];
+  ['1','1','0','1','1'],
+  ['1','1','0','1','1'],
+  ['0','0','0','0','0'],
+  ['1','0','0','0','1'],
+  ['0','1','1','1','0']];
 const sandglass = [
-  ['1', '1', '1', '1', '1'], 
-  ['0', '1', '1', '1', '0'], 
-  ['0', '0', '1', '0', '0'], 
-  ['0', '1', '0', '1', '0'], 
-  ['1', '1', '1', '1', '1']];
+  ['1','1','1','1','1'],
+  ['0','1','1','1','0'],
+  ['0','0','1','0','0'],
+  ['0','1','0','1','0'],
+  ['1','1','1','1','1']];
 const heart = [
-  ['0', '1', '0', '1', '0'], 
-  ['1', '0', '1', '0', '1'], 
-  ['1', '0', '0', '0', '1'], 
-  ['0', '1', '0', '1', '0'], 
-  ['0', '0', '1', '0', '0']];
+  ['0','1','0','1','0'],
+  ['1','0','1','0','1'],
+  ['1','0','0','0','1'],
+  ['0','1','0','1','0'],
+  ['0','0','1','0','0']];
 const hare = [
-  ['0', '1', '1', '0', '0'], 
-  ['0', '0', '0', '1', '1'], 
-  ['0', '1', '1', '1', '1'], 
-  ['1', '1', '1', '1', '0'], 
-  ['0', '1', '1', '1', '1']];
+  ['0','1','1','0','0'],
+  ['0','0','0','1','1'],
+  ['0','1','1','1','1'],
+  ['1','1','1','1','0'],
+  ['0','1','1','1','1']];
 const fountain = [
-  ['0', '1', '0', '1', '0'], 
-  ['1', '0', '1', '0', '1'], 
-  ['0', '0', '1', '0', '0'], 
-  ['1', '1', '1', '1', '1'], 
-  ['0', '1', '1', '1', '0']];
+  ['0','1','0','1','0'],
+  ['1','0','1','0','1'],
+  ['0','0','1','0','0'],
+  ['1','1','1','1','1'],
+  ['0','1','1','1','0']];
 let patternIMG;
-startGame();  // ПОЕХАЛИ!!!!!!!!!!!
+startGame();  // ПОЕХАЛИ!!!
 
 
-function countRowCells(matrixXXX) {
-  let colCounts = matrixXXX[0].map((col, i) => {
-    let counts = [];
+
+
+function countCells(mtrx, isRow = true) {
+  let countsArr = isRow ? mtrx : mtrx[0].map((col, i) => mtrx.map(row => row[i]));
+  
+  let counts = countsArr.map(array => {
     let count = 0;
-    for (let row of matrixXXX) {
-      if (row[i] === '1') {
-        count++;
-      } else if (count > 0) {
-        counts.push(count);
-        count = 0;
-      }
-    }
-    if (count > 0) counts.push(count);
-    return counts;
-  });
-
-  return colCounts;
-}
-let resCol = countRowCells(patternIMG);
-
-
-
-function countColCells(matrixXXX) {
-  let rowCounts = matrixXXX.map(row => {
     let counts = [];
-    let count = 0;
-    for (let cell of row) {
+    for (let cell of array) {
       if (cell === '1') {
         count++;
       } else if (count > 0) {
@@ -94,9 +99,14 @@ function countColCells(matrixXXX) {
     return counts;
   });
 
-  return rowCounts;
+  return counts;
 }
-let resRow = countColCells(patternIMG);
+let resRow = countCells(patternIMG, true);
+let resCol = countCells(patternIMG, false);
+
+
+
+
 
 
 
@@ -134,7 +144,6 @@ let rotatedMatrix = rotateMatrix(resCol);
 reverseArr(rotatedMatrix);
 let flattenedMtrxCol = rotatedMatrix.flat();
 let flattenedMtrxRow = resRow.flat();
-
 
 const clueRowMatrix = document.querySelectorAll('.clue-row .cell');
 const clueColMatrix = document.querySelectorAll('.clue-col .cell');
@@ -185,9 +194,9 @@ function generateMarkup(blockClassName, rows, cols) {
 // Секундомер
 let sec = 0;
 let min = 0;
-let stopwatch;
+let endTime;
 let timerID;
-const header = document.querySelector('.header');
+const timerNode = document.querySelector('.timer');
 function startTimer() {
   timerID = setInterval(function() {
     sec++;
@@ -195,8 +204,8 @@ function startTimer() {
       sec = 0;
       min++;
     }
-    stopwatch = ((min < 10 ? "0" : "") + min + ":" + (sec < 10 ? "0" : "") + sec);
-    header.innerHTML = stopwatch;
+    endTime = ((min < 10 ? "0" : "") + min + ":" + (sec < 10 ? "0" : "") + sec);
+    timerNode.innerHTML = endTime;
   }, 1000);
 }
 
@@ -205,6 +214,18 @@ function stopTimer() {
 }
 startTimer(); // Запуск таймера
 
+
+function startGame() {
+  // Должен запускать таймер.
+  // Должен рандомно выбирать картинку.
+  patternIMG = heart;
+}
+
+function stopGame() {
+  stopTimer(); // Остановка таймера
+  document.querySelector('.js-win-sound').play();
+  alert(`УРА!!! Вы справились за ${endTime}`);
+}
 
 function statusGame() {
   let cls = document.querySelectorAll('.playground .cell');
@@ -221,14 +242,46 @@ function statusGame() {
   }
 }
 
-
-function startGame() {
-  // Должен запускать таймер.
-  // Должен рандомно выбирать картинку.
-  patternIMG = heart;
+function playEffect(target) {
+  if (target.classList.contains('cell--black')) {
+    document.querySelector('.js-paint').play();
+  } else if (target.classList.contains('cell--cross')) {
+    document.querySelector('.js-cross').play();
+  } else if (!target.classList.contains('cell--cross') && 
+             !target.classList.contains('cell--black')) {
+    document.querySelector('.js-empty').play();
+  }
 }
 
-function stopGame() {
-  alert(`УРА!!! Вы справились за ${stopwatch}`);
-  stopTimer(); // Остановка таймера
-}
+
+// function generateNumber() {
+//   return Math.floor(Math.random() * 5);
+// }
+
+
+
+
+////////////////////////////////////////////////////////////////////////////////////
+// Сделать систему сохранений!!
+// let recordList = [];
+// if (localStorage.getItem('random-game-records')) {
+//   recordList = JSON.parse(localStorage.getItem('random-game-records'));
+// } else localStorage.setItem('random-game-records', JSON.stringify(recordList));
+
+// function saveScore(scoreValue) {
+//   if (recordList.length < 10) {
+//     recordList.push(scoreValue);
+//   } else if (scoreValue > recordList[recordList.length - 1]) {
+//     recordList.pop();
+//     recordList.push(scoreValue);
+//   }
+//   recordList = recordList.sort(function(a, b) { return b - a; });
+//   localStorage.setItem('random-game-records', JSON.stringify(recordList));
+//   showRecords();
+// }
+
+// function showRecords() {
+//   let recStr = '';
+//   for (let recordEl of recordList) recStr += `<li>${recordEl}</li>`;
+//   document.getElementById('records').innerHTML = recStr;
+// }
