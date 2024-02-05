@@ -1,33 +1,49 @@
 const bodyNode = document.querySelector('body');
 const scriptNode = document.querySelector('script');
-let container = document.createElement('div');
-container.className = 'container';
-container.innerHTML = `
-<header class='header'>
-  <div class="timer">00:00</div>
-  <button class="btn menu">Menu</button>
-  <button class="btn restart">Reset game</button>
-  <button class="btn restart">Records</button>
-</header>
-<main class='main'></main>
-<audio class="js-win-sound" src="audio/sound-gong.ogg"></audio>
-<audio class="js-paint" src="audio/paint.mp3"></audio>
-<audio class="js-cross" src="audio/cross.mp3"></audio>
-<audio class="js-empty" src="audio/empty.mp3"></audio>`;
+const container = document.createElement('div');
 bodyNode.insertBefore(container, scriptNode);
+// 0) разделить на области(собрать по сымыслу и блок вызовов функций)
+// 1) создавать контейнер.
+// 2) создавать первый экран.
+// 3) создавать игровое поле.
+
+generateGameLayout();
+function generateGameLayout() {
+  container.className = 'container';
+  container.innerHTML = `
+  <header class='header'>
+    <div class="timer">00:00</div>
+    <button class="btn btn--menu" id="menu-game">Menu</button>
+    <button class="btn btn--restart" id="restart-game">Reset game</button>
+    <button class="btn btn--records">Records</button>
+  </header>
+  <main class='main main--5'></main>
+  <audio class="js-win-sound" src="audio/sound-gong.ogg"></audio>
+  <audio class="js-paint" src="audio/paint.mp3"></audio>
+  <audio class="js-cross" src="audio/cross.mp3"></audio>
+  <audio class="js-empty" src="audio/empty.mp3"></audio>`;
+}
 
 const easyLevelParams = [5, 3, '10%'];      //  80% / 8 = 10%;
 const normalLevelParams = [10, 5, '5.33%']; //  80% / 15 = 5.33% или на 14?
 const hardLevelParams = [15, 5, '4%'];      //  80% / 20 = 4%
-let curLevelParams = easyLevelParams;
+// const levelParams = {
+//   easy: [5, 3, '10%'],
+//   normal: [10, 5, '5.33%'],
+//   hard: [15, 5, '4%']
+// }
 const mainNode = document.querySelector('.main');
-function generateGame() {
-  generateMarkup('miniature', curLevelParams[0], curLevelParams[0]);
-  generateMarkup('clue-col', curLevelParams[1], curLevelParams[0]);
-  generateMarkup('clue-row', curLevelParams[0], curLevelParams[1]);
-  generateMarkup('playground', curLevelParams[0], curLevelParams[0]);
+const timerNode = document.querySelector('.timer');
+
+
+
+function generateGame(LevelParams) {
+  let curLevelParams = LevelParams;
+  generateMarkup('miniature', curLevelParams[0], curLevelParams[0], curLevelParams[0]);
+  generateMarkup('clue-col', curLevelParams[0], curLevelParams[1], curLevelParams[0]);
+  generateMarkup('clue-row', curLevelParams[0], curLevelParams[0], curLevelParams[1]);
+  generateMarkup('playground', curLevelParams[0], curLevelParams[0], curLevelParams[0]);
 }
-generateGame();
 
 const cells = document.querySelectorAll('.playground .cell');
 cells.forEach(el => el.addEventListener('click', (e) => {
@@ -43,8 +59,11 @@ cells.forEach(el => el.addEventListener('contextmenu', (e) => {
   playEffect(e.target);
 }));
 
-
-
+/////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+// const fs = require('node:fs');
+// const exp = require('patterns.js');
+// import exp from "patterns.js";
+// console.log(exp);
 const smile = [
   ['1','1','0','1','1'],
   ['1','1','0','1','1'],
@@ -75,51 +94,81 @@ const fountain = [
   ['0','0','1','0','0'],
   ['1','1','1','1','1'],
   ['0','1','1','1','0']];
+  const leaf = [
+    ['0','0','0','0','1','1','1','1','1','1'],
+    ['0','0','0','1','0','1','0','1','0','1'],
+    ['0','0','1','1','0','1','0','1','1','0'],
+    ['0','1','0','1','0','1','1','0','1','0'],
+    ['0','1','0','1','1','1','1','1','1','0'],
+    ['0','1','0','1','1','0','0','0','1','0'],
+    ['0','1','1','1','1','1','1','1','1','0'],
+    ['0','0','1','0','0','0','0','1','0','0'],
+    ['0','1','0','1','1','1','1','0','0','0'],
+    ['1','1','0','0','0','0','0','0','0','0']];
 let patternIMG;
-startGame();  // ПОЕХАЛИ!!!
+
+let resRow;
+let resCol;
+// let rotatedMatrix;  // избавится от этой перемемнной
+let flattenedMtrxCol;
+let flattenedMtrxRow;
+let clueRowMatrix;
+let clueColMatrix;
+
+// Секундомер
+let timerSec = 0;
+let timerMin = 0;
+let timerRes = '';
+let timerID;
 
 
 
 
-function countCells(mtrx, isRow = true) {
-  let countsArr = isRow ? mtrx : mtrx[0].map((col, i) => mtrx.map(row => row[i]));
-  
-  let counts = countsArr.map(array => {
-    let count = 0;
+function countCells(pttrn, isRow = true) {
+  let countsArr = isRow ? pttrn : pttrn[0].map((_, i) => pttrn.map(row => row[i]));
+  return countsArr.map(array => {
     let counts = [];
-    for (let cell of array) {
+    let count = 0;
+    array.forEach(cell => {
       if (cell === '1') {
         count++;
       } else if (count > 0) {
         counts.push(count);
         count = 0;
       }
-    }
+    });
     if (count > 0) counts.push(count);
     return counts;
   });
-
-  return counts;
 }
-let resRow = countCells(patternIMG, true);
-let resCol = countCells(patternIMG, false);
 
 
 
-
-
+startGame();  // ПОЕХАЛИ!!!
+blalba(); // создание подсказки!!!
+function blalba(){
+  resCol = countCells(patternIMG, false);
+  resRow = countCells(patternIMG, true);
+  resCol = addEmptyValues(resCol, 5);
+  resRow = addEmptyValues(resRow, 5);
+  resCol = rotateMatrix(resCol);
+  reverseArr(resCol);
+  flattenedMtrxCol = resCol.flat();
+  flattenedMtrxRow = resRow.flat();
+  clueRowMatrix = document.querySelectorAll('.clue-row .cell');
+  clueColMatrix = document.querySelectorAll('.clue-col .cell');
+  fillInClue(clueRowMatrix, flattenedMtrxRow);
+  fillInClue(clueColMatrix, flattenedMtrxCol);
+}
 
 
 // заполняем пустыми строками отсутсвующие ячейки в подсказках.
-function addEmptyValues(arr) {
+function addEmptyValues(arr, wdt) {
   return arr.map(subArr => {
-    while (subArr.length < 3) { subArr.unshift('') }
-    return subArr.slice(0, 3);
+    while (subArr.length < wdt) { subArr.unshift('') }
+    return subArr.slice(0, wdt);
   });
 }
-resCol = addEmptyValues(resCol);
-resRow = addEmptyValues(resRow);
-
 
 
 // переворачивает матрицу на 90 против часовой
@@ -140,91 +189,85 @@ function reverseArr(matrix) {
   }
 }
 
-let rotatedMatrix = rotateMatrix(resCol);
-reverseArr(rotatedMatrix);
-let flattenedMtrxCol = rotatedMatrix.flat();
-let flattenedMtrxRow = resRow.flat();
-
-const clueRowMatrix = document.querySelectorAll('.clue-row .cell');
-const clueColMatrix = document.querySelectorAll('.clue-col .cell');
-fillInClue(clueRowMatrix, flattenedMtrxRow);
-fillInClue(clueColMatrix, flattenedMtrxCol);
-
 function fillInClue(clueElArr, valueArr) {
   clueElArr.forEach((el, i) => el.innerHTML = valueArr[i]);
 }
 
-///////////////////////////////////////////////////////
+/////////////////////////////////////////////////////////////////////////////
 
 
-
-
-function generateMarkup(blockClassName, rows, cols) {
+function generateMarkup(blockClassName, size, rows, cols) {
   let block = document.createElement('div');
-  block.className = blockClassName;
+  // block.className = blockClassName;
+  block.classList.add(blockClassName);
+  mainNode.className = `main main--${size}`;
 
-  // Создаем rows строки
   for (let i = 0; i < rows; i++) {
     let row = document.createElement('div');
-    row.className = 'row';
+    row.className = 'row';  // Создаем строки
 
-    // В каждой строке создаем cols ячеек
     for (let j = 0; j < cols; j++) {
       let cell = document.createElement('div');
-      cell.className = 'cell';
+      cell.className = `cell cell--${size}`; // В каждой строке создаем ячейки
       row.appendChild(cell);
     }
-
     block.appendChild(row);
   }
 
-  // переписать чтобы сразусодзавались дивы а потом ячеййки
+  let wrap;
   if (blockClassName == 'miniature') {
-    let wrap = document.createElement('div');
+    block.classList.add(`miniature--${size}`);
+    wrap = document.createElement('div');
     wrap.className = 'miniature-wrap';
     wrap.appendChild(block);
-    mainNode.appendChild(wrap);
-    return;
-  }
+  } else { wrap = block }
   
-  mainNode.appendChild(block);
+  mainNode.appendChild(wrap);
 }
 
 
-// Секундомер
-let sec = 0;
-let min = 0;
-let endTime;
-let timerID;
-const timerNode = document.querySelector('.timer');
+// startTimer(); // Запуск таймера
 function startTimer() {
   timerID = setInterval(function() {
-    sec++;
-    if (sec >= 60) {
-      sec = 0;
-      min++;
+    timerSec++;
+    if (timerSec >= 60) {
+      timerSec = 0;
+      timerMin++;
     }
-    endTime = ((min < 10 ? "0" : "") + min + ":" + (sec < 10 ? "0" : "") + sec);
-    timerNode.innerHTML = endTime;
+    timerRes = ((timerMin < 10 ? "0" : "") + timerMin + ":" + (timerSec < 10 ? "0" : "") + timerSec);
+    timerNode.innerHTML = timerRes;
   }, 1000);
 }
 
 function stopTimer() {
   clearInterval(timerID);
 }
-startTimer(); // Запуск таймера
 
-
+document.querySelector('#menu-game').addEventListener('click', startGame);
 function startGame() {
-  // Должен запускать таймер.
-  // Должен рандомно выбирать картинку.
-  patternIMG = heart;
+  // Нужно создать все необходимые переменные и поместить остальной код в функции.
+  startTimer(timerID);// Должен запускать таймер.
+  generateGame(easyLevelParams);
+  patternIMG = smile;
 }
 
 function stopGame() {
   stopTimer(); // Остановка таймера
   document.querySelector('.js-win-sound').play();
-  alert(`УРА!!! Вы справились за ${endTime}`);
+  alert(`УРА!!! Вы справились за ${timerRes}`);
+}
+
+document.querySelector('#restart-game').addEventListener('click', resetGame);
+function resetGame() {
+  // patternIMG = leaf; // незачем!
+  cells.forEach(el => {
+    el.classList.remove('cell--cross');
+    el.classList.remove('cell--black');
+  });
+  clearInterval(timerID);
+  timerSec = 0;
+  timerMin = 0;
+  startTimer(timerID);
 }
 
 function statusGame() {
@@ -253,6 +296,8 @@ function playEffect(target) {
   }
 }
 
+////////////////////////////////////////////////////////////////////////////////////
+
 
 // function generateNumber() {
 //   return Math.floor(Math.random() * 5);
@@ -260,8 +305,6 @@ function playEffect(target) {
 
 
 
-
-////////////////////////////////////////////////////////////////////////////////////
 // Сделать систему сохранений!!
 // let recordList = [];
 // if (localStorage.getItem('random-game-records')) {
