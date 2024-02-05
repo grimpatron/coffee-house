@@ -1,0 +1,152 @@
+* {
+  margin: 0;
+  box-sizing: border-box;
+}
+
+body {
+  height: 100vh;
+  display: grid;
+  align-items: center;
+  justify-content: center;
+  font-family: sans-serif;
+}
+
+.container {}
+
+.row {
+  display: flex;
+  justify-content: center;
+}
+
+.cell {
+  border: 1px solid #666;
+  transition: all .2s ease-in-out;
+}
+.cell--5 {
+  width: 50px;
+  height: 50px;
+}
+.cell--10 {
+  width: 30px;
+  height: 30px;
+}
+.cell--black {
+  /* background-color: #000; */
+  background-color: rgb(40, 40, 60);
+  box-shadow: inset 2px 2px 10px -1px;
+}
+.cell--cross {
+  background-image: url(cross.svg);
+  background-size: cover;
+  background-position: center;
+  background-repeat: no-repeat;
+}
+
+
+.playground .cell:hover {
+  background-color: lightblue;
+  cursor: pointer;
+  /* border-color: #333; */
+}
+.playground .cell--black:hover {
+  background-color: rgb(65, 65, 90);
+}
+.miniature {
+  /* height: 150px; */
+}
+.miniature .cell {
+  aspect-ratio: 1 / 1;
+  border-color: #eee;
+}
+.miniature--5 .cell {
+  height: 20%;
+  width: 20%;
+}
+.miniature--10 .cell {
+  height: 10%;
+  width: 10%;
+}
+.clue-col .cell,
+.clue-row .cell {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  background-color: rgb(200, 200, 230);
+  font-size: 20px;
+  font-weight: bold;
+  user-select: none;
+  box-shadow: inset 2px 2px 10px -1px rgb(150, 150, 200);
+}
+
+.miniature-wrap {
+  margin: auto;
+  width: 80%;
+  height: 80%;
+}
+
+.clue-col {}
+.clue-row {}
+.playground {}
+
+
+.header {
+  display: flex;
+  justify-content: space-around;
+  width: 100%;
+  font-size: 20px;
+  font-family: monospace;
+  padding: 4px;
+  margin-bottom: 12px;
+  border: 2px solid #999;
+  box-shadow: 4px 4px 8px 0px rgba(34, 60, 80, 0.3);
+  border-radius: 10px;
+}
+.main {
+  display: grid;
+  justify-content: center;
+  box-shadow: 4px 4px 8px 0px rgba(34, 60, 80, 0.3);
+}
+.main--5 {
+  grid-template-columns: 150px 250px;
+}
+.main--10 {
+  grid-template-columns: 150px 300px;
+}
+
+.btn {
+  border-radius: 12px;
+  background-color: transparent;
+  border: 2px solid #666;
+  transition: all .2s ease-in-out;
+  cursor: pointer;
+  font-weight: bold;
+}
+.btn:hover {
+  background-color: #666;
+  color: #fff;
+}
+
+.timer {
+  min-width: 52px;
+}
+
+.menu {
+  padding: 16px;
+  border: 1px solid #000;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  max-width: 400px;
+  gap: 20px 10px;
+  background: linear-gradient(45deg, rgb(152, 207, 195), rgb(183, 247, 250));
+}
+.menu-title {
+  text-transform: uppercase;
+}
+.menu-level {
+  padding: 10px;
+  min-width: 160px;
+  font-size: 18px;
+  cursor: pointer;
+  border-radius: 5px;
+}
