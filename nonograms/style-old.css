@@ -2,6 +2,7 @@
   margin: 0;
   box-sizing: border-box;
 }
+
 body {
   height: 100vh;
   display: grid;
@@ -9,35 +10,14 @@ body {
   justify-content: center;
   font-family: sans-serif;
 }
+
 ul {
   list-style: none;
   padding: 0;
 }
-.body--black {
-  color: #fff;
-  background-color: #222;
-}
-.body--black .menu-title,
-.body--black .menu-subtitle,
-.body--black .list-item {
-  color: #000;
-}
-.body--black .cell {
-  border: 1px solid #bbb;
-  background-color: #1a2645;
-}
-.body--black .cell--black {
-  background-color: #7697a3;
-  box-shadow: inset 2px 2px 10px -1px;
-}
-.body--black .clue-col .cell,
-.body--black .clue-row .cell {
-  background-color: #1e2f30;
-  box-shadow: none;
-}
-.body--black .btn {
-  color: #fff;
-}
+
+/* .container {} */
+
 .row {
   display: flex;
   justify-content: center;
@@ -47,9 +27,10 @@ ul {
 .clue-row .row:nth-child(5n + 5) {
   border-bottom: 2px solid #333;
 }
+
 .cell {
   border: 1px solid #666;
-  transition: all 0.2s ease-in-out;
+  transition: all .2s ease-in-out;
 }
 .cell:nth-child(5n + 5) {
   border-right: 2px solid #333;
@@ -67,7 +48,8 @@ ul {
   height: 25px;
 }
 .cell--black {
-  background-color: #28283c;
+  /* background-color: #000; */
+  background-color: rgb(40, 40, 60);
   box-shadow: inset 2px 2px 10px -1px;
 }
 .cell--cross {
@@ -76,13 +58,17 @@ ul {
   background-position: center;
   background-repeat: no-repeat;
 }
+
+
 .playground .cell:hover {
   background-color: lightblue;
   cursor: pointer;
+  /* border-color: #333; */
 }
 .playground .cell--black:hover {
-  background-color: #41415a;
+  background-color: rgb(65, 65, 90);
 }
+/* .miniature {} */
 .miniature .cell {
   aspect-ratio: 1 / 1;
   border-color: #eee;
@@ -104,18 +90,26 @@ ul {
   display: flex;
   justify-content: center;
   align-items: center;
-  background-color: #c8c8e6;
+  background-color: rgb(200, 200, 230);
   font-size: 20px;
   font-weight: bold;
   user-select: none;
-  box-shadow: inset 2px 2px 10px -1px #9696c8;
+  box-shadow: inset 2px 2px 10px -1px rgb(150, 150, 200);
 }
+
 .miniature-wrap {
   margin: auto;
   width: 80%;
   height: 80%;
 }
+
+/* .clue-col {} */
+/* .clue-row {} */
+/* .playground {} */
+
+
 .header {
+  /* display: flex; */
   display: none;
   justify-content: space-around;
   width: 100%;
@@ -133,19 +127,21 @@ ul {
   box-shadow: 4px 4px 8px 0px rgba(34, 60, 80, 0.3);
 }
 .main--5 {
-  grid-template-columns: 150px 250px;
+  grid-template-columns: 150px 250px; /*400px*/
 }
 .main--10 {
-  grid-template-columns: 150px 300px;
+  grid-template-columns: 150px 300px; /*450px*/
 }
 .main--15 {
-  grid-template-columns: 125px 375px;
+  grid-template-columns: 125px 375px; /*500px*/
 }
+
 .btn {
+  /* font-size: 14px; */
   border-radius: 10px;
   background-color: transparent;
   border: 2px solid #666;
-  transition: all 0.2s ease-in-out;
+  transition: all .2s ease-in-out;
   cursor: pointer;
   font-weight: bold;
 }
@@ -153,20 +149,22 @@ ul {
   background-color: #666;
   color: #fff;
 }
+
 .timer {
   min-width: 52px;
 }
+
 .menu,
 .menu-list {
   margin: auto;
   padding: 16px;
-  border: 20px solid #98cfc3;
+  border: 20px solid rgb(152, 207, 195);
   display: flex;
   flex-direction: column;
   align-items: center;
   max-width: 400px;
   gap: 20px 10px;
-  background: linear-gradient(45deg, #98cfc3, #b7f7fa);
+  background: linear-gradient(45deg, rgb(152, 207, 195), rgb(183, 247, 250));
   box-shadow: 6px 6px 8px 0px rgba(40, 60, 80, 0.4);
 }
 .menu-list {
@@ -185,44 +183,13 @@ ul {
 }
 .list-item {
   text-align: center;
-  border: 2px solid #5a5ac8;
-  transition: 0.2s all ease-in-out;
+  border: 2px solid rgb(90, 90, 200);
+  transition: .2s all ease-in-out;
 }
-.list-item--full {
+.list-item-full {
   text-align: center;
-  background: #6464a0;
+  background: rgb(100, 100, 160);
 }
 .list-item:hover {
-  background: #5a5ac8;
-}
-#btn-sound {
-  width: 40px;
-  height: 40px;
-  border-radius: 50%;
-  background: url(img/sound.svg) center no-repeat;
-  background-color: #7697a3;
-  background-size: 80%;
-  font-size: 0;
-  border: 4px solid #999;
-  margin-right: 20px;
-  cursor: pointer;
-  transition: all 0.2s;
-}
-#btn-sound:hover {
-  background-color: #90c0d1;
-}
-#btn-thema {
-  width: 40px;
-  height: 40px;
-  border-radius: 50%;
-  background: url(img/black-and-white.svg) center no-repeat;
-  background-color: #7697a3;
-  background-size: 80%;
-  font-size: 0;
-  border: 4px solid #999;
-  cursor: pointer;
-  transition: all 0.2s;
-}
-#btn-thema:hover {
-  background-color: #90c0d1;
+  background: rgb(90, 90, 200);
 }
