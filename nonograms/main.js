@@ -2,18 +2,23 @@ const bodyNode = document.querySelector('body');
 const scriptNode = document.querySelector('script');
 const container = document.createElement('div');
 bodyNode.insertBefore(container, scriptNode);
-// bodyNode.classList.add('body--black');
 
 
 const settings = document.createElement('div');
 bodyNode.prepend(settings);
 settings.classList.add('settings');
-settings.innerHTML = `<button id='btn-sound'>звук</button><button id='btn-thema'>тема</button>`;
+settings.innerHTML = `
+<button class="setting-btn" id="btn-sound">sound</button>
+<button class="setting-btn" id="btn-theme">theme</button>
+<button class="setting-btn" id="btn-score">score</button>
 
-// 0) разделить на области(собрать по сымыслу и блок вызовов функций)
-// 1) создавать контейнер.
-// 2) создавать первый экран.
-// 3) создавать игровое поле.
+<div class="modal" id="myModal">
+  <div class="modal-content">
+    <span class="modal-close">&times;</span>
+    <h2 class="record-header">List of records</h2>
+    <ul id='record-list'></ul>
+  </div>
+</div>`;
 
 generateGameLayout();
 function generateGameLayout() {
@@ -21,12 +26,12 @@ function generateGameLayout() {
   container.innerHTML = `
   <div class="menu">
     <h1 class="menu-title">Nonogram</h1>
-    <h2 class="menu-subtitle">Выберите сложность:</h2>
+    <h2 class="menu-subtitle">Select difficulty:</h2>
     <button class="menu-level menu-level--list" data-lvl='easy'>Easy (5x5)</button>
     <button class="menu-level menu-level--list" data-lvl='normal'>Normal (10x10)</button>
     <button class="menu-level menu-level--list" data-lvl='hard'>Hard (15x15)</button>
     <button class="menu-level menu-level--rand" data-lvl='random'>Random (??x??)</button>
-    <button class="menu-level menu-level--cont" data-lvl='continue'>Continue Game</button>
+    <button class="menu-level menu-level--cont" data-lvl='continue'>Continue Last Game</button>
   </div>
   <ul class="menu-list"></ul>
   <header class='header'>
@@ -263,7 +268,6 @@ let timerRes = '';
 let timerAct = false;
 let timerID;
 let LVLX;
-// let LVLX = e.target.dataset.level;
 let IMGX;
 
 
@@ -460,7 +464,7 @@ function fillInClue(clueElArr, valueArr) {
   clueElArr.forEach((el, i) => el.innerHTML = valueArr[i]);
 }
 
-/////////////////////////////////////////////////////////////////////////////
+/////////////////////////////////////////////////////////////////////////////////////////
 
 
 function generateMarkup(blockClassName, size, rows, cols) {
@@ -528,6 +532,25 @@ function stopGame() {
   stopTimer();
   document.querySelector('.js-win-sound').play();
   alert(`УРА!!! Вы справились за ${timerRes}`);
+  let ttiimmee = `${((gameProgressStatus.min < 10 ? "0" : "") + gameProgressStatus.min + ":" + (gameProgressStatus.sec < 10 ? "0" : "") + gameProgressStatus.sec)}`
+  let gameStat = {
+    time: ttiimmee,
+    image: gameProgressStatus.imgName,
+    difficulty: gameProgressStatus.size
+  }
+  saveScore(gameStat);
+  clearProgress();
+  saveProgress();
+}
+
+function clearProgress(){
+  gameProgressStatus.progress = [];
+  gameProgressStatus.sec = '';
+  gameProgressStatus.min = '';
+  gameProgressStatus.img = '';
+  gameProgressStatus.imgName = '';
+  gameProgressStatus.size = '';
+  gameProgressStatus.level = '';
 }
 
 const btnMenu = document.querySelector('#menu-game');
@@ -565,7 +588,7 @@ function solutionGame() {
     if (cntcnt >= clsCorrect.length) {
       clearInterval(domino);
     }
-  }, 50);
+  }, 20);
 }
 
 function statusGame(LVLX, IMGX) {
@@ -650,6 +673,8 @@ function playEffect(target) {
 
 
 let gameProgressStatus = {
+  sound: true,
+  themeAlt: false,
   img: '',
   imgName: '',
   size: '',
@@ -658,7 +683,8 @@ let gameProgressStatus = {
   sec: '',
   progress: []
 };
-let gameProgress = [];
+scoreArr = [];
+// let gameProgress = [];
 // if (localStorage.getItem('nonogram-progress')) {
 //   gameProgress = JSON.parse(localStorage.getItem('nonogram-progress'));
 // } else localStorage.setItem('nonogram-progress', JSON.stringify(recordList));
@@ -673,9 +699,36 @@ function loadProgress() {
   } else localStorage.setItem('non-prog-X', JSON.stringify(gameProgressStatus));
 } loadProgress();
 
+function loadScore() {
+  if (localStorage.getItem('non-score-X')) {
+    scoreArr = JSON.parse(localStorage.getItem('non-score-X'));
+  } else localStorage.setItem('non-score-X', JSON.stringify(scoreArr));
+  console.log(scoreArr);
+} loadScore();
+
 function saveProgress() {
   localStorage.setItem('non-prog-X', JSON.stringify(gameProgressStatus));
 }
+function saveScore(newResult) {
+  // console.log(newResult, newResult.time);
+  // console.log(convertTimeToNum(newResult.time), convertTimeToNum(scoreArr[scoreArr.length - 1].time));
+  if (scoreArr.length < 5) {
+    scoreArr.push(newResult);
+  } else if (convertTimeToNum(newResult.time) < convertTimeToNum(scoreArr[scoreArr.length - 1].time)) {
+    scoreArr.pop();
+    scoreArr.push(newResult);
+  }
+  scoreArr = scoreArr.sort(function(a, b) {
+    return convertTimeToNum(a.time) - convertTimeToNum(b.time); 
+  });
+  localStorage.setItem('non-score-X', JSON.stringify(scoreArr));
+}
+
+function convertTimeToNum(str) {
+  let newStr = str.replace(':', '');
+  return parseInt(newStr, 10);
+}
+
 // function saveScore(scoreValue) {
 //   if (recordList.length < 10) {
 //     recordList.push(scoreValue);
@@ -693,16 +746,95 @@ function saveProgress() {
 //   for (let recordEl of recordList) recStr += `<li>${recordEl}</li>`;
 //   document.getElementById('records').innerHTML = recStr;
 // }
-///////////////////////////////////////////////////////////////////////////////////
 
+
+///////////////////////////////////////////////////////////////////////////////////
 const btnSound = document.querySelector('#btn-sound');
-btnSound.addEventListener('click', offSound)
-function offSound(){
+btnSound.addEventListener('click', offSound);
+function offSound(svp){
   const soundArr = document.querySelectorAll('.js-sound');
-  console.log(soundArr);
-  soundArr.forEach(element => {
-    element.volume = 0;
-  });
+  if (gameProgressStatus.sound == false) {
+    soundArr.forEach(element => element.volume = 0);
+  } else soundArr.forEach(element => element.volume = 1);
+
+  if (svp) {
+    if (gameProgressStatus.sound == true) {
+      soundArr.forEach(element => element.volume = 0);
+      gameProgressStatus.sound = false;
+    } else {
+      soundArr.forEach(element => element.volume = 1);
+      gameProgressStatus.sound = true;
+    }
+  }
+
+  if (gameProgressStatus.sound == true) {
+    btnSound.style.backgroundImage = 'url(img/sound-on.svg)';
+  } else btnSound.style.backgroundImage = 'url(img/sound-off.svg)';
 }
 
-alert('Здравуй. Я сделал задание на 90%. Мне нужно закончить ещё несколько фич. Буду признателен если ты проверишь меня через какое-то время.');
+
+const btnTheme = document.querySelector('#btn-theme');
+btnTheme.addEventListener('click', changeTheme);
+function changeTheme(svp) {
+  if (gameProgressStatus.themeAlt == false) {
+    bodyNode.classList.remove('body--black');
+    gameProgressStatus.themeAlt = false;
+  } else {
+    bodyNode.classList.add('body--black');
+    gameProgressStatus.themeAlt = true;
+  }
+
+  if (svp) {
+    if (gameProgressStatus.themeAlt == true) {
+      bodyNode.classList.remove('body--black');
+      gameProgressStatus.themeAlt = false;
+    } else {
+      bodyNode.classList.add('body--black');
+      gameProgressStatus.themeAlt = true;
+    }
+  }
+}
+
+
+const modal = document.getElementById("myModal");
+const closeModal = document.querySelector(".modal-close");
+const btnScore = document.querySelector('#btn-score');
+btnScore.addEventListener('click', showScore);
+function showScore(){
+  modal.style.display = "block";
+  generateRecords();
+}
+closeModal.onclick = function() {
+  modal.style.display = "none";
+}
+window.onclick = function(event) {
+  if (event.target == modal) {
+    modal.style.display = "none";
+  }
+}
+function generateRecords() {
+  let recStr = '';
+  let counter = 1;
+  for (let recordEl of scoreArr) {
+    recStr += `
+    <li class="record-item">
+      <span>${counter}</span>
+      <span>time: ${recordEl.time}</span>
+      <span>size: ${recordEl.difficulty}x${recordEl.difficulty}</span>
+      <span>image: ${recordEl.image}</span>
+    </li>`;
+    counter++;
+  }
+  document.getElementById('record-list').innerHTML = recStr;
+}
+
+// Функции которые вызываются при загрузке страницы.
+offSound();
+changeTheme();
+
+
+window.addEventListener('unload', function () {
+  saveProgress();
+});
+
+alert('Здравуй. Я сделал задание на 95%. Мне нужно закончить ещё несколько фич. Буду признателен если ты проверишь меня через какое-то время.');
