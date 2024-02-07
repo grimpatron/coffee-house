@@ -11,6 +11,11 @@ body {
   align-items: center;
   justify-content: center;
   font-family: sans-serif;
+  font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+}
+button {
+  font-family: inherit;
+  font-weight: bold;
 }
 ul {
   list-style: none;
@@ -157,6 +162,7 @@ ul {
   background-color: transparent;
   border: 2px solid #666;
   transition: all 0.2s ease-in-out;
+  font-size: 16px;
   cursor: pointer;
   font-weight: bold;
 }
@@ -191,6 +197,7 @@ ul {
   padding: 10px;
   min-width: 200px;
   font-size: 18px;
+  font-weight: bold;
   cursor: pointer;
   border-radius: 5px;
 }
@@ -220,34 +227,25 @@ ul {
   border: 3px solid #bbb;
   cursor: pointer;
   transition: all 0.2s;
+  background-repeat: no-repeat;
+  background-position: center;
+  background-color: lightblue;
+  background-size: 80%;
 }
 .setting-btn:hover {
   border: 3px solid #999;
+  background-color: #71bbd6;
 }
 #btn-sound {
-  background: url(img/sound-on.svg) center no-repeat;
-  background-color: #6fb6cf;
-  background-size: 80%;
-}
-#btn-sound:hover {
-  background-color: #aeddee;
+  background-image: url(img/sound-on.svg);
 }
 #btn-theme {
-  background: url(img/black-and-white.svg) center no-repeat;
-  background-color: #6fb6cf;
-  background-size: 80%;
-}
-#btn-theme:hover {
-  background-color: #aeddee;
+  background-image: url(img/black-and-white.svg);
 }
 #btn-score {
-  background: url(img/reward.svg) center no-repeat;
-  background-color: #6fb6cf;
-  background-size: 80%;
+  background-image: url(img/reward.svg);
 }
-#btn-score:hover {
-  background-color: #aeddee;
-}
+/* MODAL (SCORE LIST) */
 .modal {
   display: none;
   position: fixed;
@@ -260,10 +258,11 @@ ul {
   background: rgba(0, 0, 0, 0.1);
 }
 .modal-content {
-  width: 500px;
+  margin: auto;
+  width: 480px;
   height: 400px;
-  padding: 60px 20px;
-  transform: translate(250px, 200px);
+  padding: 60px 15px;
+  transform: translateY(60%);
   background: #fff;
   color: #000;
 }
