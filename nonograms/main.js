@@ -39,7 +39,6 @@ function generateGameLayout() {
     <button class="btn btn--menu" id="menu-game">Menu</button>
     <button class="btn btn--restart" id="restart-game">Restart</button>
     <button class="btn btn--solution" id="solution-game">Solution</button>
-    <button class="btn btn--records">Records</button>
   </header>
   <main class='main main--5'></main>
   <audio class="js-sound js-win-sound" src="audio/sound-gong.ogg"></audio>
@@ -159,22 +158,6 @@ mouse: [
 ['0','1','1','1','1','1','1','1','1','0']]
 }
 const hardPictures = {
-rat: [
-['0','0','0','0','0','0','0','0','0','0','0','0','1','1','1'],
-['0','0','0','0','0','1','1','1','1','0','0','1','1','0','1'],
-['0','0','0','1','1','1','0','0','1','0','0','1','0','1','0'],
-['1','1','1','0','1','0','0','1','1','0','0','1','0','0','0'],
-['1','1','0','0','0','0','0','1','0','0','0','1','1','0','0'],
-['0','1','1','1','1','0','0','1','1','0','0','0','1','1','0'],
-['0','0','0','0','1','1','0','0','1','1','0','0','0','1','1'],
-['0','0','0','0','0','1','0','0','0','1','1','1','0','0','1'],
-['0','0','0','0','0','1','1','0','0','0','0','1','1','0','1'],
-['0','0','0','1','1','1','1','0','0','0','0','0','1','1','1'],
-['0','0','0','1','0','1','0','0','1','1','0','0','0','1','1'],
-['0','0','0','0','0','1','0','0','1','0','0','0','0','1','0'],
-['0','0','0','0','0','0','1','0','1','0','0','0','0','1','0'],
-['0','0','0','0','0','1','1','1','1','1','0','0','1','1','0'],
-['0','0','0','1','1','1','0','1','1','0','1','1','1','0','0']],
 octopus: [
 ['0','0','1','1','1','0','0','0','0','0','1','0','0','0','1'],
 ['0','1','1','1','1','1','1','0','0','1','0','0','0','1','0'],
@@ -238,7 +221,23 @@ flower: [
 ['1','0','1','0','0','1','1','1','0','1','1','1','1','1','1'],
 ['0','1','1','1','0','0','1','0','0','1','1','1','0','1','1'],
 ['0','0','1','1','1','1','1','0','1','1','1','0','1','1','0'],
-['0','0','0','0','0','1','1','1','0','0','1','1','1','0','0']]
+['0','0','0','0','0','1','1','1','0','0','1','1','1','0','0']],
+rat: [
+['0','0','0','0','0','0','0','0','0','0','0','0','1','1','1'],
+['0','0','0','0','0','1','1','1','1','0','0','1','1','0','1'],
+['0','0','0','1','1','1','0','0','1','0','0','1','0','1','0'],
+['1','1','1','0','1','0','0','1','1','0','0','1','0','0','0'],
+['1','1','0','0','0','0','0','1','0','0','0','1','1','0','0'],
+['0','1','1','1','1','0','0','1','1','0','0','0','1','1','0'],
+['0','0','0','0','1','1','0','0','1','1','0','0','0','1','1'],
+['0','0','0','0','0','1','0','0','0','1','1','1','0','0','1'],
+['0','0','0','0','0','1','1','0','0','0','0','1','1','0','1'],
+['0','0','0','1','1','1','1','0','0','0','0','0','1','1','1'],
+['0','0','0','1','0','1','0','0','1','1','0','0','0','1','1'],
+['0','0','0','0','0','1','0','0','1','0','0','0','0','1','0'],
+['0','0','0','0','0','0','1','0','1','0','0','0','0','1','0'],
+['0','0','0','0','0','1','1','1','1','1','0','0','1','1','0'],
+['0','0','0','1','1','1','0','1','1','0','1','1','1','0','0']]
 }
 
 let levels = {
@@ -299,7 +298,7 @@ function selectImage(e) {
   // console.log(levels[LVLX][IMGX]);
   startGame(levelParams[LVLX], levels[LVLX][IMGX]);
   // startGame(levelParams[LVLX], imgCollection[LVLX][0]);
-  blalba(levelParams[LVLX][1]);
+  countClues(levelParams[LVLX][1]);
   hangEvents(LVLX, IMGX);
 }
 
@@ -312,14 +311,15 @@ function randomGame() {
   const imgKeys = Object.keys(levels[LVLX]);
   let IMGX = imgKeys[generateNumber(5) * 1];
   console.log(LVLX, IMGX);
-  
+  gameProgressStatus.level = LVLX;
+  gameProgressStatus.imgName = IMGX;
   mainNode.style.display = 'grid';
   headerNode.style.display = 'flex';
   menuListNode.style.display = 'none';
   menuNode.style.display = 'none';
   mainNode.innerHTML = '';
   startGame(levelParams[LVLX], levels[LVLX][IMGX]);
-  blalba(levelParams[LVLX][1]);
+  countClues(levelParams[LVLX][1]);
   hangEvents(LVLX, IMGX);
 }
 function generateNumber(x) {
@@ -338,12 +338,14 @@ function continueGame() {
   patternIMG = gameProgressStatus.img;
   LVLX = gameProgressStatus.level;
   IMGX = gameProgressStatus.imgName;
+  timerRes = `${((gameProgressStatus.min < 10 ? "0" : "") + gameProgressStatus.min + ":" + (gameProgressStatus.sec < 10 ? "0" : "") + gameProgressStatus.sec)}`;
+  timerNode.innerHTML = timerRes;
   // let imgN = gameProgressStatus.imgName;/////////////////////////////////////////////////////////
   startGame(levelParams[LVLX], patternIMG);
   loadProgress();
   fillInProgress();
-  blalba(levelParams[LVLX][1]);
-  // blalba(gameProgressStatus.size);
+  countClues(levelParams[LVLX][1]);
+  // countClues(gameProgressStatus.size);
   hangEvents(LVLX, IMGX);
 }
 
@@ -371,7 +373,7 @@ function continueGame() {
 //     fillInProgress();
 //   }
   
-//   blalba(levelParams[LVLX][1]);
+//   countClues(levelParams[LVLX][1]);
 //   hangEvents(LVLX);
 // };
 
@@ -417,7 +419,7 @@ function countCells(pttrn, isRow = true) {
   });
 }
 
-function blalba(clueSize){
+function countClues(clueSize){
   resCol = countCells(patternIMG, false);
   resRow = countCells(patternIMG, true);
   resCol = addEmptyValues(resCol, clueSize);
@@ -519,6 +521,9 @@ function resetTimer() {
   clearInterval(timerID);
   timerSec = 0;
   timerMin = 0;
+  timerNode.innerHTML = "00:00";
+  timerAct = false;
+  gameProgressStatus.winStatus = true;
 }
 
 
@@ -529,18 +534,21 @@ function startGame(lvlParam, img) {
 }
 
 function stopGame() {
-  stopTimer();
-  document.querySelector('.js-win-sound').play();
-  alert(`УРА!!! Вы справились за ${timerRes}`);
-  let ttiimmee = `${((gameProgressStatus.min < 10 ? "0" : "") + gameProgressStatus.min + ":" + (gameProgressStatus.sec < 10 ? "0" : "") + gameProgressStatus.sec)}`
-  let gameStat = {
-    time: ttiimmee,
-    image: gameProgressStatus.imgName,
-    difficulty: gameProgressStatus.size
+  if (gameProgressStatus.winStatus == true) {
+    stopTimer();
+    document.querySelector('.js-win-sound').play();
+    alert(`УРА!!! Вы справились за ${timerRes}`);
+    let ttiimmee = `${((gameProgressStatus.min < 10 ? "0" : "") + gameProgressStatus.min + ":" + (gameProgressStatus.sec < 10 ? "0" : "") + gameProgressStatus.sec)}`;
+    let gameStat = {
+      time: ttiimmee,
+      image: gameProgressStatus.imgName,
+      difficulty: gameProgressStatus.size
+    }
+    gameProgressStatus.winStatus = false;
+    saveScore(gameStat);
+    clearProgress();
+    saveProgress();
   }
-  saveScore(gameStat);
-  clearProgress();
-  saveProgress();
 }
 
 function clearProgress(){
@@ -558,6 +566,7 @@ btnMenu.addEventListener('click', function(){
   menuNode.style.display = 'flex';
   mainNode.style.display = 'none';
   headerNode.style.display = 'none';
+  resetTimer();
 })
 
 
@@ -567,8 +576,10 @@ function resetGame() {
     el.classList.remove('cell--cross');
     el.classList.remove('cell--black');
   });
+  gameProgressStatus.winStatus = true;
+  // resetTimer();
+  // startTimer();
   resetTimer();
-  startTimer();
 }
 
 
@@ -577,7 +588,8 @@ function solutionGame() {
   let cls = document.querySelectorAll('.playground .cell');
   let clsCorrect = gameProgressStatus.img.flat();
   let cntcnt = 0;
-      
+  gameProgressStatus.winStatus = false;
+  stopTimer();
   let domino = setInterval(() => {
     cls[cntcnt].classList.remove('cell--black');
     cls[cntcnt].classList.remove('cell--cross');
@@ -675,6 +687,7 @@ function playEffect(target) {
 let gameProgressStatus = {
   sound: true,
   themeAlt: false,
+  winStatus: true,
   img: '',
   imgName: '',
   size: '',
@@ -703,7 +716,6 @@ function loadScore() {
   if (localStorage.getItem('non-score-X')) {
     scoreArr = JSON.parse(localStorage.getItem('non-score-X'));
   } else localStorage.setItem('non-score-X', JSON.stringify(scoreArr));
-  console.log(scoreArr);
 } loadScore();
 
 function saveProgress() {
@@ -729,23 +741,6 @@ function convertTimeToNum(str) {
   return parseInt(newStr, 10);
 }
 
-// function saveScore(scoreValue) {
-//   if (recordList.length < 10) {
-//     recordList.push(scoreValue);
-//   } else if (scoreValue > recordList[recordList.length - 1]) {
-//     recordList.pop();
-//     recordList.push(scoreValue);
-//   }
-//   recordList = recordList.sort(function(a, b) { return b - a; });
-//   localStorage.setItem('nonogram-records', JSON.stringify(recordList));
-//   showRecords();
-// }
-
-// function showRecords() {
-//   let recStr = '';
-//   for (let recordEl of recordList) recStr += `<li>${recordEl}</li>`;
-//   document.getElementById('records').innerHTML = recStr;
-// }
 
 
 ///////////////////////////////////////////////////////////////////////////////////
@@ -837,4 +832,4 @@ window.addEventListener('unload', function () {
   saveProgress();
 });
 
-alert('Здравуй. Я сделал задание на 95%. Мне нужно закончить ещё несколько фич. Буду признателен если ты проверишь меня через какое-то время.');
+// alert('Здравуй. Я сделал задание на 90%. Мне нужно закончить ещё несколько фич. Буду признателен если ты проверишь меня через какое-то время.');
