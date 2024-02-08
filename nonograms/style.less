@@ -8,6 +8,8 @@
 @border-group: #333;
 @main-color: lightblue;
 @main-color-hover: #71bbd6;
+@cool-border: 20px solid rgb(152, 207, 195);
+@cool-border-alt: 20px solid rgb(173, 152, 207);
 
 * {
   margin: 0;
@@ -61,6 +63,12 @@ ul {
     .row:nth-child(5n + 5) {
       border-bottom: 2px solid #fff;
     }
+  }
+  .modal-content {
+    border: @cool-border-alt;
+  }
+  .menu, .menu-list {
+    border: @cool-border-alt;
   }
 }
 
@@ -204,7 +212,7 @@ ul {
 .menu, .menu-list {
   margin: auto;
   padding: 16px;
-  border: 20px solid rgb(152, 207, 195);
+  border: @cool-border;
   display: flex;
   flex-direction: column;
   align-items: center;
@@ -250,13 +258,18 @@ ul {
   position: absolute;
   top: 25px;
   left: 25px;
+  display: flex;
+  gap: 20px;
+  width: 80%;
+  left: 0;
+  transform: translateX(10%);
 }
 
 .setting-btn {
   width: 40px;
   height: 40px;
   border-radius: 50%;
-  margin-right: 20px;
+  // margin-right: 20px;
   font-size: 0;
   border: 3px solid #bbb;
   cursor: pointer;
@@ -273,7 +286,12 @@ ul {
 #btn-sound { background-image: url(img/sound-on.svg)}
 #btn-theme { background-image: url(img/black-and-white.svg)}
 #btn-score { background-image: url(img/reward.svg)}
-
+#btn-menu {
+  font-size: 20px;
+  width: 120px;
+  border-radius: 40px;
+  margin-right: auto;
+}
 
 /* MODAL (SCORE LIST) */
 .modal {
@@ -285,7 +303,7 @@ ul {
   overflow: auto;
   width: 100%;
   height: 100%;
-  background: rgba(0, 0, 0, .1);
+  background: rgba(70, 70, 50, 0.2);
   &-content {
     margin: auto;
     width: 480px;
@@ -295,6 +313,7 @@ ul {
     // transform: translate(250px, 200px);
     background: #fff;
     color: #000;
+    border: @cool-border;
   }
   &-close {
     position: absolute;
@@ -309,6 +328,17 @@ ul {
   }
 }
 
+.win-modal-close {
+  position: absolute;
+  right: 20px;
+  top: 20px;
+  color: #aaaaaa;
+  float: right;
+  font-size: 40px;
+  font-weight: bold;
+  cursor: pointer;
+  line-height: 20px;
+}
 
 
 .close:hover,
@@ -330,4 +360,11 @@ ul {
   display: flex;
   justify-content: space-between;
   padding-bottom: 20px;
+}
+.win-text {
+  text-align: center;
+  font-size: 32px;
+  span {
+    font-weight: bold;
+  }
 }

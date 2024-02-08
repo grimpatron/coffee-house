@@ -54,6 +54,13 @@ ul {
 .body--black .clue-row .row:nth-child(5n + 5) {
   border-bottom: 2px solid #fff;
 }
+.body--black .modal-content {
+  border: 20px solid #ad98cf;
+}
+.body--black .menu,
+.body--black .menu-list {
+  border: 20px solid #ad98cf;
+}
 .row {
   display: flex;
   justify-content: center;
@@ -217,12 +224,16 @@ ul {
   position: absolute;
   top: 25px;
   left: 25px;
+  display: flex;
+  gap: 20px;
+  width: 80%;
+  left: 0;
+  transform: translateX(10%);
 }
 .setting-btn {
   width: 40px;
   height: 40px;
   border-radius: 50%;
-  margin-right: 20px;
   font-size: 0;
   border: 3px solid #bbb;
   cursor: pointer;
@@ -245,6 +256,12 @@ ul {
 #btn-score {
   background-image: url(img/reward.svg);
 }
+#btn-menu {
+  font-size: 20px;
+  width: 120px;
+  border-radius: 40px;
+  margin-right: auto;
+}
 /* MODAL (SCORE LIST) */
 .modal {
   display: none;
@@ -255,7 +272,7 @@ ul {
   overflow: auto;
   width: 100%;
   height: 100%;
-  background: rgba(0, 0, 0, 0.1);
+  background: rgba(70, 70, 50, 0.2);
 }
 .modal-content {
   margin: auto;
@@ -265,8 +282,20 @@ ul {
   transform: translateY(60%);
   background: #fff;
   color: #000;
+  border: 20px solid #98cfc3;
 }
 .modal-close {
+  position: absolute;
+  right: 20px;
+  top: 20px;
+  color: #aaaaaa;
+  float: right;
+  font-size: 40px;
+  font-weight: bold;
+  cursor: pointer;
+  line-height: 20px;
+}
+.win-modal-close {
   position: absolute;
   right: 20px;
   top: 20px;
@@ -296,4 +325,11 @@ ul {
   display: flex;
   justify-content: space-between;
   padding-bottom: 20px;
+}
+.win-text {
+  text-align: center;
+  font-size: 32px;
+}
+.win-text span {
+  font-weight: bold;
 }

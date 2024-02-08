@@ -1,27 +1,35 @@
 const bodyNode = document.querySelector('body');
 const scriptNode = document.querySelector('script');
 const container = document.createElement('div');
-bodyNode.insertBefore(container, scriptNode);
-
-
 const settings = document.createElement('div');
+const modals = document.createElement('div');
+bodyNode.insertBefore(container, scriptNode);
+bodyNode.insertBefore(modals, scriptNode);
 bodyNode.prepend(settings);
-settings.classList.add('settings');
-settings.innerHTML = `
-<button class="setting-btn" id="btn-sound">sound</button>
-<button class="setting-btn" id="btn-theme">theme</button>
-<button class="setting-btn" id="btn-score">score</button>
 
-<div class="modal" id="myModal">
-  <div class="modal-content">
-    <span class="modal-close">&times;</span>
-    <h2 class="record-header">List of records</h2>
-    <ul id='record-list'></ul>
-  </div>
-</div>`;
 
-generateGameLayout();
 function generateGameLayout() {
+  settings.classList.add('settings');
+  settings.innerHTML = `
+  <button class="setting-btn" id="btn-menu">Menu</button>
+  <button class="setting-btn" id="btn-sound">sound</button>
+  <button class="setting-btn" id="btn-theme">theme</button>
+  <button class="setting-btn" id="btn-score">score</button>`;
+  modals.innerHTML += `
+  <div class="modal" id="myModal">
+    <div class="modal-content">
+      <span class="modal-close">&times;</span>
+      <h2 class="record-header">List of records</h2>
+      <ul id='record-list'></ul>
+    </div>
+  </div>
+  <div class="modal" id="winModal">
+    <div class="modal-content">
+      <span class="win-modal-close">&times;</span>
+      <div class="win-text">Great! You have solved the nonogram in <span id="modal-timer"></span> seconds!</div>  
+    </div>
+  </div>`;
+
   container.className = 'container';
   container.innerHTML = `
   <div class="menu">
@@ -36,8 +44,8 @@ function generateGameLayout() {
   <ul class="menu-list"></ul>
   <header class='header'>
     <div class="timer">00:00</div>
-    <button class="btn btn--menu" id="menu-game">Menu</button>
-    <button class="btn btn--restart" id="restart-game">Restart</button>
+    <button class="btn btn--save" id="save-game">Save game</button>
+    <button class="btn btn--restart" id="restart-game">Reset game</button>
     <button class="btn btn--solution" id="solution-game">Solution</button>
   </header>
   <main class='main main--5'></main>
@@ -45,28 +53,13 @@ function generateGameLayout() {
   <audio class="js-sound js-paint" src="audio/paint.mp3"></audio>
   <audio class="js-sound js-cross" src="audio/cross.mp3"></audio>
   <audio class="js-sound js-empty" src="audio/empty.mp3"></audio>`;
-}
+} generateGameLayout();
 
 const mainNode = document.querySelector('.main');
 const headerNode = document.querySelector('.header');
 const timerNode = document.querySelector('.timer');
 const menuNode = document.querySelector('.menu');
 const menuListNode = document.querySelector('.menu-list');
-const levelParams = {
-  easy:   [5, 3, '10%'],
-  normal: [10, 5, '5.33%'],
-  hard:   [15, 5, '4%']
-}
-
-
-function generateGame(LevelParams) {
-  let curLevelParams = LevelParams;
-  generateMarkup('miniature', curLevelParams[0], curLevelParams[0], curLevelParams[0]);
-  generateMarkup('clue-col', curLevelParams[0], curLevelParams[1], curLevelParams[0]);
-  generateMarkup('clue-row', curLevelParams[0], curLevelParams[0], curLevelParams[1]);
-  generateMarkup('playground', curLevelParams[0], curLevelParams[0], curLevelParams[0]);
-}
-
 
 const easyPictures = {
 smile: [
@@ -240,25 +233,25 @@ rat: [
 ['0','0','0','1','1','1','0','1','1','0','1','1','1','0','0']]
 }
 
-let levels = {
+const levels = {
   'easy': easyPictures,
   'normal': normalPictures,
   'hard': hardPictures
 };
+const levelParams = {
+  easy:   [5, 3, '10%'],
+  normal: [10, 5, '5.33%'],
+  hard:   [15, 5, '4%']
+}
 
-// const imgCollection = {
-//   easy: [smile],
-//   normal: [leaf],
-//   hard: [duck]
-// }
 let patternIMG;
-
 let resRow;
 let resCol;
 let flattenedMtrxCol;
 let flattenedMtrxRow;
 let clueRowMatrix;
 let clueColMatrix;
+let canvasIMG = [];
 
 // Секундомер
 let timerSec = 0;
@@ -272,7 +265,6 @@ let IMGX;
 
 const menuLevelList = document.querySelectorAll('.menu-level--list');
 menuLevelList.forEach(el => el.addEventListener('click', showLvlList));
-
 function showLvlList(e) {
   let levelList = levels[e.target.dataset.lvl] || [];
   menuListNode.innerHTML = "";
@@ -295,10 +287,10 @@ function selectImage(e) {
   headerNode.style.display = 'flex';
   menuListNode.style.display = 'none';
   mainNode.innerHTML = '';
-  // console.log(levels[LVLX][IMGX]);
+  gameProgressStatus.winStatus = true;
   startGame(levelParams[LVLX], levels[LVLX][IMGX]);
-  // startGame(levelParams[LVLX], imgCollection[LVLX][0]);
   countClues(levelParams[LVLX][1]);
+  statusGame(LVLX, IMGX);
   hangEvents(LVLX, IMGX);
 }
 
@@ -310,16 +302,18 @@ function randomGame() {
   let LVLX = lvlsKeys[generateNumber(3)];
   const imgKeys = Object.keys(levels[LVLX]);
   let IMGX = imgKeys[generateNumber(5) * 1];
-  console.log(LVLX, IMGX);
-  gameProgressStatus.level = LVLX;
-  gameProgressStatus.imgName = IMGX;
+  
+  // gameProgressStatus.level = LVLX;
+  // gameProgressStatus.imgName = IMGX;
   mainNode.style.display = 'grid';
   headerNode.style.display = 'flex';
   menuListNode.style.display = 'none';
   menuNode.style.display = 'none';
   mainNode.innerHTML = '';
+  gameProgressStatus.winStatus = true;
   startGame(levelParams[LVLX], levels[LVLX][IMGX]);
   countClues(levelParams[LVLX][1]);
+  statusGame(LVLX, IMGX);
   hangEvents(LVLX, IMGX);
 }
 function generateNumber(x) {
@@ -335,48 +329,23 @@ function continueGame() {
   menuNode.style.display = 'none';
   // menuListNode.style.display = 'none';
   mainNode.innerHTML = '';
+  loadProgress();
+  canvasIMG = gameProgressStatus.progress;
   patternIMG = gameProgressStatus.img;
   LVLX = gameProgressStatus.level;
   IMGX = gameProgressStatus.imgName;
   timerRes = `${((gameProgressStatus.min < 10 ? "0" : "") + gameProgressStatus.min + ":" + (gameProgressStatus.sec < 10 ? "0" : "") + gameProgressStatus.sec)}`;
   timerNode.innerHTML = timerRes;
-  // let imgN = gameProgressStatus.imgName;/////////////////////////////////////////////////////////
   startGame(levelParams[LVLX], patternIMG);
-  loadProgress();
   fillInProgress();
   countClues(levelParams[LVLX][1]);
   // countClues(gameProgressStatus.size);
   hangEvents(LVLX, IMGX);
 }
 
-// const menuLVL = document.querySelectorAll('.menu-level');
-// menuLVL.forEach(el => el.addEventListener('click', qwer));
-// function qwer(e) {
-//   mainNode.style.display = 'grid';
-//   headerNode.style.display = 'flex';
-//   menuNode.style.display = 'none';
-//   // menuListNode.style.display = 'none';
-//   mainNode.innerHTML = '';
-
-//   if (e.target.dataset.lvl == 'continue') {
-//     LVLX = gameProgressStatus.level;
-//   } else LVLX = e.target.dataset.lvl;
-
-//   if (e.target.dataset.lvl == 'random') {
-//     LVLX = gameProgressStatus.level;
-//   }
-
-//   startGame(levelParams[LVLX], levels[LVLX][0]);
-
-//   if (e.target.dataset.lvl == 'continue') {
-//     loadProgress();
-//     fillInProgress();
-//   }
-  
-//   countClues(levelParams[LVLX][1]);
-//   hangEvents(LVLX);
-// };
-
+//............................................................................................................
+//............................................................................................................
+//............................................................................................................
 
 
 let cellNodes = document.querySelectorAll('.playground .cell');
@@ -387,7 +356,7 @@ function hangEvents(LVLX, IMGX) {
     e.target.classList.toggle('cell--black');
     statusGame(LVLX, IMGX);
     playEffect(e.target);
-    // saveProgress();
+    checkWin();
   }));
   cellNodes.forEach(el => el.addEventListener('contextmenu', (e) => {
     e.preventDefault(); // Убрал контекстное меню
@@ -395,11 +364,20 @@ function hangEvents(LVLX, IMGX) {
     e.target.classList.toggle('cell--cross');
     statusGame(LVLX, IMGX);
     playEffect(e.target);
-    // saveProgress();
+    checkWin();
   }));
 }
 
-
+function  checkWin() {
+  const canvasIMGClean = canvasIMG.slice(0);  // копирую массив
+  for (let i = 0; i < canvasIMGClean.length; i++) {
+    if (canvasIMGClean[i] == 'X') canvasIMGClean[i] = '0';
+  }
+  
+  if (canvasIMGClean.toString() === patternIMG.flat().toString()) {
+    stopGame();
+  }
+}
 
 function countCells(pttrn, isRow = true) {
   let countsArr = isRow ? pttrn : pttrn[0].map((_, i) => pttrn.map(row => row[i]));
@@ -434,7 +412,6 @@ function countClues(clueSize){
   fillInClue(clueColMatrix, flattenedMtrxCol);
 }
 
-
 // заполняем пустыми строками отсутсвующие ячейки в подсказках.
 function addEmptyValues(arr, wdt) {
   return arr.map(subArr => {
@@ -467,7 +444,13 @@ function fillInClue(clueElArr, valueArr) {
 }
 
 /////////////////////////////////////////////////////////////////////////////////////////
-
+function generateGame(LevelParams) {
+  let curLevelParams = LevelParams;
+  generateMarkup('miniature', curLevelParams[0], curLevelParams[0], curLevelParams[0]);
+  generateMarkup('clue-col', curLevelParams[0], curLevelParams[1], curLevelParams[0]);
+  generateMarkup('clue-row', curLevelParams[0], curLevelParams[0], curLevelParams[1]);
+  generateMarkup('playground', curLevelParams[0], curLevelParams[0], curLevelParams[0]);
+}
 
 function generateMarkup(blockClassName, size, rows, cols) {
   let block = document.createElement('div');
@@ -524,6 +507,7 @@ function resetTimer() {
   timerNode.innerHTML = "00:00";
   timerAct = false;
   gameProgressStatus.winStatus = true;
+  // saveProgress();
 }
 
 
@@ -537,8 +521,9 @@ function stopGame() {
   if (gameProgressStatus.winStatus == true) {
     stopTimer();
     document.querySelector('.js-win-sound').play();
-    alert(`УРА!!! Вы справились за ${timerRes}`);
-    let ttiimmee = `${((gameProgressStatus.min < 10 ? "0" : "") + gameProgressStatus.min + ":" + (gameProgressStatus.sec < 10 ? "0" : "") + gameProgressStatus.sec)}`;
+    // alert(`УРА!!! Вы справились за ${timerRes}`);
+    showWinMessage();
+    let ttiimmee = `${((gameProgressStatus.min < 10 ? "0" : "") + gameProgressStatus.min + ":" + (gameProgressStatus.sec < 10 ? "0" : "") + gameProgressStatus.sec)}`;      ////////////////////////
     let gameStat = {
       time: ttiimmee,
       image: gameProgressStatus.imgName,
@@ -561,11 +546,13 @@ function clearProgress(){
   gameProgressStatus.level = '';
 }
 
-const btnMenu = document.querySelector('#menu-game');
+// const btnMenu = document.querySelector('#menu-game');
+const btnMenu = document.querySelector('#btn-menu');
 btnMenu.addEventListener('click', function(){
   menuNode.style.display = 'flex';
   mainNode.style.display = 'none';
   headerNode.style.display = 'none';
+  menuListNode.style.display = 'none';
   resetTimer();
 })
 
@@ -576,7 +563,7 @@ function resetGame() {
     el.classList.remove('cell--cross');
     el.classList.remove('cell--black');
   });
-  gameProgressStatus.winStatus = true;
+  // gameProgressStatus.winStatus = true;
   // resetTimer();
   // startTimer();
   resetTimer();
@@ -603,9 +590,16 @@ function solutionGame() {
   }, 20);
 }
 
+
+document.querySelector('#save-game').addEventListener('click', savegameSAVE);
+function savegameSAVE() {
+  statusGame(LVLX, IMGX);
+  saveProgress();
+  console.log(gameProgressStatus);
+}
+
 function statusGame(LVLX, IMGX) {
   let cls = document.querySelectorAll('.playground .cell');
-  let canvasIMG = [];
   for (let i = 0; i < cls.length; i++) {
     if (cls[i].classList.contains('cell--black')) {
       canvasIMG[i] = '1';
@@ -621,7 +615,6 @@ function statusGame(LVLX, IMGX) {
     startTimer();
   }
 
-  canvasIMGClean = canvasIMG;
   gameProgressStatus.progress = canvasIMG;
   gameProgressStatus.level = LVLX;
   gameProgressStatus.sec = timerSec;
@@ -629,15 +622,7 @@ function statusGame(LVLX, IMGX) {
   gameProgressStatus.size = levelParams[LVLX][0];
   gameProgressStatus.img = levels[LVLX][IMGX];
   gameProgressStatus.imgName = IMGX;
-  saveProgress();
-
-  for (let i = 0; i < canvasIMGClean.length; i++) {
-    if (canvasIMGClean[i] == 'X') canvasIMGClean[i] = '0';
-  }
-
-  if (canvasIMGClean.toString() === patternIMG.flat().toString()) {
-    stopGame();
-  }
+  // saveProgress();
 }
 
 
@@ -670,59 +655,40 @@ function playEffect(target) {
 
 
 
-////////////////////////////////////////////////////////////////////////////////////
-
-
-
-
-
-
-// Система сохранений!!
-// let recordList = [];
-// if (localStorage.getItem('nonogram-records')) {
-//   recordList = JSON.parse(localStorage.getItem('nonogram-records'));
-// } else localStorage.setItem('nonogram-records', JSON.stringify(recordList));
-
-
-let gameProgressStatus = {
-  sound: true,
-  themeAlt: false,
-  winStatus: true,
-  img: '',
-  imgName: '',
-  size: '',
-  level: '',
-  min: '',
-  sec: '',
-  progress: []
-};
-scoreArr = [];
-// let gameProgress = [];
-// if (localStorage.getItem('nonogram-progress')) {
-//   gameProgress = JSON.parse(localStorage.getItem('nonogram-progress'));
-// } else localStorage.setItem('nonogram-progress', JSON.stringify(recordList));
-
-// if (localStorage.getItem('non-prog-X')) {
-//   gameProgressStatus = JSON.parse(localStorage.getItem('non-prog-X'));
-// } else localStorage.setItem('non-prog-X', JSON.stringify(gameProgressStatus));
+// Система сохранений!!         ////////////////////////////////////////////////////////////////////////////////////
+let gameProgressStatus = {};
+let scoreArr = [];
 
 function loadProgress() {
-  if (localStorage.getItem('non-prog-X')) {
-    gameProgressStatus = JSON.parse(localStorage.getItem('non-prog-X'));
-  } else localStorage.setItem('non-prog-X', JSON.stringify(gameProgressStatus));
+  if (localStorage.getItem('non-prog-GP')) {
+    gameProgressStatus = JSON.parse(localStorage.getItem('non-prog-GP'));
+  } else {
+    gameProgressStatus = {
+      sound: true,
+      themeAlt: false,
+      winStatus: true,
+      img: '',
+      imgName: '',
+      size: '',
+      level: '',
+      min: '',
+      sec: '',
+      progress: []
+    };
+    localStorage.setItem('non-prog-GP', JSON.stringify(gameProgressStatus));
+  }
 } loadProgress();
 
 function loadScore() {
-  if (localStorage.getItem('non-score-X')) {
-    scoreArr = JSON.parse(localStorage.getItem('non-score-X'));
-  } else localStorage.setItem('non-score-X', JSON.stringify(scoreArr));
+  if (localStorage.getItem('non-score-GP')) {
+    scoreArr = JSON.parse(localStorage.getItem('non-score-GP'));
+  } else localStorage.setItem('non-score-GP', JSON.stringify(scoreArr));
 } loadScore();
 
 function saveProgress() {
-  localStorage.setItem('non-prog-X', JSON.stringify(gameProgressStatus));
+  localStorage.setItem('non-prog-GP', JSON.stringify(gameProgressStatus));
 }
 function saveScore(newResult) {
-  // console.log(newResult, newResult.time);
   // console.log(convertTimeToNum(newResult.time), convertTimeToNum(scoreArr[scoreArr.length - 1].time));
   if (scoreArr.length < 5) {
     scoreArr.push(newResult);
@@ -733,7 +699,7 @@ function saveScore(newResult) {
   scoreArr = scoreArr.sort(function(a, b) {
     return convertTimeToNum(a.time) - convertTimeToNum(b.time); 
   });
-  localStorage.setItem('non-score-X', JSON.stringify(scoreArr));
+  localStorage.setItem('non-score-GP', JSON.stringify(scoreArr));
 }
 
 function convertTimeToNum(str) {
@@ -825,11 +791,41 @@ function generateRecords() {
 
 // Функции которые вызываются при загрузке страницы.
 offSound();
-changeTheme();
+// changeTheme();
+firstPic();
+
+// window.addEventListener('unload', function () {
+//   saveProgress();
+// });
+
+function firstPic() {
+  LVLX = 'easy';
+  IMGX = 'smile';
+  
+  mainNode.style.display = 'grid';
+  headerNode.style.display = 'flex';
+  menuListNode.style.display = 'none';
+  menuNode.style.display = 'none';
+  mainNode.innerHTML = '';
+  gameProgressStatus.winStatus = true;
+  startGame(levelParams[LVLX], levels[LVLX][IMGX]);
+  countClues(levelParams[LVLX][1]);
+  statusGame(LVLX, IMGX);
+  hangEvents(LVLX, IMGX);
+  resetTimer();
+}
+
+const winModal = document.getElementById("winModal");
+// winModal.addEventListener('click', showScore);
+function showWinMessage(){
+  winModal.style.display = "block";
+  document.querySelector('#modal-timer').innerHTML = timerRes;
+}
+const winCloseModal = document.querySelector(".win-modal-close");
+winCloseModal.onclick = function() {
+  winModal.style.display = "none";
+}
 
 
-window.addEventListener('unload', function () {
-  saveProgress();
-});
+// 835
 
-// alert('Здравуй. Я сделал задание на 90%. Мне нужно закончить ещё несколько фич. Буду признателен если ты проверишь меня через какое-то время.');
