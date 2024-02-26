@@ -18,8 +18,8 @@ class App {
         document
             .querySelector('.sources')
             // Добавление типов для параметров функции обратного вызова
-            ?.addEventListener('click', (e: Event) => this.controller.getNews(e, (data: any) => this.view.drawNews(data)));
-        this.controller.getSources((data: any) => this.view.drawSources(data));
+            ?.addEventListener('click', (e: Event) => this.controller.getNews(e, (data: Record<string, string>) => this.view.drawNews(data)));
+        this.controller.getSources((data: Record<string, string>) => this.view.drawSources(data));
     }
 }
 

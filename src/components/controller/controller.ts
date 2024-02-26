@@ -3,7 +3,7 @@ import AppLoader from './appLoader';
 // Класс AppController наследуется от AppLoader
 class AppController extends AppLoader {
     // Метод для получения источников новостей
-    getSources(callback: (data: any) => void): void {
+    getSources(callback: (data: Record<string, string>) => void): void {
         super.getResp(
             {
                 endpoint: 'sources',
@@ -14,7 +14,7 @@ class AppController extends AppLoader {
     }
 
     // Метод для получения новостей от определенного источника
-    getNews(e: Event, callback: (data: any) => void): void  {
+    getNews(e: Event, callback: (data: Record<string, string>) => void): void  {
         let target = e.target as HTMLElement;
         const newsContainer = e.currentTarget as HTMLElement;
 
