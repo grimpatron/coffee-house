@@ -1,48 +1,32 @@
-// Импорт классов AppController и AppView
 import AppController from '../controller/controller';
 import { AppView } from '../view/appView';
 
-// Определение класса App
-class App {
-    // Добавление типов для свойств controller и view
-    controller: AppController;
-    view: AppView;
-
-    constructor() {
-        this.controller = new AppController();
-        this.view = new AppView();
-    }
-
-    // Добавление типа возвращаемого значения для метода start
-    start(): void {
-        document
-            .querySelector('.sources')
-            // Добавление типов для параметров функции обратного вызова
-            ?.addEventListener('click', (e: Event) => this.controller.getNews(e, (data: Record<string, string>) => this.view.drawNews(data)));
-        this.controller.getSources((data: Record<string, string>) => this.view.drawSources(data));
-    }
+interface NewsData {
+  [key: string]: string;
 }
 
-// Экспорт класса App
+interface SourcesData {
+  [key: string]: string;
+}
+
+class App {
+  controller: AppController;
+  view: AppView;
+
+  constructor() {
+    this.controller = new AppController();
+    this.view = new AppView();
+  }
+
+//   Adds an event handler to an element with a .sources class
+  start(): void {
+    document
+      .querySelector('.sources')
+      ?.addEventListener('click', (e: Event) =>
+        this.controller.getNews(e, (data: NewsData) => this.view.drawNews(data))
+      );
+    this.controller.getSources((data: SourcesData) => this.view.drawSources(data));
+  }
+}
+
 export default App;
-
-
-
-// import AppController from '../controller/controller';
-// import { AppView } from '../view/appView';
-
-// class App {
-//     constructor() {
-//         this.controller = new AppController();
-//         this.view = new AppView();
-//     }
-
-//     start() {
-//         document
-//             .querySelector('.sources')
-//             .addEventListener('click', (e) => this.controller.getNews(e, (data) => this.view.drawNews(data)));
-//         this.controller.getSources((data) => this.view.drawSources(data));
-//     }
-// }
-
-// export default App;
