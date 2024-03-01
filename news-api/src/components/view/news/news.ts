@@ -47,6 +47,10 @@ class News {
             fragment.append(newsClone);
         });
 
+        // closes the news selection window
+        const container = document.querySelector('.sources');
+        container?.classList.remove('source--expanded');
+
         // Find the container for news on the page and check for the presence of a container on the page
         if (newsContainer === null) {
             throw new Error("News container '.news' not found");
