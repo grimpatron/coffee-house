@@ -11,13 +11,20 @@
             <h1>News Portal</h1>
         </header>
         <main>
-            <div class="sources buttons"></div>
+            <div class="source__container">
+                <button  class="sources__show-all">show all news sources</button>
+                <div class="sources buttons"></div></div>
             <div class="news"></div>
         </main>
-        <footer>
+        <footer class="footer">
             <p class="copyright">
                 Copyright <a href="https://newsapi.org">NewsAPI</a>
             </p>
+            <a class="footer__link" href="https://github.com/grimpatron" target="_blank">My GitHub</a>
+            <a class="footer__link" href="https://rs.school/js/" target="_blank">
+              <img class="footer__list-icon" src="img/logo/logo_rs.svg" alt="logo">
+            </a>
+            <span class="footer__date" title="© Все права защищены (на самом деле нет)">Created in 2024</span>
         </footer>
 
         <template id="sourceItemTemp">
@@ -46,11 +53,14 @@
             </div>
         </template>
     </body>
-    <footer class="footer">
-        <a class="footer__link" href="https://github.com/grimpatron" target="_blank">My GitHub</a>
-        <a class="footer__link" href="https://rs.school/js/" target="_blank">
-          <img class="footer__list-icon" src="img/logo/logo_rs.svg" alt="logo">
-        </a>
-        <span class="footer__date" title="© Все права защищены (на самом деле нет)">created in 2024</span>
-      </footer>
+    <script>
+        // document.querySelector('.sources__show-all').addEventListener('click', {
+        //     // const container = document.querySelector('.container');
+        //     document.querySelector('.container').classList.toggle('expanded');
+        // })
+        // function expandContainer() {
+        //     const container = document.querySelector('.sources');
+        //     container.classList.toggle('source--expanded');
+        // }
+    </script>
 </html>

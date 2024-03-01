@@ -36,4 +36,11 @@ class Sources {
     }
 }
 
+document.querySelector('.sources__show-all')?.addEventListener('click',expandContainer);
+
+function expandContainer(): void {
+    const container = document.querySelector('.sources');
+    container?.classList.toggle('source--expanded');
+}
+
 export default Sources;
