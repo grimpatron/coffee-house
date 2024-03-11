@@ -117,6 +117,7 @@ src
 .prettierrc.cjs
 commitlint.config.js
 index.html
+!dist/index.html
 package-lock.json
 package.json
 README.md
