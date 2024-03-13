@@ -2,39 +2,47 @@ body {
   font-family: Arial, sans-serif;
   height: 100vh;
 }
-.login-container {
+.login__container {
   height: 100%;
   display: flex;
   justify-content: space-between;
   align-items: center;
   border-radius: 5px;
 }
-.login-form {
+.login__form {
   max-width: 400px;
   width: 100%;
   margin: 0 auto;
   padding: 20px;
   border: 1px solid #ccc;
 }
-.login-title {
+.login__title {
   text-align: center;
 }
-.form-group {
+.form__group {
   margin-bottom: 15px;
   width: 100%;
 }
-.form-label {
+.form__label {
   display: block;
   font-weight: bold;
 }
-.form-input {
+.form__input {
   width: 100%;
   padding: 10px;
   display: block;
   border: 1px solid #ccc;
   border-radius: 3px;
 }
-.login-submit {
+.form__input--error {
+  border: 1px solid #a00;
+}
+.form__error-message {
+  padding: 4px 0;
+  font-size: 15px;
+  color: #a00;
+}
+.login__submit {
   text-align: center;
   display: block;
   margin: 0 auto;
