@@ -1,3 +1,5 @@
+import { saveUserData } from './form-storage';
+
 function validateForm(e: Event) {
   e.preventDefault();
   const loginFirstName = (document.querySelector('#first-name') as HTMLInputElement);
@@ -20,6 +22,10 @@ function validateForm(e: Event) {
   if (!regexSurname.test(loginSurname.value)) {
     loginSurname.classList.add('form__input--error');
     errorSurname.innerHTML = 'The last name must begin with a capital letter and contain at least 4 characters.';
+  }
+
+  if (regexFirstName.test(loginFirstName.value) && regexSurname.test(loginSurname.value)) {
+    saveUserData(loginFirstName.value, loginSurname.value);
   }
 }
 
