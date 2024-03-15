@@ -25,12 +25,7 @@ function openModal() {
 }
 
 function acceptLogOur() {
-  // const savedUserJSON = localStorage.getItem('puzzle-user-data');
-  // if (savedUserJSON !== null) {
-    // let user = JSON.parse(savedUserJSON);
-    // saveUserData(false, user.firstName, user.lastName); // требуется полностью удалить имя.
-    saveUserData(false, "", "");
-  // }
+  saveUserData(false, "", "");
 }
 
 function closeModalWindow() {

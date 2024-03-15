@@ -1,5 +1,6 @@
 import { saveUserData } from './form-storage';
-import { generateMainLayout } from '../../page';
+// import { generateMainLayout } from '../../page';
+// import { generateStartScreen } from '../../start-screen';
 
 let loginSubmit;
 window.addEventListener('load', () => generateLoginEvent());
@@ -34,6 +35,6 @@ function validateForm(e: Event) {
 
   if (regexFirstName.test(loginFirstName.value) && regexSurname.test(loginSurname.value)) {
     saveUserData(true, loginFirstName.value, loginSurname.value);
-    generateMainLayout();
+    // generateMainLayout();
   }
 }

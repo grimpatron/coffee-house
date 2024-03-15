@@ -1,6 +1,7 @@
 import { generateLoginForm } from './form-generation';
 import { generateLoginEvent } from './form-validation';
 import { generateMainLayout } from '../../page';
+import { generateStartScreen } from '../../start-screen';
 
 window.addEventListener('load', () => {
   const savedUserJSON = localStorage.getItem('puzzle-user-data');
@@ -43,6 +44,12 @@ export function saveUserData(access: boolean, name: string, surname: string) {
     generateLoginEvent();
   }
   if (access === true) {
-    generateMainLayout();
+    openStartScreen()
   }
+}
+
+function openStartScreen() {
+  (document.querySelector('body') as HTMLElement).innerHTML = generateStartScreen();
+  const startBtn = (document.querySelector('#start-btn') as HTMLElement);
+  startBtn.addEventListener('click', generateMainLayout);
 }

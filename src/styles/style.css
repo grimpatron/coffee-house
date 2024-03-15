@@ -1,6 +1,8 @@
 :root {
   --btn-primary: #007bff;
   --btn-primary-hover: #006adb;
+  --modal-bg-color: #699;
+  --modal-border-color: #477;
 }
 
 body {
@@ -8,6 +10,11 @@ body {
   font-weight: bold;
   height: 100vh;
   position: relative;
+
+  background: url(../assets/start-bg.png);
+  background-size: cover;
+  background-repeat: no-repeat;
+  background-position: center;
 }
 .login__container {
   height: 100%;
@@ -21,8 +28,9 @@ body {
   width: 100%;
   margin: 0 auto;
   padding: 20px;
-  border: 2px solid #cff;
-  background-color: #eff;
+  border: 2px solid var(--modal-border-color);
+  background-color: var(--modal-bg-color);
+  color: #fff;
   box-shadow: 3px 3px 5px rgba(60, 60, 60, 0.3);
 }
 .login__title {
@@ -93,11 +101,13 @@ body {
   padding: 20px;
   max-width: 420px;
   width: 100%;
-  background-color: #aaa;
   margin: 0 auto;
   text-align: center;
   border-radius: 24px;
-  border: 2px solid #999;
+  border: 2px solid var(--modal-border-color);
+  background-color: var(--modal-bg-color);
+  color: #fff;
+  box-shadow: 3px 3px 5px rgba(60, 60, 60, 0.3);
 }
 .modal__message {
   font-size: 24px;
@@ -105,4 +115,30 @@ body {
 }
 .modal__buttons {
   display: flex;
+}
+
+
+
+.start-container {
+  position: absolute;
+  top: 50%;
+  width: 100%;
+  transform: translateY(-50%);
+  text-align: center;
+  color: #fff;
+  /* background: rgba(104, 104, 104, 0.5); */
+  background: linear-gradient(90deg, rgba(2,0,36,0) 0%, rgba(80,160,180,0.5) 50%, rgba(0,212,255,0) 100%);
+  padding: 20px 0 30px;
+}
+.start-title {
+  text-transform: uppercase;
+  font-size: 52px;
+  margin-bottom: 40px;
+  text-shadow: 1px 1px 1px #000;
+}
+.start-subtitle {
+  max-width: 640px;
+  margin: 0 auto 40px;
+  font-size: 24px;
+  text-shadow: 1px 1px 1px #000;
 }
