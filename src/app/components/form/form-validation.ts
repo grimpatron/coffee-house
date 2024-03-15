@@ -1,4 +1,12 @@
 import { saveUserData } from './form-storage';
+import { generateMainLayout } from '../../page';
+
+let loginSubmit;
+window.addEventListener('load', () => generateLoginEvent());
+export function generateLoginEvent() {
+  loginSubmit = (document.querySelector('#log-in') as HTMLElement);
+  loginSubmit?.addEventListener('click', validateForm);
+}
 
 function validateForm(e: Event) {
   e.preventDefault();
@@ -25,9 +33,7 @@ function validateForm(e: Event) {
   }
 
   if (regexFirstName.test(loginFirstName.value) && regexSurname.test(loginSurname.value)) {
-    saveUserData(loginFirstName.value, loginSurname.value);
+    saveUserData(true, loginFirstName.value, loginSurname.value);
+    generateMainLayout();
   }
 }
-
-const loginSubmit = document.querySelector('.login__submit');
-loginSubmit?.addEventListener('click', validateForm);
