@@ -17,7 +17,6 @@ window.addEventListener('load', () => {
   }
 });
 
-
 function createLocalStorage(access: boolean, name: string, surname: string) {
   const user = setUserData(access, name, surname);
   const userJSON = JSON.stringify(user);
