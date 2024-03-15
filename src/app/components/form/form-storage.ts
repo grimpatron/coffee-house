@@ -24,7 +24,6 @@ function createLocalStorage(access: boolean, name: string, surname: string) {
   localStorage.setItem('puzzle-user-data', userJSON);
 }
 
-
 function setUserData(access: boolean, name: string, surname: string) {
   return {
     authorization: access,
@@ -49,7 +48,7 @@ export function saveUserData(access: boolean, name: string, surname: string) {
 }
 
 function openStartScreen() {
-  (document.querySelector('body') as HTMLElement).innerHTML = generateStartScreen();
+  (document.querySelector('body') as HTMLElement).appendChild(generateStartScreen());
   const startBtn = (document.querySelector('#start-btn') as HTMLElement);
   startBtn.addEventListener('click', generateMainLayout);
 }
