@@ -16,7 +16,7 @@ export function generateLoginForm() {
               <p class="form__error-message" id="error-surname"></p>
           </div>
 
-          <button class="btn" id="log-in">Log in</button>
+          <button class="btn form__btn" id="log-in">Log in</button>
       </form>
   </div>
   `;
