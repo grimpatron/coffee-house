@@ -1,31 +1,48 @@
-const firstName = (document.querySelector('#first-name') as HTMLInputElement).value;
-const lastName = (document.querySelector('#surname') as HTMLInputElement).value;
-
-// Запихнуть в createLocalStorage и зделать свойства по умолчанию!!!!
-let user = {
-  firstName,
-  lastName,
-};
+import { generateLoginForm } from './form-generation';
+import { generateLoginEvent } from './form-validation';
+import { generateMainLayout } from '../../page';
 
 window.addEventListener('load', () => {
   const savedUserJSON = localStorage.getItem('puzzle-user-data');
-  if (savedUserJSON) {
-    console.log('zagrushaem!!!');
-    console.log(JSON.parse(savedUserJSON));
+  if (savedUserJSON !== null) {
+    let user = JSON.parse(savedUserJSON);
+    if (user.authorization == true) {
+      generateMainLayout();
+    } else {
+      (document.querySelector('body') as HTMLElement).innerHTML = generateLoginForm();
+    }
   } else {
-    createLocalStorage();
+    createLocalStorage(false, "", "");
   }
 });
 
-function createLocalStorage() {
+
+function createLocalStorage(access: boolean, name: string, surname: string) {
+  const user = setUserData(access, name, surname);
   const userJSON = JSON.stringify(user);
   localStorage.setItem('puzzle-user-data', userJSON);
 }
 
-export function saveUserData(a: string, b: string) {
-  user = {
-    firstName: a,
-    lastName: b
-  };
-  localStorage.setItem('puzzle-user-data', JSON.stringify(user));
+
+function setUserData(access: boolean, name: string, surname: string) {
+  return {
+    authorization: access,
+    firstName: name,
+    lastName: surname
+  }
+}
+
+export function saveUserData(access: boolean, name: string, surname: string) {
+  const savedUserJSON = localStorage.getItem('puzzle-user-data');
+  if (savedUserJSON !== null) {
+    const user = setUserData(access, name, surname);
+    localStorage.setItem('puzzle-user-data', JSON.stringify(user));
+  }
+  if (access === false) {
+    (document.querySelector('body') as HTMLElement).innerHTML = generateLoginForm();
+    generateLoginEvent();
+  }
+  if (access === true) {
+    generateMainLayout();
+  }
 }
