@@ -25,7 +25,7 @@
       "@pages/*": ["src/app/pages/*"],
       "@utils/*": ["src/app/utils/*"],
       "@interfaces/*": ["src/app/interfaces/*"],
-      "@services/*": ["src/app/services/*"],
+      "@services/*": ["src/app/storage/*"],
       "@assets/*": ["src/assets/*"],
       "@data/*": ["src/app/data/*"],
     },

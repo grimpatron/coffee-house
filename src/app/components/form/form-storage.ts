@@ -1,19 +1,20 @@
 import { generateLoginForm } from './form-generation';
 import { generateLoginEvent } from './form-validation';
-import { generateMainLayout } from '../../page';
+import { generateMainLayout } from '../../index';
 import { generateStartScreen } from '../../start-screen';
+import { getStorageData } from '../../storage/local-storage';
 
 window.addEventListener('load', () => {
-  const savedUserJSON = localStorage.getItem('puzzle-user-data');
-  if (savedUserJSON !== null) {
-    let user = JSON.parse(savedUserJSON);
-    if (user.authorization == true) {
+  let userData = getStorageData();
+  if (userData !== null && userData !== undefined) {
+    if (userData.authorization == true) {
       generateMainLayout();
     } else {
       (document.querySelector('body') as HTMLElement).innerHTML = generateLoginForm();
     }
   } else {
     createLocalStorage(false, "", "");
+    (document.querySelector('body') as HTMLElement).innerHTML = generateLoginForm();
   }
 });
 
