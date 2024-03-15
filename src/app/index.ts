@@ -1,14 +1,12 @@
 import { generateMainScreen } from './main-screen';
-import { createButton } from './components/button/button';
 import { createModal } from './components/modal/modal-window';
 import { saveUserData } from './components/form/form-storage';
 import { getStorageData } from './storage/local-storage';
 
 let logOutBtn = (document.querySelector('#log-out') as HTMLElement);
 export function generateMainLayout() {
-  (document.querySelector('body') as HTMLElement).innerHTML = generateMainScreen();
-  const myButton = createButton('Log out', 'log-out');
-  (document.querySelector('header') as HTMLElement).appendChild(myButton);
+  // (document.querySelector('body') as HTMLElement).innerHTML = generateMainScreen();
+  (document.querySelector('body') as HTMLElement).appendChild(generateMainScreen());
   logOutBtn = (document.querySelector('#log-out') as HTMLElement);
   logOutBtn.addEventListener('click', openModal);
   showGrateful();
@@ -33,8 +31,6 @@ function closeModalWindow() {
   const modal = document.querySelector('#modal-wrapper') as HTMLElement;
   modal.style.display = 'none';
 }
-
-
 
 function showGrateful() {
   const gratefulName = document.querySelector('#grateful-name') as HTMLElement;

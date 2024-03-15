@@ -1,8 +1,13 @@
 :root {
-  --btn-primary: #007bff;
-  --btn-primary-hover: #006adb;
+  --btn-color--primary: #007bff;
+  --btn-color--primary-hover: #006adb;
+  --btn-color--success: #4caf50;
+  --btn-color--success-hover: #429645;
+  --btn-color--failure: #da9836;
+  --btn-color--failure-hover: #b8812e;
   --modal-bg-color: #699;
   --modal-border-color: #477;
+  --modal-box-shadow: rgba(60, 60, 60, 0.3);
 }
 
 body {
@@ -32,7 +37,7 @@ body {
   border: 2px solid var(--modal-border-color);
   background-color: var(--modal-bg-color);
   color: #fff;
-  box-shadow: 3px 3px 5px rgba(60, 60, 60, 0.3);
+  box-shadow: 3px 3px 5px var(--modal-box-shadow);
 }
 .login__title {
   text-align: center;
@@ -69,10 +74,9 @@ body {
 
 .btn {
   display: block;
-  /* margin: 0 auto; */
   padding: 2px 12px;
   border-radius: 6px;
-  box-shadow: 3px 3px 5px rgba(60, 60, 60, 0.4);
+  box-shadow: 3px 3px 5px var(--modal-box-shadow);
   position: relative;
   font-family: "Courier New", Courier, monospace;
   font-weight: bold;
@@ -80,11 +84,11 @@ body {
   transition:  all .2s ease;
   user-select: none;
   color: #fff;
-  background-color: var(--btn-primary);
+  background-color: var(--btn-color--primary);
   cursor: pointer;
 }
 .btn:hover {
-  background-color: var(--btn-primary-hover);
+  background-color: var(--btn-color--primary-hover);
 }
 
 .modal__wrapper {
@@ -110,7 +114,7 @@ body {
   border: 2px solid var(--modal-border-color);
   background-color: var(--modal-bg-color);
   color: #fff;
-  box-shadow: 3px 3px 5px rgba(60, 60, 60, 0.3);
+  box-shadow: 3px 3px 5px var(--modal-box-shadow);
 }
 .modal__message {
   font-size: 24px;
@@ -120,8 +124,18 @@ body {
   display: flex;
   justify-content: space-around;
 }
-
-
+.modal__button--accept {
+  background-color: var(--btn-color--success);
+}
+.modal__button--accept:hover {
+  background-color: var(--btn-color--success-hover);
+}
+.modal__button--reject {
+  background-color: var(--btn-color--failure);
+}
+.modal__button--reject:hover {
+  background-color: var(--btn-color--failure-hover);
+}
 
 .start-container {
   position: absolute;
