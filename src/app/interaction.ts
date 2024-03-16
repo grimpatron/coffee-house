@@ -10,7 +10,7 @@ export function createPuzzlePart() {
   
   const deskEL = document.querySelector('.board') as HTMLElement;
   shuffledArr.forEach((element) => {
-    deskEL.innerHTML += `<div style="width: ${countCardWidth(element, letterWDH)}%" class="card-word">${element}</div>`;
+    deskEL.innerHTML += `<div style="width: ${countCardWidth(element, letterWDH)}%" class="card-word card-on-desk">${element}</div>`;
   });
 
   function shuffle(array: string[]) {
