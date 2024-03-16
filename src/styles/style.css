@@ -5,6 +5,7 @@
   --btn-color--success-hover: #429645;
   --btn-color--failure: #da9836;
   --btn-color--failure-hover: #b8812e;
+  --btn-color--disabled: #aaa;
   --modal-bg-color: #699;
   --modal-border-color: #477;
   --modal-box-shadow: rgba(60, 60, 60, 0.3);
@@ -87,7 +88,11 @@ body {
   background-color: var(--btn-color--primary);
   cursor: pointer;
 }
-.btn:hover {
+.btn--disabled {
+  background-color: var(--btn-color--disabled);
+  cursor: auto;
+}
+.btn:not(.btn--disabled):hover {
   background-color: var(--btn-color--primary-hover);
 }
 

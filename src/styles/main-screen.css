@@ -1,5 +1,5 @@
 .header {
-  margin: 0 6% 20px;
+  margin: 0 6% 33px;
   display: flex;
   justify-content: space-between;
   align-items: center;
@@ -14,20 +14,43 @@
 }
 
 .container {
-  max-width: 1200px;
+  max-width: 1024px;
   margin: 0 auto;
+  padding: 0 12px;
 }
 .playground {
-  background-color: rgba(125, 155, 155, 0.8);
+  padding: 0 12px;
+  margin: 0 auto 33px;
+  background: linear-gradient(90deg, rgba(0,0,0,0) 0%, rgba(25, 55, 55, 0.9) 40%, rgba(25, 55, 55, 0.9) 60%, rgba(0,0,0,0) 100%);
+}
+.sentence {
+  padding: 12px;
+  text-align: center;
+  color: #fff;
+  text-shadow: 1px 1px 1px #000;
+  font-size: 20px;
 }
 .puzzle {
+  max-width: 640px;
+  min-height: 320px;
   border: 1px solid #000;
-  margin-bottom: 20px;
+  margin: 0 auto;
+  
+  background-color: rgba(125, 155, 155, 0.8);
+  background-image: linear-gradient(#ccc 1px, transparent 1px);
+  background-size: 100% 32px;
+}
+.desk {
+  min-height: 32px;
+  height: 100%;
+  max-width: 720px;
+  padding: 20px 12px;
+  margin: 0 auto;
 }
 .card-word {
   display: inline-block;
   border: 1px solid #a71;
-  padding: 2px;
+  padding: 3px;
   background: #eb5;
   text-align: center;
   user-select: none;
@@ -54,4 +77,11 @@
 @keyframes slide-down {
   from { transform: translateY(-100%) }
   to {   transform: translateY(0)     }
+}
+
+
+
+.interface {
+  display: flex;
+  justify-content: center;
 }

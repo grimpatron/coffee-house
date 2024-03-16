@@ -1,4 +1,7 @@
 import { createButton } from './components/button/button';
+import { createButtonWithEvent } from './components/button/button';
+import { checkAnswer } from './interaction';
+import { makeExercise } from './interaction';
 
 export function generateMainScreen(): void {
   const bodyElement = document.querySelector('body') as HTMLElement;
@@ -12,18 +15,21 @@ export function generateMainScreen(): void {
   const main = createElement('main', 'main');
   const topbar = createElement('div', 'topbar');
   const playground = createElement('div', 'playground');
-  const board = createSentenceElement('div', 'board', '.puzzle-line');
+  const desk = createSentenceElement('div', 'desk', '.puzzle-line');
   const sentence = createElement('div', 'sentence');
-  const puzzle = createSentenceElement('div', 'puzzle', '.board')
-  const puzzleLine = createElement('div', 'puzzle-line');
+  const puzzle = createSentenceElement('div', 'puzzle', '.desk');
+  for (let index = 0; index < 10; index++) {
+    const puzzleLine = createElement('div', `puzzle-line puzzle-line--${index + 1}`);
+    puzzle.append(puzzleLine);
+  }
   const interfaceDiv = createElement('div', 'interface');
-
-  const myButton = createButton('Log out', 'log-out', ['btn']);
-
+  const buttonLogOut = createButton('Log out', 'log-out', ['btn']);
+  const buttonNextSentence = createButtonWithEvent('Continue', 'continue-task', ['btn', 'btn--disabled'], 'click', makeExercise);
+  
   grateful.appendChild(gratefulName);
-  header.append(grateful, myButton);
-  puzzle.append(puzzleLine);
-  playground.append(sentence, puzzle, board);
+  header.append(grateful, buttonLogOut);
+  playground.append(sentence, puzzle, desk);
+  interfaceDiv.append(buttonNextSentence);
   main.append(topbar, playground, interfaceDiv);
   container.append(main);
 
@@ -61,4 +67,5 @@ function moveBlock(event: Event, targetClass: string): void {
       targetElement.appendChild(event.target);
     }
   }
+  checkAnswer();
 }
