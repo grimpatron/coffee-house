@@ -17,7 +17,7 @@ body {
   position: relative;
   padding: 20px 0;
 
-  background: url(../assets/start-bg.png);
+  background: url(../assets/start-bg-min.png);
   background-size: cover;
   background-repeat: no-repeat;
   background-position: center;
@@ -161,19 +161,4 @@ body {
 }
 .start-container .btn {
   margin: 0 auto;
-}
-
-.header {
-  margin: 0 6%;
-  display: flex;
-  justify-content: space-between;
-  align-items: center;
-}
-.grateful {
-  display: inline-block;
-  color: #fff;
-  font-size: 18px;
-  background-color: wheat;
-  padding: 4px 40px;
-  color: black;
 }

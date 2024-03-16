@@ -4,19 +4,17 @@ import { generateMainLayout } from '../../index';
 import { generateStartScreen } from '../../start-screen';
 import { getStorageData } from '../../storage/local-storage';
 
-window.addEventListener('load', () => {
-  let userData = getStorageData();
-  if (userData !== null && userData !== undefined) {
-    if (userData.authorization == true) {
-      generateMainLayout();
-    } else {
-      (document.querySelector('body') as HTMLElement).innerHTML = generateLoginForm();
-    }
+let userData = getStorageData();
+if (userData !== null && userData !== undefined) {
+  if (userData.authorization == true) {
+    generateMainLayout();
   } else {
-    createLocalStorage(false, "", "");
     (document.querySelector('body') as HTMLElement).innerHTML = generateLoginForm();
   }
-});
+} else {
+  createLocalStorage(false, '', '');
+  (document.querySelector('body') as HTMLElement).innerHTML = generateLoginForm();
+}
 
 function createLocalStorage(access: boolean, name: string, surname: string) {
   const user = setUserData(access, name, surname);
@@ -28,8 +26,8 @@ function setUserData(access: boolean, name: string, surname: string) {
   return {
     authorization: access,
     firstName: name,
-    lastName: surname
-  }
+    lastName: surname,
+  };
 }
 
 export function saveUserData(access: boolean, name: string, surname: string) {
@@ -43,12 +41,12 @@ export function saveUserData(access: boolean, name: string, surname: string) {
     generateLoginEvent();
   }
   if (access === true) {
-    openStartScreen()
+    openStartScreen();
   }
 }
 
 function openStartScreen() {
   (document.querySelector('body') as HTMLElement).appendChild(generateStartScreen());
-  const startBtn = (document.querySelector('#start-btn') as HTMLElement);
+  const startBtn = document.querySelector('#start-btn') as HTMLElement;
   startBtn.addEventListener('click', generateMainLayout);
 }
