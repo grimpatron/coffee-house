@@ -12,7 +12,7 @@ export const generateStartScreen = (): HTMLElement => {
 
   const subtitle = document.createElement('div');
   subtitle.className = 'start-subtitle';
-  subtitle.textContent = 'RSS Puzzle is an interactive mini-game aimed at enhancing English language skills. The game integrates various levels of difficulty, hint options, and a unique puzzle-like experience with artwork. Click on words, collect phrases. Words can be grab and drop. Select tooltips in the menu.';
+  subtitle.textContent = 'English Puzzle is an interactive mini-game aimed at enhancing English language skills. The game integrates various levels of difficulty, hint options, and a unique puzzle-like experience with artwork. Click on words, collect phrases. Words can be grab and drop. Select tooltips in the menu.';
 
   const startBtn = createButton('Start', 'start-btn', ['btn']);
 
