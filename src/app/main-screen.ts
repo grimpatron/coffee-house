@@ -12,15 +12,17 @@ export function generateMainScreen(): void {
   const main = createElement('main', 'main');
   const topbar = createElement('div', 'topbar');
   const playground = createElement('div', 'playground');
-  const board = createSentenceElement();
+  const board = createSentenceElement('div', 'board', '.puzzle-line');
   const sentence = createElement('div', 'sentence');
-  const puzzle = createElement('div', 'puzzle');
+  const puzzle = createSentenceElement('div', 'puzzle', '.board')
+  const puzzleLine = createElement('div', 'puzzle-line');
   const interfaceDiv = createElement('div', 'interface');
 
   const myButton = createButton('Log out', 'log-out', ['btn']);
 
   grateful.appendChild(gratefulName);
   header.append(grateful, myButton);
+  puzzle.append(puzzleLine);
   playground.append(sentence, puzzle, board);
   main.append(topbar, playground, interfaceDiv);
   container.append(main);
@@ -30,40 +32,33 @@ export function generateMainScreen(): void {
 }
 
 function createElement(tag: string, className: string, textContent = ''): HTMLElement {
-  const element = document.createElement(tag);
-  element.className = className;
-  if (textContent) element.textContent = textContent;
-  return element;
+  const HTMLelm = document.createElement(tag);
+  HTMLelm.className = className;
+  if (textContent) HTMLelm.textContent = textContent;
+  return HTMLelm;
 }
 
-function createSentenceElement(): HTMLElement {
-  const HTMLel = document.createElement('div');
-  HTMLel.classList.add('board');
-  HTMLel.addEventListener('click', function (event) {
-    moveBlock(event, '.puzzle');
+function createSentenceElement(tag: string, className: string, target: string): HTMLElement {
+  const HTMLelm = document.createElement(tag);
+  HTMLelm.className = className;
+  HTMLelm.addEventListener('click', function (event) {
+    moveBlock(event, target);
   });
-
-  return HTMLel;
+  return HTMLelm;
 }
 
 function moveBlock(event: Event, targetClass: string): void {
-  if (event.target instanceof HTMLElement && event.target.classList.contains('piece-word')) {
+  if (event.target instanceof HTMLElement && event.target.classList.contains('card-word')) {
+    if (event.target.classList.contains("card-on-desk")) {
+      event.target.classList.remove("card-on-desk");
+      event.target.classList.add("card-on-puzzle");
+    } else {
+      event.target.classList.add("card-on-desk");
+      event.target.classList.remove("card-on-puzzle");
+    }
     const targetElement = document.querySelector(targetClass);
     if (targetElement) {
       targetElement.appendChild(event.target);
     }
   }
 }
-
-// // Получаем родительский элемент, куда хотим добавить наш элемент
-// const parentElement = document.querySelector('.your-parent-element'); // Замените на селектор вашего родительского элемента
-
-// // Создаем элемент и добавляем его в родительский элемент
-// const sentenceConstructor = createSentenceElement();
-// parentElement.appendChild(sentenceConstructor);
-
-// function moveBlock(event, targetClass) {
-//   if (event.target.classList.contains('sentence-block')) {
-//       document.querySelector(targetClass).appendChild(event.target);
-//   }
-// }

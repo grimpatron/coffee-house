@@ -26,10 +26,32 @@
 }
 .card-word {
   display: inline-block;
-  border: 1px solid #000;
+  border: 1px solid #a71;
   padding: 2px;
   background: #eb5;
   text-align: center;
   user-select: none;
   cursor: pointer;
+  transition: all .3s;
+}
+.card-word:hover {
+  background: #b82;
+  color: #fff;
+}
+
+.card-on-desk {
+  animation: slide-down .3s ease-in-out 1 forwards;
+}
+.card-on-puzzle {
+  animation: slide-up .3s ease-in-out 1 forwards;
+}
+
+
+@keyframes slide-up {
+  from { transform: translateY(100%) }
+  to {   transform: translateY(0)    }
+}
+@keyframes slide-down {
+  from { transform: translateY(-100%) }
+  to {   transform: translateY(0)     }
 }
