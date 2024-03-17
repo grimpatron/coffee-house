@@ -1,7 +1,8 @@
 import { createButton } from './components/button/button';
 import { createButtonWithEvent } from './components/button/button';
 import { checkAnswer } from './interaction';
-import { makeExercise } from './interaction';
+import { nextExercise } from './interaction';
+import { checkExercise } from './interaction';
 
 export function generateMainScreen(): void {
   const bodyElement = document.querySelector('body') as HTMLElement;
@@ -24,12 +25,13 @@ export function generateMainScreen(): void {
   }
   const interfaceDiv = createElement('div', 'interface');
   const buttonLogOut = createButton('Log out', 'log-out', ['btn']);
-  const buttonNextSentence = createButtonWithEvent('Continue', 'continue-task', ['btn', 'btn--disabled'], 'click', makeExercise);
+  const buttonCheckExercise = createButtonWithEvent('Check', 'check-exercise', ['btn', 'btn--disabled'], 'click', checkExercise);
+  const buttonNextExercise = createButtonWithEvent('Continue', 'next-exercise', ['btn', 'btn--disabled'], 'click', nextExercise);
   
   grateful.appendChild(gratefulName);
   header.append(grateful, buttonLogOut);
   playground.append(sentence, puzzle, desk);
-  interfaceDiv.append(buttonNextSentence);
+  interfaceDiv.append(buttonCheckExercise, buttonNextExercise);
   main.append(topbar, playground, interfaceDiv);
   container.append(main);
 
@@ -54,7 +56,9 @@ function createSentenceElement(tag: string, className: string, target: string): 
 }
 
 function moveBlock(event: Event, targetClass: string): void {
-  if (event.target instanceof HTMLElement && event.target.classList.contains('card-word')) {
+  if (event.target instanceof HTMLElement && 
+      event.target.classList.contains('card-word') && 
+      !event.target.classList.contains('card-word--disabled')) {
     if (event.target.classList.contains("card-on-desk")) {
       event.target.classList.remove("card-on-desk");
       event.target.classList.add("card-on-puzzle");
@@ -63,6 +67,8 @@ function moveBlock(event: Event, targetClass: string): void {
       event.target.classList.remove("card-on-puzzle");
     }
     const targetElement = document.querySelector(targetClass);
+    
+    event.target.style.color = '';
     if (targetElement) {
       targetElement.appendChild(event.target);
     }
