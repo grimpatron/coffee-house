@@ -1,7 +1,7 @@
 import { createButton } from './components/button/button';
 import { createButtonWithEvent } from './components/button/button';
 import { checkAnswer } from './interaction';
-import { nextExercise } from './interaction';
+// import { nextExercise } from './interaction';
 import { checkExercise } from './interaction';
 
 export function generateMainScreen(): void {
@@ -26,12 +26,13 @@ export function generateMainScreen(): void {
   const interfaceDiv = createElement('div', 'interface');
   const buttonLogOut = createButton('Log out', 'log-out', ['btn']);
   const buttonCheckExercise = createButtonWithEvent('Check', 'check-exercise', ['btn', 'btn--disabled'], 'click', checkExercise);
-  const buttonNextExercise = createButtonWithEvent('Continue', 'next-exercise', ['btn', 'btn--disabled'], 'click', nextExercise);
+  // const buttonNextExercise = createButtonWithEvent('Continue', 'next-exercise', ['btn', 'btn--disabled'], 'click', nextExercise);
   
   grateful.appendChild(gratefulName);
   header.append(grateful, buttonLogOut);
   playground.append(sentence, puzzle, desk);
-  interfaceDiv.append(buttonCheckExercise, buttonNextExercise);
+  // interfaceDiv.append(buttonCheckExercise, buttonNextExercise);
+  interfaceDiv.append(buttonCheckExercise);
   main.append(topbar, playground, interfaceDiv);
   container.append(main);
 
