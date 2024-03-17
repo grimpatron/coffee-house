@@ -1,8 +1,8 @@
 let engLVL: number = 1;
 let engRoundNumber: number = 0;
 let engWordNumber: number = 0;
-let englishSentence: string = '';
-// let dataCollection = await getSentence();
+let russianSentence: string = '';
+let englishSentenceArr: string[] = [];
 let allAnswerSentences: string = '';
 
 
@@ -26,31 +26,59 @@ export async function checkAnswer() {
   currentAnswer.forEach(element => {
     currentResultArr.push(element.innerHTML);
   });
-  const currentResultArrString = currentResultArr.join(" ");
+  const currentResultString = currentResultArr.join(" ");
 
-  console.log(currentResultArrString, "||" ,allAnswerSentences);
-
-  if (currentResultArrString === allAnswerSentences) {
-    const BtnCheckSentence = document.querySelector('#continue-task') as HTMLElement;
+  if (currentResultString === allAnswerSentences) {
+    const BtnCheckSentence = document.querySelector('#next-exercise') as HTMLElement;
     BtnCheckSentence.classList.remove('btn--disabled');
+  } else {
+    const BtnCheckSentence = document.querySelector('#next-exercise') as HTMLElement;
+    BtnCheckSentence.classList.add('btn--disabled');
+  }
+  if (currentResultString.length === allAnswerSentences.length) {
+    const BtnCheckSentence = document.querySelector('#check-exercise') as HTMLElement;
+    BtnCheckSentence.classList.remove('btn--disabled');
+  } else {
+    const BtnCheckSentence = document.querySelector('#check-exercise') as HTMLElement;
+    BtnCheckSentence.classList.add('btn--disabled');
   }
 }
 
-export function makeExercise(e: Event) {
+export function nextExercise(e: Event) {
   const target = e.target as HTMLElement;
   if (!target.classList.contains('btn--disabled')) {
     target.classList.add('btn--disabled')
     engWordNumber += 1;
+    let CW = document.querySelectorAll('.card-word');
+    CW.forEach((element) => element.classList.add('card-word--disabled'));
     createPuzzlePart();
   }
 }
+
+export function checkExercise(e: Event) {
+  const target = e.target as HTMLElement;
+  if (!target.classList.contains('btn--disabled')) {
+    target.classList.add('btn--disabled')
+    let PL = document.querySelector('.puzzle-line') as HTMLElement;
+    let CW = PL.querySelectorAll('.card-word');
+    CW.forEach((element, i) => {
+      let elHTML = element as HTMLElement;
+      if (elHTML.innerHTML === englishSentenceArr[i]) {
+        elHTML.style.color = 'green';
+      } else {
+        elHTML.style.color = 'red';
+      }
+    });
+  }
+}
+
 
 
 export async function createPuzzlePart() {
   const data = await getSentence();
   
   const sentenceEL = document.querySelector('.sentence') as HTMLElement;
-  sentenceEL.innerHTML = englishSentence;
+  sentenceEL.innerHTML = russianSentence;
 
   allAnswerSentences += " ";
   allAnswerSentences += data.join(" ");
@@ -60,16 +88,18 @@ export async function createPuzzlePart() {
   const letterWDH = countLetterWidth(sentenceSplit);
 
   const deskEL = document.querySelector('.desk') as HTMLElement;
-  shuffledArr.forEach((element) => {
-    deskEL.innerHTML += `<div style="width: ${countCardWidth(element, letterWDH)}%" class="card-word card-on-desk">${element}</div>`;
+  shuffledArr.forEach((element, index) => {
+    deskEL.innerHTML += `<div style="width: ${countCardWidth(element, letterWDH)}%" 
+    data-position="${index}" class="card-word card-on-desk">${element}</div>`;
   });
 }
 
 async function getSentence() {
   const response = await fetch(`https://raw.githubusercontent.com/rolling-scopes-school/rss-puzzle-data/main/data/wordCollectionLevel${engLVL}.json`);
   const json = await response.json();
-  englishSentence = json.rounds[engRoundNumber].words[engWordNumber].textExample;
-  return json.rounds[engRoundNumber].words[engWordNumber].textExampleTranslate.split(' ')
+  russianSentence = json.rounds[engRoundNumber].words[engWordNumber].textExampleTranslate;
+  englishSentenceArr = englishSentenceArr.concat(json.rounds[engRoundNumber].words[engWordNumber].textExample.split(' '));
+  return json.rounds[engRoundNumber].words[engWordNumber].textExample.split(' ')
 }
 
 function shuffle(array: string[]) {
