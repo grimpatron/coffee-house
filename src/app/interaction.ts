@@ -1,3 +1,5 @@
+import { transformButton } from "./components/button/button";
+
 let engLVL: number = 1;
 let engRoundNumber: number = 0;
 let engWordNumber: number = 0;
@@ -21,38 +23,23 @@ function countCardWidth(element: string, letterWDH: number): number {
 
 export async function checkAnswer() {
   const puzzleLine = document.querySelector('.puzzle-line') as HTMLElement;
+  const BtnCheckSentence = document.querySelector('#check-exercise') as HTMLElement;
   const currentAnswer = puzzleLine.querySelectorAll('.card-word');
   let currentResultArr: string[] = [];
   currentAnswer.forEach(element => {
     currentResultArr.push(element.innerHTML);
   });
-  const currentResultString = currentResultArr.join(" ");
 
-  if (currentResultString === allAnswerSentences) {
-    const BtnCheckSentence = document.querySelector('#next-exercise') as HTMLElement;
-    BtnCheckSentence.classList.remove('btn--disabled');
-  } else {
-    const BtnCheckSentence = document.querySelector('#next-exercise') as HTMLElement;
-    BtnCheckSentence.classList.add('btn--disabled');
-  }
-  if (currentResultString.length === allAnswerSentences.length) {
-    const BtnCheckSentence = document.querySelector('#check-exercise') as HTMLElement;
-    BtnCheckSentence.classList.remove('btn--disabled');
-  } else {
-    const BtnCheckSentence = document.querySelector('#check-exercise') as HTMLElement;
-    BtnCheckSentence.classList.add('btn--disabled');
-  }
+  const currentResultString = currentResultArr.join(" ");
+  BtnCheckSentence.classList.toggle('btn--disabled', currentResultString.length !== allAnswerSentences.length);
 }
 
-export function nextExercise(e: Event) {
-  const target = e.target as HTMLElement;
-  if (!target.classList.contains('btn--disabled')) {
-    target.classList.add('btn--disabled')
+export function nextExercise() {
     engWordNumber += 1;
     let CW = document.querySelectorAll('.card-word');
     CW.forEach((element) => element.classList.add('card-word--disabled'));
     createPuzzlePart();
-  }
+    transformButton('next-exercise', 'Check', 'check-exercise', 'btn btn--disabled', 'click', checkExercise, nextExercise);
 }
 
 export function checkExercise(e: Event) {
@@ -64,14 +51,25 @@ export function checkExercise(e: Event) {
     CW.forEach((element, i) => {
       let elHTML = element as HTMLElement;
       if (elHTML.innerHTML === englishSentenceArr[i]) {
-        elHTML.style.color = 'green';
+        elHTML.style.backgroundColor = 'cadetblue';
       } else {
-        elHTML.style.color = 'red';
+        elHTML.style.backgroundColor = 'coral';
       }
     });
+
+    const puzzleLine = document.querySelector('.puzzle-line') as HTMLElement;
+    const currentAnswer = puzzleLine.querySelectorAll('.card-word');
+    let currentResultArr: string[] = [];
+    currentAnswer.forEach(element => {
+      currentResultArr.push(element.innerHTML);
+    });
+
+    const currentResultString = currentResultArr.join(" ");
+    if (currentResultString === allAnswerSentences) {
+      transformButton('check-exercise', 'Continue', 'next-exercise', 'btn', 'click', nextExercise, checkExercise);
+    }
   }
 }
-
 
 
 export async function createPuzzlePart() {
