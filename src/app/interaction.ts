@@ -22,7 +22,7 @@ function countCardWidth(element: string, letterWDH: number): number {
 
 
 export async function checkAnswer() {
-  const puzzleLine = document.querySelector('.puzzle-line') as HTMLElement;
+  const puzzleLine = document.querySelector('.puzzle') as HTMLElement;
   const BtnCheckSentence = document.querySelector('#check-exercise') as HTMLElement;
   const currentAnswer = puzzleLine.querySelectorAll('.card-word');
   let currentResultArr: string[] = [];
@@ -31,7 +31,9 @@ export async function checkAnswer() {
   });
 
   const currentResultString = currentResultArr.join(" ");
-  BtnCheckSentence.classList.toggle('btn--disabled', currentResultString.length !== allAnswerSentences.length);
+  if (BtnCheckSentence) {
+    BtnCheckSentence.classList.toggle('btn--disabled', currentResultString.length !== allAnswerSentences.length);
+  }
 }
 
 export function nextExercise() {
@@ -39,25 +41,23 @@ export function nextExercise() {
     let CW = document.querySelectorAll('.card-word');
     CW.forEach((element) => element.classList.add('card-word--disabled'));
     createPuzzlePart();
-    transformButton('next-exercise', 'Check', 'check-exercise', 'btn btn--disabled', 'click', checkExercise, nextExercise);
 }
 
 export function checkExercise(e: Event) {
   const target = e.target as HTMLElement;
   if (!target.classList.contains('btn--disabled')) {
-    target.classList.add('btn--disabled')
-    let PL = document.querySelector('.puzzle-line') as HTMLElement;
+    let PL = document.querySelector('.puzzle') as HTMLElement;
     let CW = PL.querySelectorAll('.card-word');
     CW.forEach((element, i) => {
       let elHTML = element as HTMLElement;
       if (elHTML.innerHTML === englishSentenceArr[i]) {
-        elHTML.style.backgroundColor = 'cadetblue';
+        elHTML.style.backgroundColor = 'chartreuse';
       } else {
         elHTML.style.backgroundColor = 'coral';
       }
     });
 
-    const puzzleLine = document.querySelector('.puzzle-line') as HTMLElement;
+    const puzzleLine = document.querySelector('.puzzle') as HTMLElement;
     const currentAnswer = puzzleLine.querySelectorAll('.card-word');
     let currentResultArr: string[] = [];
     currentAnswer.forEach(element => {
@@ -66,6 +66,7 @@ export function checkExercise(e: Event) {
 
     const currentResultString = currentResultArr.join(" ");
     if (currentResultString === allAnswerSentences) {
+      target.classList.add('btn--disabled');
       transformButton('check-exercise', 'Continue', 'next-exercise', 'btn', 'click', nextExercise, checkExercise);
     }
   }
@@ -86,10 +87,60 @@ export async function createPuzzlePart() {
   const letterWDH = countLetterWidth(sentenceSplit);
 
   const deskEL = document.querySelector('.desk') as HTMLElement;
-  shuffledArr.forEach((element, index) => {
-    deskEL.innerHTML += `<div style="width: ${countCardWidth(element, letterWDH)}%" 
-    data-position="${index}" class="card-word card-on-desk">${element}</div>`;
+  
+  shuffledArr.forEach((element) => {
+    deskEL.appendChild(createDiv(element, countCardWidth(element, letterWDH)));
   });
+}
+
+function createDiv(content: string, width: number): HTMLDivElement {
+  const div = document.createElement('div');
+  div.className = 'card-word card-on-desk';
+  div.style.width = width + '%';
+  div.draggable = true;
+  div.ondragover = (event: DragEvent) => dragOver(event);
+  div.ondragstart = (event: DragEvent) => dragStart(event);
+  div.textContent = content;
+  return div;
+}
+
+let draggedEl: HTMLElement | null;
+function dragOver(event: DragEvent) {
+  const targetElement = event.target as HTMLElement;
+  if (targetElement.classList.contains("card-word--disabled")) {
+    return;
+  }
+  event.preventDefault();
+  if (isBefore(draggedEl, event.target as HTMLElement)) {
+    (event.target as HTMLElement).parentNode!.insertBefore(draggedEl!, event.target as HTMLElement);
+  } else {
+    (event.target as HTMLElement).parentNode!.insertBefore(draggedEl!, (event.target as HTMLElement).nextSibling);
+  }
+}
+function isBefore(el1: HTMLElement | null, el2: HTMLElement | null) {
+  if (el2 && el1 && el2.parentNode === el1.parentNode) {
+    for (let cur = el1.previousSibling; cur && cur.nodeType !== 9; cur = cur.previousSibling) {
+      if (cur === el2) { return true; }
+    }
+  }
+  return false;
+}
+
+function dragStart(event: DragEvent) {
+  if (event.dataTransfer) {
+    event.dataTransfer.effectAllowed = "move";
+    event.dataTransfer.setData("text/plain", "");
+  }
+  draggedEl = event.target as HTMLElement;
+}
+
+export function dropInContainer(_event: Event, targetClass: string) {
+  const parentContainer = document.querySelector(`${targetClass}`) as HTMLElement;
+  if (draggedEl && !parentContainer.contains(draggedEl)) {
+    parentContainer.appendChild(draggedEl);
+  }
+  
+  checkAnswer();
 }
 
 async function getSentence() {

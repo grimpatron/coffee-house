@@ -1,8 +1,11 @@
 import { createButton } from './components/button/button';
 import { createButtonWithEvent } from './components/button/button';
+import { transformButton } from './components/button/button';
 import { checkAnswer } from './interaction';
 import { autoCompleteExercise } from './interaction';
 import { checkExercise } from './interaction';
+import { nextExercise } from './interaction';
+import { dropInContainer } from './interaction';
 
 export function generateMainScreen(): void {
   const bodyElement = document.querySelector('body') as HTMLElement;
@@ -16,17 +19,13 @@ export function generateMainScreen(): void {
   const main = createElement('main', 'main');
   const topbar = createElement('div', 'topbar');
   const playground = createElement('div', 'playground');
-  const desk = createSentenceElement('div', 'desk', '.puzzle-line');
+  const desk = createSentenceElement('div', 'desk', '.puzzle', '.desk');
   const sentence = createElement('div', 'sentence');
-  const puzzle = createSentenceElement('div', 'puzzle', '.desk');
-  for (let index = 0; index < 10; index++) {
-    const puzzleLine = createElement('div', `puzzle-line puzzle-line--${index + 1}`);
-    puzzle.append(puzzleLine);
-  }
+  const puzzle = createSentenceElement('div', 'puzzle', '.desk', '.puzzle');
   const interfaceDiv = createElement('div', 'interface');
   const buttonLogOut = createButton('Log out', 'log-out', ['btn']);
   const buttonCheckExercise = createButtonWithEvent('Check', 'check-exercise', ['btn', 'btn--disabled'], 'click', checkExercise);
-  const buttonAutoComplete = createButtonWithEvent('Auto-Complete', 'сuto-сomplete', ['btn'], 'click', autoCompleteExercise);
+  const buttonAutoComplete = createButtonWithEvent('Auto-Complete', 'auto-complete', ['btn'], 'click', autoCompleteExercise);
   
   grateful.appendChild(gratefulName);
   header.append(grateful, buttonLogOut);
@@ -46,16 +45,29 @@ function createElement(tag: string, className: string, textContent = ''): HTMLEl
   return HTMLelm;
 }
 
-function createSentenceElement(tag: string, className: string, target: string): HTMLElement {
+function createSentenceElement(tag: string, className: string, target: string, target2: string): HTMLElement {
   const HTMLelm = document.createElement(tag);
   HTMLelm.className = className;
   HTMLelm.addEventListener('click', function (event) {
     moveBlock(event, target);
   });
+  HTMLelm.addEventListener('dragover', function (event) {
+    dragOverContainer(event);
+  });
+  HTMLelm.addEventListener('drop', function (event) {
+    dropInContainer(event, target2);
+  });
   return HTMLelm;
+}
+function dragOverContainer(event: DragEvent) {
+  event.preventDefault();
 }
 
 function moveBlock(event: Event, targetClass: string): void {
+  if (document.querySelector('#next-exercise')) {
+    transformButton('next-exercise', 'Check', 'check-exercise', 'btn', 'click', checkExercise, nextExercise);
+  }
+  
   if (event.target instanceof HTMLElement && 
       event.target.classList.contains('card-word') && 
       !event.target.classList.contains('card-word--disabled')) {
