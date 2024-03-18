@@ -80,7 +80,8 @@ typings/
 
 # Nuxt.js build / generate output
 .nuxt
-# dist
+dist
+src
 
 # Gatsby files
 .cache/
@@ -102,3 +103,23 @@ typings/
 
 # TernJS port file
 .tern-port
+
+
+# мои исключения
+.husky
+.vscode
+.editorconfig
+.eslintignore
+.eslintrc.cjs
+.gitattributes
+.lintstagedrc
+.prettierignore
+.prettierrc.cjs
+commitlint.config.js
+index.html
+!dist/index.html
+package-lock.json
+package.json
+README.md
+tsconfig.json
+vite.config.ts
