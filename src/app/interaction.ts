@@ -107,3 +107,15 @@ function shuffle(array: string[]) {
   }
   return array;
 }
+
+export function autoCompleteExercise() {
+  englishSentenceArr.forEach(element => {
+    for (let i = 0; i < englishSentenceArr.length; i++) {
+      const CWCollection = Array.from(document.querySelectorAll('.card-word'));
+      if (element == CWCollection[i].innerHTML) {
+        (CWCollection[i] as HTMLElement).click();
+        CWCollection.pop();
+      }
+    }
+  });
+}
