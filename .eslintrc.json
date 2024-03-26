@@ -19,6 +19,5 @@
     "rules": {
       "max-lines-per-function": ["error", 40],
       "no-magic-numbers": ["error", { "ignore": [0, 1] }]
-    //   "no-magic-strings": ["error", { "ignore": ["", " "] }]
     }
 }
