@@ -123,13 +123,12 @@ function selectCar(e: Event) {
 function updateCar() {
   const carNameChange = document.querySelector('#car-name-change') as HTMLInputElement;
   const carColorChange = document.querySelector('#car-color-change') as HTMLInputElement;
-  const idX = carNameChange.dataset.id;
-  console.log(idX);
+  const idCar = carNameChange.dataset.id;
 
   const userData = getStorageData();
 
   userData.garage.list.forEach((element: Car) => {
-    if (element.id === idX)  {
+    if (element.id === idCar) {
       element.name = carNameChange.value;
       element.color = carColorChange.value;
     }
@@ -145,3 +144,12 @@ function updateCar() {
   if (carColorChange) carColorChange.setAttribute('disabled', 'disabled');
   saveUserData(userData);
 }
+
+// const RNGCarNumber = 100;
+// const btnGenerate = document.querySelector('#btn-generate');
+// btnGenerate?.addEventListener('click', GenerateCars)
+// function GenerateCars() {
+//   for (let index = 0; index < RNGCarNumber; index++) {
+    
+//   }
+// }
