@@ -3,16 +3,14 @@ import "./styles/normalize.css";
 import "./styles/my-reset.css";
 import "./styles/style.css";
 
-import "./local-storage.ts";
-import { checkStorageData } from "./local-storage.ts";
-import { getStorageData } from "./local-storage.ts";
-import { saveUserData } from "./local-storage.ts";
-import { createDiv } from "./nodeGenerator.ts";
-import { createButton } from "./nodeGenerator.ts";
+import { checkStorageData, getStorageData, saveUserData } from "./local-storage.ts";
+import { createButton, createDiv, generateInterface, saveCarToGarage, addEvent, generateCarItem} from "./nodeGenerator.ts";
 
-const newNode = createDiv("header", "header");
 const bodyElement = document.querySelector<HTMLDivElement>("body");
+const newNode = createDiv("header", "header");
+const garageListDiv = createDiv("garage-list", "garage-list");
 if (bodyElement) {
+  bodyElement.insertBefore(garageListDiv, bodyElement.firstChild);
   bodyElement.insertBefore(newNode, bodyElement.firstChild);
 }
 
@@ -23,16 +21,18 @@ const topBarPageDiv = createDiv("topbar-page");
 const pageButtonsDiv = createDiv("page-buttons");
 const garageBtn = createButton("to Garage", "btn", "garageBtn");
 const scoreBtn = createButton("to Winners", "btn", "scoreBtn");
+const interfaceDiv = generateInterface();
 
 pageButtonsDiv.appendChild(garageBtn);
 pageButtonsDiv.appendChild(scoreBtn);
 topBarInterfaceDiv.appendChild(pageButtonsDiv);
-topBarDiv.append(topBarInterfaceDiv, topBarPageDiv);
+topBarDiv.append(interfaceDiv, topBarInterfaceDiv, topBarPageDiv);
 appDiv.appendChild(topBarDiv);
 
 function showPage(nameOfPage?: string): void {
   checkStorageData();
   const userData = getStorageData();
+  generateCarList(userData);
   let currentPage = userData.pageName;
   if (nameOfPage) currentPage = nameOfPage;
   const app = document.querySelector(".topbar-page") as HTMLElement;
@@ -54,3 +54,94 @@ document
   .addEventListener("click", () => showPage("winners"));
 
 showPage();
+addEvent('btn-create', 'click', saveCarToGarage);
+
+interface Car {
+  name: string;
+  color: string;
+  id: string;
+}
+
+interface Garage {
+  list: Car[];
+}
+
+interface UserData {
+  garage: Garage;
+}
+
+
+function generateCarList(userData: UserData) {
+  userData.garage.list.forEach(element => {
+    generateCarItem(element);
+  });
+}
+
+
+const garageList = document.querySelector('#garage-list');
+garageList?.addEventListener('click', deleteCarFromList);
+garageList?.addEventListener('click', selectCar);
+const updatteCar = document.querySelector('#btn-update');
+updatteCar?.addEventListener('click', updateCar);
+
+function deleteCarFromList(e: Event) {
+  if (e.target instanceof HTMLInputElement && e.target.value === "Remove") {
+    if (e.target.parentNode !== null) {
+      const thisEl = (e.target.parentNode.parentNode as HTMLElement).id;
+      const userData = getStorageData();
+      userData.garage.list = (userData.garage.list as Car[]).filter((element: Car) => element.id != thisEl);
+      let element = document.getElementById(thisEl);
+      if (element) element.remove();
+      saveUserData(userData);
+    }
+  }
+}
+
+
+function selectCar(e: Event) {
+  if (e.target instanceof HTMLInputElement && e.target.value === "Select") {
+    if (e.target.parentNode !== null) {
+      const thisEl = (e.target.parentNode.parentNode as HTMLElement);
+      const carNameChange = document.querySelector('#car-name-change') as HTMLInputElement;
+      const carColorChange = document.querySelector('#car-color-change') as HTMLInputElement;
+      const carNameEl = thisEl.querySelector('.garage-item__name') as HTMLElement;
+      const carColorEl = thisEl.querySelector('.garage-item__color') as HTMLElement;
+      
+      if (carNameChange) carNameChange.removeAttribute('disabled');
+      if (carColorChange) carColorChange.removeAttribute('disabled');
+      if (carNameChange && carNameEl !== undefined) {
+        carNameChange.value = carNameEl.innerHTML;
+        carNameChange.dataset.id = thisEl.id;
+      }
+      if (carColorChange && carColorEl !== undefined) {
+        carColorChange.value = carColorEl.innerHTML;
+      }
+    }
+  }
+}
+
+function updateCar() {
+  const carNameChange = document.querySelector('#car-name-change') as HTMLInputElement;
+  const carColorChange = document.querySelector('#car-color-change') as HTMLInputElement;
+  const idX = carNameChange.dataset.id;
+  console.log(idX);
+
+  const userData = getStorageData();
+
+  userData.garage.list.forEach((element: Car) => {
+    if (element.id === idX)  {
+      element.name = carNameChange.value;
+      element.color = carColorChange.value;
+    }
+  });
+
+  userData.garage.list = (userData.garage.list as Car[]).filter((element: Car) => element.id);
+
+  if (garageList) garageList.innerHTML = '';
+  generateCarList(userData);
+  
+  if (carNameChange) carNameChange.value = '';
+  if (carNameChange) carNameChange.setAttribute('disabled', 'disabled');
+  if (carColorChange) carColorChange.setAttribute('disabled', 'disabled');
+  saveUserData(userData);
+}
