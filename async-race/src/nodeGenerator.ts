@@ -1,4 +1,5 @@
 import { saveUserData, getStorageData } from './local-storage.ts';
+import { generateUniqueID } from './functions.ts';
 
 export function createDiv(className: string, id?: string): HTMLDivElement {
   const div = document.createElement('div');
@@ -72,13 +73,6 @@ export function generateCarItem(newCar: Car): void {
       </div>
     </div>`;
   garageUl?.appendChild(garageLi);
-}
-
-function generateUniqueID(): string {
-  const magicNumber = 36;
-  const sixteen = 16;
-  const two = 2;
-  return `id-${Math.random().toString(magicNumber).substr(two, sixteen)}-${Date.now().toString(magicNumber)}`;
 }
 
 export function saveCarToGarage() {
