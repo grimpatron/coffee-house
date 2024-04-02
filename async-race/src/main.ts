@@ -10,6 +10,7 @@ import { generateHexColor, generateUniqueID, generateModel } from './functions.t
 const bodyElement = document.querySelector<HTMLDivElement>('body');
 const newNode = createDiv('header', 'header');
 const garageListDiv = createDiv('garage-list', 'garage-list');
+
 if (bodyElement) {
   bodyElement.insertBefore(garageListDiv, bodyElement.firstChild);
   bodyElement.insertBefore(newNode, bodyElement.firstChild);
@@ -140,7 +141,6 @@ function updateCar() {
   if (carColorChange) carColorChange.setAttribute('disabled', 'disabled');
   saveUserData(userData);
 }
-
 
 document.querySelector('#btn-generate')?.addEventListener('click', generateCars);
 function generateCars() {
