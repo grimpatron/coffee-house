@@ -3,37 +3,35 @@ export function generateLoginForm() {
 <div class="registration__container">
   <h2 class="registration__title">User authorization</h2>
   <form class="registration__form" id="registration-form">
-      <input class="registration__username" id="authorization-username" type="text" placeholder="Username" required>
-      <p class="form__error-message" id="error-username"></p>
-      <input class="registration__pass" id="authorization-password" type="password" placeholder="Password" required>
-      <p class="form__error-message" id="error-password"></p>
-      <button class="registration__submit" id="authorization-submit" type="submit">Authorization</button>
+    <input class="registration__username" id="authorization-username" type="text" placeholder="Username" required>
+    <p class="form__error-message" id="error-username"></p>
+    <input class="registration__pass" id="authorization-password" type="password" placeholder="Password" required>
+    <p class="form__error-message" id="error-password"></p>
+    <button class="registration__submit registration__submit--disable" id="authorization-submit" type="submit" disabled>Authorization</button>
   </form>
 </div>
   `;
 }
 
 
-export function generateChatLayout() {
+export function generateChatLayout(user_name: string) {
   return `
   <div class="container">
 
   <header class="header">
     <h1 class="header_title">Fun Chat</h1>
-    <div class="header_user">Grim Patron</div>
+    <div class="header_user">${user_name}</div>
     <button class="header_logout btn">Log Out</button>
   </header>
 
   <main class="main">
 
     <div class="conversation_topbar">
-      <div class="conversation_user">Джу</div>
-      <div class="conversation_status">В сети</div>
+      <div class="conversation_user"></div>
+      <div class="conversation_status"></div>
     </div>
 
-    <ul class="conversation">
-
-    </ul>
+    <ul class="conversation"></ul>
 
     <div class="conversation_downbar">
       <textarea class="textarea" placeholder="Write a message" rows="3"></textarea>
@@ -44,7 +42,7 @@ export function generateChatLayout() {
   <footer class="footer">
     <div class="footer_course">
       <a href="https://rs.school/">
-        <img src="./public/rss.svg" alt="RS School">
+        <img src="./rss.svg" alt="RS School">
       </a>
     </div>
     <div class="footer_author">
@@ -55,8 +53,7 @@ export function generateChatLayout() {
 
   <aside class="aside">
     <input class="users-search" type="text" name="" id="" placeholder="Search">
-    <ul class="users_list">
-    </ul>
+    <ul class="users_list"></ul>
   </aside>
       
 </div>

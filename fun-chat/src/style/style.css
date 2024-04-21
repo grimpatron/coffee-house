@@ -44,6 +44,13 @@ body {
 .registration__submit:hover {
   background-color: #0056b3;
 }
+.registration__submit--disable {
+  background-color: darkgrey;
+  cursor: auto;
+}
+.registration__submit--disable:hover {
+  background-color: darkgrey;
+}
 .registration__error {
   color: red;
   font-size: 14px;
