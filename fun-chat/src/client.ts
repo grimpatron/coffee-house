@@ -1,76 +1,121 @@
-export function serverAuthentication(
-  user_login: string,
-  user_password: string
-) {
-  const socket: WebSocket = new WebSocket("ws://localhost:4000");
 
-  // Обработчик события, который срабатывает, когда соединение установлено
-  socket.onopen = (_e: Event): void => {
-    console.log("[open] Соединение установлено");
+interface User {
+  login: string;
+  password: string;
+}
 
-    // Формирование запроса на аутентификацию пользователя
-    const authRequest: {
-      id: string;
-      type: string;
-      payload: {
-        user: {
-          login: string;
-          password: string;
-        };
-      };
-    } = {
-      id: "unique_id", // Уникальный идентификатор запроса, сгенерированный клиентом
+interface Request {
+  id: string;
+  type: string;
+  payload: {
+    user?: User;
+  } | null;
+}
+
+
+
+export function userLogin(socket: WebSocket, login: string, password: string): void {
+  if (socket.readyState === WebSocket.OPEN) {
+    const request: Request = {
+      id: Date.now().toString(),
       type: "USER_LOGIN",
       payload: {
         user: {
-          login: `${user_login}`, // Логин пользователя
-          password: `${user_password}`, // Пароль пользователя
+          login: login,
+          password: password,
         },
       },
     };
+  
+    socket.send(JSON.stringify(request));
+    processingMessage(socket);
+    getActiveUsers(socket);
+    getInactiveUsers(socket);
+  } else {
+    setTimeout(() => userLogin(socket, login, password), 1000);
+  }
+}
 
-    // Отправка запроса на сервер
-    socket.send(JSON.stringify(authRequest));
+
+
+export function userLogout(socket: WebSocket, login: string, password: string): void {
+  const request: Request = {
+    id: Date.now().toString(),
+    type: "USER_LOGOUT",
+    payload: {
+      user: {
+        login: login,
+        password: password,
+      },
+    },
   };
-  // Обработчик события, который срабатывает, когда сервер отправляет сообщение
-  socket.onmessage = (event: MessageEvent): void => {
-    // Парсинг ответа от сервера
-    const response: {
-      type: string;
-      payload: {
-        user?: {
-          login: string;
-          isLogined: boolean;
-        };
-        error?: string;
-      };
-    } = JSON.parse(event.data);
 
-    // Обработка ответа от сервера
-    if (response.type === "USER_LOGIN") {
-      console.log(
-        `[login] Пользователь ${
-          response.payload.user!.login
-        } вошел в систему: ${response.payload.user!.isLogined}`
-      );
-    } else if (response.type === "ERROR") {
-      console.log(`[error] Ошибка: ${response.payload.error}`);
+  socket.send(JSON.stringify(request));
+  processingMessage(socket);
+}
+
+
+
+function processingMessage(socket: WebSocket) {
+  socket.onmessage = function(event: MessageEvent): void {
+    const response = JSON.parse(event.data);
+
+    if (response.type === "ERROR") {
+      console.error(response.payload.error);
+    } else if (response.type === "USER_LOGIN") {
+      console.log(`User ${response.payload.user.login} login status: ${response.payload.user.isLogined}`);
+    } else if (response.type === "USER_LOGOUT") {
+      console.log(`User ${response.payload.user.login} login status: ${response.payload.user.isLogined}`);
     }
-  };
-
-  // Обработчик события, который срабатывает, когда соединение закрыто
-  socket.onclose = (event: CloseEvent): void => {
-    if (event.wasClean) {
-      console.log(
-        `[close] Соединение закрыто чисто, код=${event.code} причина=${event.reason}`
-      );
-    } else {
-      console.log("[close] Соединение прервано");
-    }
-  };
-
-  // Обработчик события, который срабатывает, когда происходит ошибка
-  socket.onerror = (error: Event): void => {
-    console.log(`[error] ${(error as ErrorEvent).message}`);
   };
 }
+
+
+
+function getActiveUsers(socket: WebSocket): void {
+  const request: Request = {
+    id: Date.now().toString(),
+    type: "USER_ACTIVE",
+    payload: null,
+  };
+
+  socket.send(JSON.stringify(request));
+  processingActive(socket);
+}
+
+
+
+function getInactiveUsers(socket: WebSocket): void {
+  const request: Request = {
+    id: Date.now().toString(),
+    type: "USER_INACTIVE",
+    payload: null,
+  };
+
+  socket.send(JSON.stringify(request));
+  processingActive(socket);
+}
+
+
+
+function processingActive(socket: WebSocket) {
+  socket.onmessage = function(event: MessageEvent): void {
+    const response = JSON.parse(event.data);
+
+    if (response.type === "ERROR") {
+      console.error(response.payload.error);
+    } else if (response.type === "USER_EXTERNAL_LOGIN") {
+      console.log(`User ${response.payload.user.login} login status: ${response.payload.user.isLogined}`);
+    } else if (response.type === "USER_EXTERNAL_LOGOUT") {
+      console.log(`User ${response.payload.user.login} login status: ${response.payload.user.isLogined}`);
+    } else if (response.type === "USER_ACTIVE") {
+      console.log(`Active users: ${response.payload.users.length}`);
+      console.log(`Active users: ${response.payload.users}`);
+      console.log(`Active users: ${response.payload.users[0].login}`);
+    } else if (response.type === "USER_INACTIVE") {
+      console.log(`Inactive users: ${response.payload.users.length}`);
+      console.log(`Inactive users: ${response.payload.users}`);
+    }
+  };
+}
+

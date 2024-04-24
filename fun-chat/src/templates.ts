@@ -21,7 +21,7 @@ export function generateChatLayout(user_name: string) {
   <header class="header">
     <h1 class="header_title">Fun Chat</h1>
     <div class="header_user">${user_name}</div>
-    <button class="header_logout btn">Log Out</button>
+    <button class="header_logout btn" id="logout">Log Out</button>
   </header>
 
   <main class="main">

@@ -33,6 +33,7 @@ export function validatePassword(e: Event) {
   authorization();
 }
 
+
 function authorization() {
   const submit = document.querySelector('#authorization-submit');
   let check = 2;
